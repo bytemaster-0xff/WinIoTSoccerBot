@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -30,7 +32,12 @@ namespace SoccerBotApp
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            TheApp = this;
         }
+
+        public CoreDispatcher Dispatcher { get; private set; }
+
+        public static App TheApp { get; private set; }
 
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
@@ -42,7 +49,7 @@ namespace SoccerBotApp
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
             {
-                this.DebugSettings.EnableFrameRateCounter = true;
+                //   this.DebugSettings.EnableFrameRateCounter = true;
             }
 #endif
             Frame rootFrame = Window.Current.Content as Frame;
@@ -53,6 +60,7 @@ namespace SoccerBotApp
             {
                 // Create a Frame to act as the navigation context and navigate to the first page
                 rootFrame = new Frame();
+                Dispatcher = rootFrame.Dispatcher;
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
@@ -63,6 +71,10 @@ namespace SoccerBotApp
 
                 // Place the frame in the current Window
                 Window.Current.Content = rootFrame;
+            }
+            else
+            {
+                Dispatcher = rootFrame.Dispatcher;
             }
 
             if (e.PrelaunchActivated == false)
@@ -76,6 +88,19 @@ namespace SoccerBotApp
                 }
                 // Ensure the current window is active
                 Window.Current.Activate();
+            }
+
+
+        }
+
+        public async Task RunOnMainThread(Action action)
+        {
+            if (Dispatcher != null)
+            {
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+                {
+                    action();
+                });
             }
         }
 

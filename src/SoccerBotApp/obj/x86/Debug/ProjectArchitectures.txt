@@ -1,0 +1,1 @@
+D:\IoTSoccerBot\src\SoccerBotApp\SoccerBotApp.csproj;x86
