@@ -9,6 +9,7 @@ using Windows.Devices.Enumeration;
 using Windows.Networking.Sockets;
 using Windows.Storage.Streams;
 using Windows.UI.Core;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace SoccerBotApp.Devices
 {
@@ -17,6 +18,8 @@ namespace SoccerBotApp.Devices
         public event EventHandler<string> Disconnected;
         public event EventHandler<byte[]> MessageReceived;
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public RelayCommand _sendCommand;
 
         StreamSocket _socket = null;
         DataWriter _writer = null;
@@ -38,8 +41,10 @@ namespace SoccerBotApp.Devices
         {
             State = States.Disconnected;
             DisconnectCommand = RelayCommand.Create(Disconnect);
+            SendCommand = RelayCommand.Create(SendCommands);
             NotifyUserMessage = "Idle";
             IncomingMessages = new ObservableCollection<string>();
+
         }
 
         public SoccerBotBluetoothDevice(DeviceInformation deviceInfo) : this()
@@ -166,9 +171,22 @@ namespace SoccerBotApp.Devices
             }
         }
 
-        public Task SendCommandsAsync(string commands)
+        public Task WriteBuffer(byte[] buffer)
         {
-            throw new NotImplementedException();
+            var tcs = new TaskCompletionSource<object>();
+            Task.Run(() =>
+            {
+                _writer.WriteBuffer(buffer.AsBuffer());
+                tcs.SetResult(default(object));
+            });
+
+            return tcs.Task;
+        }
+
+        public async void SendCommands()
+        {
+            var buffer = new byte[] { 0xff, 0x55, 0x02, 0x02, 0x23, 0xac, 0x03, 0x43, 0x0d, 0x0a };
+            await WriteBuffer(buffer);
         }
 
         public void Update(DeviceInformationUpdate update)
@@ -187,6 +205,7 @@ namespace SoccerBotApp.Devices
         }
 
         public RelayCommand DisconnectCommand { get; private set; }
+        public RelayCommand SendCommand { get; private set; }
 
 
         private String _notifyUserMessage;

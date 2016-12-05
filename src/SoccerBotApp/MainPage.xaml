@@ -98,8 +98,9 @@
                     <TextBlock Text="{Binding State}" />
                     <TextBlock Text="{Binding Id}" />
                     <TextBlock Text="{Binding DeviceName}" />
+                    <Button Command="{Binding SendCommand}" >Send</Button>  
                 </StackPanel>
-                <ListView ItemsSource="{Binding IncomingMessages}">
+                <ListView ItemsSource="{Binding IncomingMessages}" Grid.Row="1">
                     
                 </ListView>
             </Grid>

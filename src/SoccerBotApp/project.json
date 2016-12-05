@@ -1,5 +1,6 @@
 ﻿{
   "dependencies": {
+    "lagoVista.common": "0.8.1-alpha01431",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0"
   },
   "frameworks": {
