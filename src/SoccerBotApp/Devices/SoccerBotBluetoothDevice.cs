@@ -51,7 +51,7 @@ namespace SoccerBotApp.Devices
         {
             _deviceInfo = deviceInfo;
             Id = _deviceInfo.Id;
-            DeviceName = _deviceInfo.Name;            
+            DeviceName = _deviceInfo.Name;
         }
 
 
@@ -79,8 +79,8 @@ namespace SoccerBotApp.Devices
                 await _socket.ConnectAsync(deviceService.ConnectionHostName, deviceService.ConnectionServiceName);
                 _writer = new DataWriter(_socket.OutputStream);
 
-                DataReader chatReader = new DataReader(_socket.InputStream);
-                ReceiveStringLoop(chatReader);
+                var dataReader = new DataReader(_socket.InputStream);
+                ReceiveStringLoop(dataReader);
                 State = States.Connected;
 
                 NotifyUserMessage = "Connected!";
@@ -104,29 +104,15 @@ namespace SoccerBotApp.Devices
 
                 if (size < sizeof(uint))
                 {
-                    Disconnected?.Invoke(this, "Remote device terminated connection - make sure only one instance of server is running on remote device");                    
-                    return;
-                }
-
-                uint bufferLength = chatReader.ReadUInt32();
-                uint actualBufferLength = await chatReader.LoadAsync(bufferLength);
-                if (actualBufferLength != bufferLength)
-                {
                     Disconnected?.Invoke(this, "Remote device terminated connection - make sure only one instance of server is running on remote device");
-                    
                     return;
                 }
 
-                var buffer = new byte[bufferLength];
+                var buffer = new byte[size];
                 chatReader.ReadBytes(buffer);
 
-                MessageReceived(this, buffer);
+                MessageReceived?.Invoke(this, buffer);
                 ReceiveStringLoop(chatReader);
-
-                await App.TheApp.RunOnMainThread(() =>
-                {
-                    IncomingMessages.Add(System.Text.Encoding.ASCII.GetString(buffer));
-                });
             }
             catch (Exception ex)
             {
@@ -171,22 +157,17 @@ namespace SoccerBotApp.Devices
             }
         }
 
-        public Task WriteBuffer(byte[] buffer)
+        public async Task WriteBuffer(byte[] buffer)
         {
-            var tcs = new TaskCompletionSource<object>();
-            Task.Run(() =>
-            {
-                _writer.WriteBuffer(buffer.AsBuffer());
-                tcs.SetResult(default(object));
-            });
-
-            return tcs.Task;
+            _writer.WriteBuffer(buffer.AsBuffer());
+            await _writer.StoreAsync();
+            var result = await _writer.FlushAsync();
         }
 
         public async void SendCommands()
         {
-            var buffer = new byte[] { 0xff, 0x55, 0x02, 0x02, 0x23, 0xac, 0x03, 0x43, 0x0d, 0x0a };
-            await WriteBuffer(buffer);
+            var msg = Protocols.mBlockMessage.CreateMessage(Protocols.mBlockMessage.CommandTypes.Get, Protocols.mBlockMessage.Devices.ULTRASONIC_SENSOR, 0x03);
+            await WriteBuffer(msg.Buffer);
         }
 
         public void Update(DeviceInformationUpdate update)
@@ -209,7 +190,7 @@ namespace SoccerBotApp.Devices
 
 
         private String _notifyUserMessage;
-       
+
         public String NotifyUserMessage
         {
             get { return _notifyUserMessage; }
