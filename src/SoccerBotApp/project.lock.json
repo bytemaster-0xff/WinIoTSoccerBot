@@ -3,16 +3,13 @@
   "version": 2,
   "targets": {
     "UAP,Version=v10.0": {
-      "lagoVista.common/0.8.1-alpha01431": {
+      "FontAwesome.UWP/4.5.0.8": {
         "type": "package",
-        "dependencies": {
-          "Newtonsoft.Json": "9.0.1"
-        },
         "compile": {
-          "lib/portable-net45+netcore45/LagoVista.Common.dll": {}
+          "lib/uap10.0/FontAwesome.UWP.dll": {}
         },
         "runtime": {
-          "lib/portable-net45+netcore45/LagoVista.Common.dll": {}
+          "lib/uap10.0/FontAwesome.UWP.dll": {}
         }
       },
       "Microsoft.CSharp/4.0.0": {
@@ -288,15 +285,6 @@
         },
         "runtime": {
           "lib/dotnet/Microsoft.Win32.Primitives.dll": {}
-        }
-      },
-      "Newtonsoft.Json/9.0.1": {
-        "type": "package",
-        "compile": {
-          "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll": {}
-        },
-        "runtime": {
-          "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll": {}
         }
       },
       "System.AppContext/4.0.0": {
@@ -1901,16 +1889,13 @@
       }
     },
     "UAP,Version=v10.0/win10-arm": {
-      "lagoVista.common/0.8.1-alpha01431": {
+      "FontAwesome.UWP/4.5.0.8": {
         "type": "package",
-        "dependencies": {
-          "Newtonsoft.Json": "9.0.1"
-        },
         "compile": {
-          "lib/portable-net45+netcore45/LagoVista.Common.dll": {}
+          "lib/uap10.0/FontAwesome.UWP.dll": {}
         },
         "runtime": {
-          "lib/portable-net45+netcore45/LagoVista.Common.dll": {}
+          "lib/uap10.0/FontAwesome.UWP.dll": {}
         }
       },
       "Microsoft.CSharp/4.0.0": {
@@ -2135,15 +2120,6 @@
         },
         "runtime": {
           "lib/dotnet/Microsoft.Win32.Primitives.dll": {}
-        }
-      },
-      "Newtonsoft.Json/9.0.1": {
-        "type": "package",
-        "compile": {
-          "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll": {}
-        },
-        "runtime": {
-          "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll": {}
         }
       },
       "runtime.any.System.Private.DataContractSerialization/4.1.0": {
@@ -3665,16 +3641,13 @@
       }
     },
     "UAP,Version=v10.0/win10-arm-aot": {
-      "lagoVista.common/0.8.1-alpha01431": {
+      "FontAwesome.UWP/4.5.0.8": {
         "type": "package",
-        "dependencies": {
-          "Newtonsoft.Json": "9.0.1"
-        },
         "compile": {
-          "lib/portable-net45+netcore45/LagoVista.Common.dll": {}
+          "lib/uap10.0/FontAwesome.UWP.dll": {}
         },
         "runtime": {
-          "lib/portable-net45+netcore45/LagoVista.Common.dll": {}
+          "lib/uap10.0/FontAwesome.UWP.dll": {}
         }
       },
       "Microsoft.CSharp/4.0.0": {
@@ -3897,15 +3870,6 @@
         },
         "runtime": {
           "lib/dotnet/Microsoft.Win32.Primitives.dll": {}
-        }
-      },
-      "Newtonsoft.Json/9.0.1": {
-        "type": "package",
-        "compile": {
-          "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll": {}
-        },
-        "runtime": {
-          "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll": {}
         }
       },
       "runtime.aot.System.Private.DataContractSerialization/4.1.0": {
@@ -5386,16 +5350,13 @@
       }
     },
     "UAP,Version=v10.0/win10-x64": {
-      "lagoVista.common/0.8.1-alpha01431": {
+      "FontAwesome.UWP/4.5.0.8": {
         "type": "package",
-        "dependencies": {
-          "Newtonsoft.Json": "9.0.1"
-        },
         "compile": {
-          "lib/portable-net45+netcore45/LagoVista.Common.dll": {}
+          "lib/uap10.0/FontAwesome.UWP.dll": {}
         },
         "runtime": {
-          "lib/portable-net45+netcore45/LagoVista.Common.dll": {}
+          "lib/uap10.0/FontAwesome.UWP.dll": {}
         }
       },
       "Microsoft.CSharp/4.0.0": {
@@ -5626,15 +5587,6 @@
         },
         "runtime": {
           "lib/dotnet/Microsoft.Win32.Primitives.dll": {}
-        }
-      },
-      "Newtonsoft.Json/9.0.1": {
-        "type": "package",
-        "compile": {
-          "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll": {}
-        },
-        "runtime": {
-          "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll": {}
         }
       },
       "runtime.any.System.Private.DataContractSerialization/4.1.0": {
@@ -7159,16 +7111,13 @@
       }
     },
     "UAP,Version=v10.0/win10-x64-aot": {
-      "lagoVista.common/0.8.1-alpha01431": {
+      "FontAwesome.UWP/4.5.0.8": {
         "type": "package",
-        "dependencies": {
-          "Newtonsoft.Json": "9.0.1"
-        },
         "compile": {
-          "lib/portable-net45+netcore45/LagoVista.Common.dll": {}
+          "lib/uap10.0/FontAwesome.UWP.dll": {}
         },
         "runtime": {
-          "lib/portable-net45+netcore45/LagoVista.Common.dll": {}
+          "lib/uap10.0/FontAwesome.UWP.dll": {}
         }
       },
       "Microsoft.CSharp/4.0.0": {
@@ -7391,15 +7340,6 @@
         },
         "runtime": {
           "lib/dotnet/Microsoft.Win32.Primitives.dll": {}
-        }
-      },
-      "Newtonsoft.Json/9.0.1": {
-        "type": "package",
-        "compile": {
-          "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll": {}
-        },
-        "runtime": {
-          "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll": {}
         }
       },
       "runtime.aot.System.Private.DataContractSerialization/4.1.0": {
@@ -8880,16 +8820,13 @@
       }
     },
     "UAP,Version=v10.0/win10-x86": {
-      "lagoVista.common/0.8.1-alpha01431": {
+      "FontAwesome.UWP/4.5.0.8": {
         "type": "package",
-        "dependencies": {
-          "Newtonsoft.Json": "9.0.1"
-        },
         "compile": {
-          "lib/portable-net45+netcore45/LagoVista.Common.dll": {}
+          "lib/uap10.0/FontAwesome.UWP.dll": {}
         },
         "runtime": {
-          "lib/portable-net45+netcore45/LagoVista.Common.dll": {}
+          "lib/uap10.0/FontAwesome.UWP.dll": {}
         }
       },
       "Microsoft.CSharp/4.0.0": {
@@ -9120,15 +9057,6 @@
         },
         "runtime": {
           "lib/dotnet/Microsoft.Win32.Primitives.dll": {}
-        }
-      },
-      "Newtonsoft.Json/9.0.1": {
-        "type": "package",
-        "compile": {
-          "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll": {}
-        },
-        "runtime": {
-          "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll": {}
         }
       },
       "runtime.any.System.Private.DataContractSerialization/4.1.0": {
@@ -10653,16 +10581,13 @@
       }
     },
     "UAP,Version=v10.0/win10-x86-aot": {
-      "lagoVista.common/0.8.1-alpha01431": {
+      "FontAwesome.UWP/4.5.0.8": {
         "type": "package",
-        "dependencies": {
-          "Newtonsoft.Json": "9.0.1"
-        },
         "compile": {
-          "lib/portable-net45+netcore45/LagoVista.Common.dll": {}
+          "lib/uap10.0/FontAwesome.UWP.dll": {}
         },
         "runtime": {
-          "lib/portable-net45+netcore45/LagoVista.Common.dll": {}
+          "lib/uap10.0/FontAwesome.UWP.dll": {}
         }
       },
       "Microsoft.CSharp/4.0.0": {
@@ -10885,15 +10810,6 @@
         },
         "runtime": {
           "lib/dotnet/Microsoft.Win32.Primitives.dll": {}
-        }
-      },
-      "Newtonsoft.Json/9.0.1": {
-        "type": "package",
-        "compile": {
-          "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll": {}
-        },
-        "runtime": {
-          "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll": {}
         }
       },
       "runtime.aot.System.Private.DataContractSerialization/4.1.0": {
@@ -12375,15 +12291,22 @@
     }
   },
   "libraries": {
-    "lagoVista.common/0.8.1-alpha01431": {
-      "sha512": "ZnqMZ3CT+3vH6Yecurxnoqs54o94kJ6dLNt24ddegXtBbzQNCJQx55kGU3k9nWJC/WCL52AxIY4w4JR3Sdg9MA==",
+    "FontAwesome.UWP/4.5.0.8": {
+      "sha512": "HVoUY9gvrYRMxiyt+UyM8fM1SagiXVjmfyXYWCbcXwx4ydugGukf2fOoEXXfaFU4Se9TPNLTD4cp4FEHLXq6og==",
       "type": "package",
-      "path": "lagoVista.common/0.8.1-alpha01431",
+      "path": "FontAwesome.UWP/4.5.0.8",
       "files": [
-        "ReadMe.txt",
-        "lagoVista.common.0.8.1-alpha01431.nupkg.sha512",
-        "lagoVista.common.nuspec",
-        "lib/portable-net45+netcore45/LagoVista.Common.dll"
+        "FontAwesome.UWP.4.5.0.8.nupkg.sha512",
+        "FontAwesome.UWP.nuspec",
+        "lib/net35/FontAwesome.WPF.dll",
+        "lib/net35/FontAwesome.WPF.xml",
+        "lib/net40/FontAwesome.WPF.dll",
+        "lib/net40/FontAwesome.WPF.xml",
+        "lib/uap10.0/FontAwesome.UWP.XML",
+        "lib/uap10.0/FontAwesome.UWP.dll",
+        "lib/uap10.0/FontAwesome.UWP.pri",
+        "lib/uap10.0/FontAwesome.UWP/FontAwesome.otf",
+        "tools/install.ps1"
       ]
     },
     "Microsoft.CSharp/4.0.0": {
@@ -12982,30 +12905,6 @@
         "ref/net46/Microsoft.Win32.Primitives.dll",
         "ref/xamarinios10/_._",
         "ref/xamarinmac20/_._"
-      ]
-    },
-    "Newtonsoft.Json/9.0.1": {
-      "sha512": "U82mHQSKaIk+lpSVCbWYKNavmNH1i5xrExDEquU1i6I5pV6UMOqRnJRSlKO3cMPfcpp0RgDY+8jUXHdQ4IfXvw==",
-      "type": "package",
-      "path": "Newtonsoft.Json/9.0.1",
-      "files": [
-        "Newtonsoft.Json.9.0.1.nupkg.sha512",
-        "Newtonsoft.Json.nuspec",
-        "lib/net20/Newtonsoft.Json.dll",
-        "lib/net20/Newtonsoft.Json.xml",
-        "lib/net35/Newtonsoft.Json.dll",
-        "lib/net35/Newtonsoft.Json.xml",
-        "lib/net40/Newtonsoft.Json.dll",
-        "lib/net40/Newtonsoft.Json.xml",
-        "lib/net45/Newtonsoft.Json.dll",
-        "lib/net45/Newtonsoft.Json.xml",
-        "lib/netstandard1.0/Newtonsoft.Json.dll",
-        "lib/netstandard1.0/Newtonsoft.Json.xml",
-        "lib/portable-net40+sl5+wp80+win8+wpa81/Newtonsoft.Json.dll",
-        "lib/portable-net40+sl5+wp80+win8+wpa81/Newtonsoft.Json.xml",
-        "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll",
-        "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.xml",
-        "tools/install.ps1"
       ]
     },
     "runtime.any.System.Private.DataContractSerialization/4.1.0": {
@@ -15788,8 +15687,8 @@
   },
   "projectFileDependencyGroups": {
     "": [
-      "Microsoft.NETCore.UniversalWindowsPlatform >= 5.1.0",
-      "lagoVista.common >= 0.8.1-alpha01431"
+      "FontAwesome.UWP >= 4.5.0.8",
+      "Microsoft.NETCore.UniversalWindowsPlatform >= 5.1.0"
     ],
     "UAP,Version=v10.0": []
   },

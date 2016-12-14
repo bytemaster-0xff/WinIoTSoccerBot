@@ -96,11 +96,13 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Constants.cs" />
+    <Compile Include="Converters\NotNullVisibleConverter.cs" />
     <Compile Include="Devices\SoccerBotBluetoothDevice.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Managers\BluetoothConnectionManager.cs" />
+    <Compile Include="Models\Message.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Protocols\mBlockMessage.cs" />
     <Compile Include="Utilities\RelayCommand.cs" />

@@ -1,6 +1,6 @@
 ﻿{
   "dependencies": {
-    "lagoVista.common": "0.8.1-alpha01431",
+    "FontAwesome.UWP": "4.5.0.8",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0"
   },
   "frameworks": {

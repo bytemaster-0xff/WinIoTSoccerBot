@@ -36,12 +36,8 @@ namespace SoccerBotApp.Managers
 
         public BluetoothConnectionManager()
         {
-            ConnectCommand = RelayCommand.Create(Connect);
-
             StartWatcherCommand = RelayCommand.Create(StartWatcher);
             StopWatcherCommand = RelayCommand.Create(StopWatcher);
-
-            ConnectCommand.Enabled = false;
             StopWatcherCommand.Enabled = false;
         }
 
@@ -142,74 +138,7 @@ namespace SoccerBotApp.Managers
             StopWatcherCommand.Enabled = true;
         }
 
-        /// <summary>
-        /// Invoked once the user has selected the device to connect to.
-        /// Once the user has selected the device,
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void Connect()
-        {
-            // Make sure user has selected a device first
-            if (SelectedDevice != null)
-            {
-                NotifyUserMessage = "Connecting to remote device. Please wait...";
-            }
-            else
-            {
-                ErrorMessage = "Please select an item to connect to";
-                return;
-            }
 
-            // Perform device access checks before trying to get the device.
-            // First, we check if consent has been explicitly denied by the user.
-            DeviceAccessStatus accessStatus = DeviceAccessInformation.CreateFromId(SelectedDevice.Id).CurrentStatus;
-            if (accessStatus == DeviceAccessStatus.DeniedByUser)
-            {
-                ErrorMessage = "This app does not have access to connect to the remote device (please grant access in Settings > Privacy > Other Devices";
-                return;
-            }
-
-            BluetoothDevice bluetoothDevice = null;
-
-            // If not, try to get the Bluetooth device
-            try
-            {
-                bluetoothDevice = await BluetoothDevice.FromIdAsync(SelectedDevice.Id);
-            }
-            catch (Exception ex)
-            {
-                ErrorMessage = ex.Message;
-                return;
-            }
-
-            // If we were unable to get a valid Bluetooth device object,
-            // it's most likely because the user has specified that all unpaired devices
-            // should not be interacted with.
-            if (bluetoothDevice == null)
-            {
-                ErrorMessage = "Bluetooth Device returned null. Access Status = " + accessStatus.ToString();
-                return;
-            }
-
-            var services = await bluetoothDevice.GetRfcommServicesAsync();
-            if(!services.Services.Any() )
-            {
-                ErrorMessage = "Could not discover any remote devices.";
-                return;
-            }
-
-            var commService = services.Services.FirstOrDefault();
-
-            if (await SelectedDevice.ConnectAsync(commService))
-            {
-                await App.TheApp.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
-                {                    
-                    ConnectedDevices.Add(SelectedDevice);
-                    SelectedDevice = null;
-                });
-            }
-        }
 
         Devices.SoccerBotBluetoothDevice _selectedDevice;
         public Devices.SoccerBotBluetoothDevice SelectedDevice
@@ -217,11 +146,27 @@ namespace SoccerBotApp.Managers
             get { return _selectedDevice; }
             set
             {
-                _selectedDevice = value;
-                RaisePropertyChanged();
 
-                ConnectCommand.Enabled = _selectedDevice != null;
+                
+                if(_selectedDevice != null)
+                {
+                    _selectedDevice.DeviceConnected -= _selectedDevice_DeviceConnected;
+                }               
+
+                _selectedDevice = value;
+                if (_selectedDevice != null)
+                {
+                    _selectedDevice.DeviceConnected += _selectedDevice_DeviceConnected;
+                }
+
+                RaisePropertyChanged();
             }
+        }
+
+        private void _selectedDevice_DeviceConnected(object sender, SoccerBotBluetoothDevice device)
+        {
+            ConnectedDevices.Add(device);
+            SelectedDevice = null;
         }
 
         Devices.SoccerBotBluetoothDevice _activeDevice;
@@ -268,7 +213,5 @@ namespace SoccerBotApp.Managers
 
         public RelayCommand StartWatcherCommand { get; private set; }
         public RelayCommand StopWatcherCommand { get; private set; }
-
-        public RelayCommand ConnectCommand { get; private set; }
     }
 }

@@ -10,6 +10,9 @@ using Windows.Networking.Sockets;
 using Windows.Storage.Streams;
 using Windows.UI.Core;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text;
+using System.Linq;
+using Windows.Devices.Bluetooth;
 
 namespace SoccerBotApp.Devices
 {
@@ -18,6 +21,10 @@ namespace SoccerBotApp.Devices
         public event EventHandler<string> Disconnected;
         public event EventHandler<byte[]> MessageReceived;
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public event EventHandler<SoccerBotBluetoothDevice> DeviceConnected;
+
+        Models.Message _currentIncomingMessage;
 
         public RelayCommand _sendCommand;
 
@@ -28,7 +35,8 @@ namespace SoccerBotApp.Devices
 
         RfcommDeviceService _deviceService = null;
 
-        public ObservableCollection<String> IncomingMessages { get; private set; }
+        public ObservableCollection<Models.Message> IncomingMessages { get; private set; }
+        public ObservableCollection<Models.Message> OutgoingMessages { get; private set; }
 
         public enum States
         {
@@ -42,8 +50,10 @@ namespace SoccerBotApp.Devices
             State = States.Disconnected;
             DisconnectCommand = RelayCommand.Create(Disconnect);
             SendCommand = RelayCommand.Create(SendCommands);
+            ConnectCommand = RelayCommand.Create(Connect);
             NotifyUserMessage = "Idle";
-            IncomingMessages = new ObservableCollection<string>();
+            IncomingMessages = new ObservableCollection<Models.Message>();
+            OutgoingMessages = new ObservableCollection<Models.Message>();
 
         }
 
@@ -80,7 +90,8 @@ namespace SoccerBotApp.Devices
                 _writer = new DataWriter(_socket.OutputStream);
 
                 var dataReader = new DataReader(_socket.InputStream);
-                ReceiveStringLoop(dataReader);
+                dataReader.InputStreamOptions = InputStreamOptions.Partial;
+                ReceiveDataAsync(dataReader);
                 State = States.Connected;
 
                 NotifyUserMessage = "Connected!";
@@ -95,24 +106,35 @@ namespace SoccerBotApp.Devices
                 return false;
             }
         }
-
-        private async void ReceiveStringLoop(DataReader chatReader)
+        
+        private async void ReceiveDataAsync(DataReader chatReader)
         {
             try
             {
-                var size = await chatReader.LoadAsync(sizeof(uint));
-
-                if (size < sizeof(uint))
-                {
-                    Disconnected?.Invoke(this, "Remote device terminated connection - make sure only one instance of server is running on remote device");
-                    return;
-                }
+                uint maxBufferSize = 255;
+                var size = await chatReader.LoadAsync(maxBufferSize);
 
                 var buffer = new byte[size];
+
                 chatReader.ReadBytes(buffer);
 
-                MessageReceived?.Invoke(this, buffer);
-                ReceiveStringLoop(chatReader);
+                if(_currentIncomingMessage == null)
+                {
+                    _currentIncomingMessage = new Models.Message();
+                }
+
+                foreach(var value in buffer)
+                {
+                    _currentIncomingMessage.AddByte(value);
+                    if(_currentIncomingMessage.EndsWithCRLF())
+                    {
+                        MessageReceived?.Invoke(this, buffer);
+                        IncomingMessages.Add(_currentIncomingMessage);
+                        _currentIncomingMessage = new Models.Message();
+                    }
+                }
+
+                ReceiveDataAsync(chatReader);
             }
             catch (Exception ex)
             {
@@ -131,6 +153,63 @@ namespace SoccerBotApp.Devices
                         Disconnected?.Invoke(this, "Remote device terminated connection - make sure only one instance of server is running on remote device");
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Invoked once the user has selected the device to connect to.
+        /// Once the user has selected the device,
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void Connect()
+        {
+            // Perform device access checks before trying to get the device.
+            // First, we check if consent has been explicitly denied by the user.
+            DeviceAccessStatus accessStatus = DeviceAccessInformation.CreateFromId(Id).CurrentStatus;
+            if (accessStatus == DeviceAccessStatus.DeniedByUser)
+            {
+                ErrorMessage = "This app does not have access to connect to the remote device (please grant access in Settings > Privacy > Other Devices";
+                return;
+            }
+
+            BluetoothDevice bluetoothDevice = null;
+
+            // If not, try to get the Bluetooth device
+            try
+            {
+                bluetoothDevice = await BluetoothDevice.FromIdAsync(Id);
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = ex.Message;
+                return;
+            }
+
+            // If we were unable to get a valid Bluetooth device object,
+            // it's most likely because the user has specified that all unpaired devices
+            // should not be interacted with.
+            if (bluetoothDevice == null)
+            {
+                ErrorMessage = "Bluetooth Device returned null. Access Status = " + accessStatus.ToString();
+                return;
+            }
+
+            var services = await bluetoothDevice.GetRfcommServicesAsync();
+            if (!services.Services.Any())
+            {
+                ErrorMessage = "Could not discover any remote devices.";
+                return;
+            }
+
+            var commService = services.Services.FirstOrDefault();
+
+            if (await ConnectAsync(commService))
+            {
+                await App.TheApp.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+                {
+                    DeviceConnected?.Invoke(this, this);                    
+                });
             }
         }
 
@@ -167,6 +246,7 @@ namespace SoccerBotApp.Devices
         public async void SendCommands()
         {
             var msg = Protocols.mBlockMessage.CreateMessage(Protocols.mBlockMessage.CommandTypes.Get, Protocols.mBlockMessage.Devices.ULTRASONIC_SENSOR, 0x03);
+            OutgoingMessages.Add(msg);
             await WriteBuffer(msg.Buffer);
         }
 
@@ -185,6 +265,8 @@ namespace SoccerBotApp.Devices
             }
         }
 
+
+        public RelayCommand ConnectCommand { get; private set; }
         public RelayCommand DisconnectCommand { get; private set; }
         public RelayCommand SendCommand { get; private set; }
 

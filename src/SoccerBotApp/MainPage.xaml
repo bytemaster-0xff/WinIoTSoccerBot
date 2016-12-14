@@ -6,10 +6,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:devices="using:SoccerBotApp.Devices"
+    xmlns:cvtrs="using:SoccerBotApp.Converters"
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.Resources>
+            <cvtrs:NotNullVisibleConverter x:Key="HideIfNullConverter" />
             <devices:SoccerBotBluetoothDevice x:Key="sampleDevice" Id="123456" DeviceName="MyDevice">
 
             </devices:SoccerBotBluetoothDevice>
@@ -23,6 +25,7 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="150" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid.Resources>
@@ -36,18 +39,16 @@
 
             <StackPanel Grid.ColumnSpan="2" >
                 <TextBlock Text="{Binding NotifyUserMessage}" FontSize="24" />
-                <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" FontSize="24" />
+                <TextBlock Text="{Binding ErrorMessage}"  Foreground="Red" FontSize="24" />
             </StackPanel>
             <StackPanel Grid.Row="1">
                 <Button Command="{Binding StartWatcherCommand}" >Start Listening</Button>
                 <Button Command="{Binding StopWatcherCommand}" >Stop Listening</Button>
-                <Button Command="{Binding ConnectCommand}">Connect</Button>
             </StackPanel>
             <Grid Grid.Row="2" Grid.RowSpan="2">
                 <TextBlock Text="Available Devices" />
                 <ListView Grid.Row="2" SelectedItem="{Binding SelectedDevice, Mode=TwoWay}" 
                       ItemsSource="{Binding ResultCollection}" Margin="4, 20, 4, 4" BorderBrush="Silver" BorderThickness="1">
-
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel d:DataContext="{StaticResource sampleDevice}">
@@ -59,13 +60,14 @@
                 </ListView>
             </Grid>
 
-            <Grid Grid.Column="1" Grid.Row="1" DataContext="{Binding SelectedDevice}" d:DataContext="{Binding sampleDevice}">
-                <StackPanel>
+            <Grid Grid.Column="1" Grid.Row="1"  d:DataContext="{Binding sampleDevice}" Visibility="{Binding SelectedDevice, Converter={StaticResource HideIfNullConverter}}">
+                <StackPanel DataContext="{Binding SelectedDevice}">
                     <TextBlock Text="{Binding NotifyUserMessage}" />
                     <TextBlock Text="{Binding ErrorMessage}" />
                     <TextBlock Text="{Binding State}" />
                     <TextBlock Text="{Binding Id}" />
                     <TextBlock Text="{Binding DeviceName}" />
+                    <Button Command="{Binding ConnectCommand}">Connect</Button>
                 </StackPanel>
             </Grid>
 
@@ -84,12 +86,24 @@
                 </ListView>
             </Grid>
 
-            <Grid Grid.Column="1" Grid.Row="3" DataContext="{Binding ActiveDevice}" d:DataContext="{Binding sampleDevice}">
+            <Grid Grid.Column="2" Grid.RowSpan="4" Visibility="{Binding ActiveDevice, Converter={StaticResource HideIfNullConverter}}">
+            <Grid DataContext="{Binding ActiveDevice}" d:DataContext="{Binding sampleDevice}" >
+                <Grid.Resources>
+                    <DataTemplate x:Key="MessageView">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding DateStamp}" FontFamily="Consolas"/>
+                            <TextBlock Text="{Binding MessageHexString}" Grid.Column="1" FontFamily="Consolas"/>
+                        </Grid>
+                    </DataTemplate>
+                </Grid.Resources>
                 <Grid.RowDefinitions>
                     <RowDefinition  Height="auto"/>
                     <RowDefinition  Height="*"/>
-
-
+                    <RowDefinition  Height="*"/>
                 </Grid.RowDefinitions>
                 <StackPanel>
                     <TextBlock Text="Active Device" />
@@ -98,13 +112,12 @@
                     <TextBlock Text="{Binding State}" />
                     <TextBlock Text="{Binding Id}" />
                     <TextBlock Text="{Binding DeviceName}" />
-                    <Button Command="{Binding SendCommand}" >Send</Button>  
+                    <Button Command="{Binding SendCommand}" >Send</Button>
                 </StackPanel>
-                <ListView ItemsSource="{Binding IncomingMessages}" Grid.Row="1">
-                    
-                </ListView>
+                <ListView ItemsSource="{Binding OutgoingMessages}"  Grid.Row="1" ItemTemplate="{StaticResource MessageView}"></ListView>
+                <ListView ItemsSource="{Binding IncomingMessages}"  Grid.Row="2" ItemTemplate="{StaticResource MessageView}"></ListView>
             </Grid>
-
+            </Grid>
         </Grid>
     </Grid>
 </Page>

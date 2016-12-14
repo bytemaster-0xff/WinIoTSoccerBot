@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace SoccerBotApp.Protocols
 {
 
-    public class mBlockMessage
+    public class mBlockMessage : Models.Message
     {
         /* According to the mbot protocol from review of the source at: https://github.com/Makeblock-official/Makeblock-Firmware
          * This is the structure of the message:
@@ -18,11 +18,14 @@ namespace SoccerBotApp.Protocols
          * 
          */
 
-        public static byte MessageIndex { get; private set; }
+        public static byte MessageIndexCounter { get; protected set; }
+
+        private int _messageIndex;
 
         private mBlockMessage()
         {
-
+            _messageIndex = MessageIndexCounter++;
+            DateStamp = DateTime.Now;
         }
 
         public enum CommandTypes
@@ -77,7 +80,7 @@ namespace SoccerBotApp.Protocols
 
         const byte HEADER_LENGTH = 3;
 
-        public byte[] Buffer
+        public override byte[] Buffer
         {
             get
             {
@@ -97,7 +100,7 @@ namespace SoccerBotApp.Protocols
                 buffer[0] = 0xFF;
                 buffer[1] = 0x55;
                 buffer[2] = Convert.ToByte(length - HEADER_LENGTH);
-                buffer[3] = MessageIndex++;                
+                buffer[3] = (byte)(_messageIndex & 0xFF);                
                 buffer[4] = Convert.ToByte(CommandType);
                 buffer[5] = Convert.ToByte(Device);
                 if (Port.HasValue) buffer[6] = Port.Value;
@@ -109,7 +112,7 @@ namespace SoccerBotApp.Protocols
         }
 
         public static mBlockMessage CreateMessage(CommandTypes command, Devices device)
-        {
+        {           
             return new mBlockMessage()
             {
                 CommandType = command,
@@ -118,7 +121,7 @@ namespace SoccerBotApp.Protocols
         }
 
         public static mBlockMessage CreateMessage(CommandTypes command, Devices device, byte port)
-        {
+        {            
             return new mBlockMessage()
             {
                 CommandType = command,
