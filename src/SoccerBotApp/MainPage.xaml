@@ -37,7 +37,7 @@
                 </Style>
             </Grid.Resources>
 
-            <StackPanel Grid.ColumnSpan="2" >
+            <StackPanel Grid.ColumnSpan="3" Margin="5,0,0,0" >
                 <TextBlock Text="{Binding NotifyUserMessage}" FontSize="24" />
                 <TextBlock Text="{Binding ErrorMessage}"  Foreground="Red" FontSize="24" />
             </StackPanel>
@@ -46,7 +46,7 @@
                 <Button Command="{Binding StopWatcherCommand}" >Stop Listening</Button>
             </StackPanel>
             <Grid Grid.Row="2" Grid.RowSpan="2">
-                <TextBlock Text="Available Devices" />
+                <TextBlock Text="Available Devices" Margin="6,0,0,0" />
                 <ListView Grid.Row="2" SelectedItem="{Binding SelectedDevice, Mode=TwoWay}" 
                       ItemsSource="{Binding ResultCollection}" Margin="4, 20, 4, 4" BorderBrush="Silver" BorderThickness="1">
                     <ListView.ItemTemplate>
@@ -72,7 +72,7 @@
             </Grid>
 
             <Grid Grid.Column="1" Grid.Row="2">
-                <TextBlock Text="Connected Devices" />
+                <TextBlock Text="Connected Devices" Margin="6,0,0,0" />
                 <ListView Grid.Column="1" ItemsSource="{Binding ConnectedDevices}" SelectedItem="{Binding ActiveDevice, Mode=TwoWay}"
                           Margin="4, 20, 4, 4" BorderBrush="Silver" BorderThickness="1">
                     <ListView.ItemTemplate>
@@ -86,7 +86,7 @@
                 </ListView>
             </Grid>
 
-            <Grid Grid.Column="2" Grid.RowSpan="4" Visibility="{Binding ActiveDevice, Converter={StaticResource HideIfNullConverter}}">
+            <Grid Grid.Column="2" Grid.Row="1"  Grid.RowSpan="4" Visibility="{Binding ActiveDevice, Converter={StaticResource HideIfNullConverter}}">
             <Grid DataContext="{Binding ActiveDevice}" d:DataContext="{Binding sampleDevice}" >
                 <Grid.Resources>
                     <DataTemplate x:Key="MessageView">
