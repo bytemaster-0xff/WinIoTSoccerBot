@@ -12,20 +12,19 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.Resources>
             <cvtrs:NotNullVisibleConverter x:Key="HideIfNullConverter" />
-            <devices:SoccerBotBluetoothDevice x:Key="sampleDevice" Id="123456" DeviceName="MyDevice">
+            <devices:mBlockSoccerBot x:Key="sampleDevice" Id="123456" DeviceName="MyDevice">
 
-            </devices:SoccerBotBluetoothDevice>
+            </devices:mBlockSoccerBot>
         </Grid.Resources>
-        <Grid DataContext="{StaticResource ConnectionManager}" >
+        <Grid DataContext="{StaticResource MainViewModel}" >
             <Grid.RowDefinitions>
-                <RowDefinition Height="64" />
                 <RowDefinition Height="auto" />
+                <RowDefinition Height="400" />
                 <RowDefinition Height="*" />
-                <RowDefinition Height="200" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200" />
-                <ColumnDefinition Width="150" />
+                <ColumnDefinition Width="300" />
+                <ColumnDefinition Width="300" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid.Resources>
@@ -37,49 +36,55 @@
                 </Style>
             </Grid.Resources>
 
-            <StackPanel Grid.ColumnSpan="3" Margin="5,0,0,0" >
-                <TextBlock Text="{Binding NotifyUserMessage}" FontSize="24" />
-                <TextBlock Text="{Binding ErrorMessage}"  Foreground="Red" FontSize="24" />
+            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                <Button Command="{Binding BlueTooth.StartWatcherCommand}" >Start Listening</Button>
+                <Button Command="{Binding BlueTooth.StopWatcherCommand}" >Stop Listening</Button>
             </StackPanel>
-            <StackPanel Grid.Row="1">
-                <Button Command="{Binding StartWatcherCommand}" >Start Listening</Button>
-                <Button Command="{Binding StopWatcherCommand}" >Stop Listening</Button>
-            </StackPanel>
-            <Grid Grid.Row="2" Grid.RowSpan="2">
+            <Grid Grid.Row="1" >
                 <TextBlock Text="Available Devices" Margin="6,0,0,0" />
-                <ListView Grid.Row="2" SelectedItem="{Binding SelectedDevice, Mode=TwoWay}" 
-                      ItemsSource="{Binding ResultCollection}" Margin="4, 20, 4, 4" BorderBrush="Silver" BorderThickness="1">
+                <ListView Grid.Row="2"  
+                      ItemsSource="{Binding AvailableChannels}" Margin="4, 20, 4, 4" BorderBrush="Silver" BorderThickness="1">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel d:DataContext="{StaticResource sampleDevice}">
                                 <TextBlock Text="{Binding DeviceName}"></TextBlock>
                                 <TextBlock Text="{Binding Id}"></TextBlock>
+                                <Button Content="Connect" Command="{Binding ConnectCommand}" />
                             </StackPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
             </Grid>
 
-            <Grid Grid.Column="1" Grid.Row="1"  d:DataContext="{Binding sampleDevice}" Visibility="{Binding SelectedDevice, Converter={StaticResource HideIfNullConverter}}">
-                <StackPanel DataContext="{Binding SelectedDevice}">
-                    <TextBlock Text="{Binding NotifyUserMessage}" />
-                    <TextBlock Text="{Binding ErrorMessage}" />
-                    <TextBlock Text="{Binding State}" />
-                    <TextBlock Text="{Binding Id}" />
-                    <TextBlock Text="{Binding DeviceName}" />
-                    <Button Command="{Binding ConnectCommand}">Connect</Button>
-                </StackPanel>
-            </Grid>
+            <TextBlock Text="Messages" Margin="6,0,0,0" Grid.Row="2" Grid.ColumnSpan="4"/>
+            <ListView ItemsSource="{Binding Notifications}" Grid.ColumnSpan="4" Grid.Row="2" Margin="4, 20, 4, 4">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="0" Margin="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="60" />
+                                <ColumnDefinition Width="180" />
+                                <ColumnDefinition Width="120" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="{Binding Level}" FontFamily="Consolas"/>
+                            <TextBlock Grid.Column="1" Text="{Binding DateStamp}"  FontFamily="Consolas"/>
+                            <TextBlock Grid.Column="2" Text="{Binding Source}" FontFamily="Consolas"/>
+                            <TextBlock Grid.Column="3" Text="{Binding Message}" FontFamily="Consolas"/>
+                        </Grid>
 
-            <Grid Grid.Column="1" Grid.Row="2">
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <Grid Grid.Column="1" Grid.Row="1">
                 <TextBlock Text="Connected Devices" Margin="6,0,0,0" />
                 <ListView Grid.Column="1" ItemsSource="{Binding ConnectedDevices}" SelectedItem="{Binding ActiveDevice, Mode=TwoWay}"
                           Margin="4, 20, 4, 4" BorderBrush="Silver" BorderThickness="1">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>
-                                <TextBlock Text="{Binding State}" />
-                                <TextBlock Text="{Binding DeviceName}" />
+                                <TextBlock Text="{Binding Name}" />
                             </StackPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>
@@ -87,36 +92,18 @@
             </Grid>
 
             <Grid Grid.Column="2" Grid.Row="1"  Grid.RowSpan="4" Visibility="{Binding ActiveDevice, Converter={StaticResource HideIfNullConverter}}">
-            <Grid DataContext="{Binding ActiveDevice}" d:DataContext="{Binding sampleDevice}" >
-                <Grid.Resources>
-                    <DataTemplate x:Key="MessageView">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="150"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="{Binding DateStamp}" FontFamily="Consolas"/>
-                            <TextBlock Text="{Binding MessageHexString}" Grid.Column="1" FontFamily="Consolas"/>
-                        </Grid>
-                    </DataTemplate>
-                </Grid.Resources>
-                <Grid.RowDefinitions>
-                    <RowDefinition  Height="auto"/>
-                    <RowDefinition  Height="*"/>
-                    <RowDefinition  Height="*"/>
-                </Grid.RowDefinitions>
-                <StackPanel>
-                    <TextBlock Text="Active Device" />
-                    <TextBlock Text="{Binding NotifyUserMessage}" Foreground="Green" />
-                    <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" />
-                    <TextBlock Text="{Binding State}" />
-                    <TextBlock Text="{Binding Id}" />
-                    <TextBlock Text="{Binding DeviceName}" />
-                    <Button Command="{Binding SendCommand}" >Send</Button>
-                </StackPanel>
-                <ListView ItemsSource="{Binding OutgoingMessages}"  Grid.Row="1" ItemTemplate="{StaticResource MessageView}"></ListView>
-                <ListView ItemsSource="{Binding IncomingMessages}"  Grid.Row="2" ItemTemplate="{StaticResource MessageView}"></ListView>
-            </Grid>
+                <Grid DataContext="{Binding ActiveDevice}" d:DataContext="{Binding sampleDevice}" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition  Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel>
+                        <TextBlock Text="Active Device" />
+                        <TextBlock Text="{Binding Name}" />
+                        <TextBlock Text="{Binding State}" />
+                        <TextBlock Text="{Binding Id}" />
+                        <Button Command="{Binding RefreshSensorsCommand}" >Refresh Sensors</Button>
+                    </StackPanel>
+                </Grid>
             </Grid>
         </Grid>
     </Grid>

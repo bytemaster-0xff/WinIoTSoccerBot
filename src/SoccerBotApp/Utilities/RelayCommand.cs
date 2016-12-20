@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace SoccerBotApp.Utilities
@@ -6,11 +7,12 @@ namespace SoccerBotApp.Utilities
     public class RelayCommand : ICommand
     {
         Action<object> _action;
-        Action _nullAction;
+        Action _voidReturnAction;
+        Func<Task> _asyncAction;
 
         public event EventHandler CanExecuteChanged;
 
-        public RelayCommand()
+        private RelayCommand()
         {
             _enabled = true;
         }
@@ -44,17 +46,24 @@ namespace SoccerBotApp.Utilities
 
         public void Execute(object parameter)
         {
-            if (_nullAction != null)
+            if (_voidReturnAction != null)
             {
                 if (parameter != null)
                     throw new Exception("Wrong action type mapping, parameter passed to null command handler.");
 
-                _nullAction();
+                _voidReturnAction();
             }
-
-            if (_action != null)
+            else if (_action != null)
             {
                 _action(parameter);
+            }
+            else if (_asyncAction != null)
+            {
+                _asyncAction.Invoke();
+            }
+            else
+            {
+                throw new Exception("Missing Action.");
             }
         }
 
@@ -65,7 +74,13 @@ namespace SoccerBotApp.Utilities
 
         public static RelayCommand Create(Action action)
         {
-            return new RelayCommand() { _nullAction = action };
+            return new RelayCommand() { _voidReturnAction = action };
         }
+
+        public static RelayCommand CreateAsync(Func<Task> asyncAction)
+        {
+            return new RelayCommand() { _asyncAction = asyncAction };
+        }
+
     }
 }

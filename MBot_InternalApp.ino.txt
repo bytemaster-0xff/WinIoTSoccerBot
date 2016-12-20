@@ -138,6 +138,8 @@ double currentTime = 0.0;
 double lastIRTime = 0.0;
 boolean buttonPressed = false;
 boolean irPressed = false;
+
+
 void loop(){
   currentTime = millis()/1000.0-lastTime;
   if(ir.decode())
@@ -197,6 +199,8 @@ void loop(){
      }
   }
 }
+
+
 void buzzerOn(){
   buzzer.tone(500); 
 }
