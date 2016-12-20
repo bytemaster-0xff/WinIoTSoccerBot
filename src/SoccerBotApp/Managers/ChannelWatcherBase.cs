@@ -1,17 +1,25 @@
 ﻿using SoccerBotApp.Channels;
+using SoccerBotApp.Utilities;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace SoccerBotApp.Managers
 {
-    public class IChannelWatcher : INotifyPropertyChanged
+    public abstract class ChannelWatcherBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
         public event EventHandler<IChannel> DeviceFoundEvent;
         public event EventHandler<IChannel> DeviceRemovedEvent;
         public event EventHandler<IChannel> DeviceConnectedEvent;
+
+        public ChannelWatcherBase()
+        {
+            StartWatcherCommand = RelayCommand.Create(StartWatcher);
+            StopWatcherCommand = RelayCommand.Create(StopWatcher);
+            StopWatcherCommand.Enabled = false;
+        }
 
         public async void RaiseDeviceFoundEvent(IChannel channel)
         {
@@ -57,5 +65,11 @@ namespace SoccerBotApp.Managers
                 });
             }
         }
+
+        protected abstract void StartWatcher();
+        protected abstract void StopWatcher();
+
+        public RelayCommand StartWatcherCommand { get; private set; }
+        public RelayCommand StopWatcherCommand { get; private set; }
     }
 }

@@ -62,13 +62,13 @@
                     <DataTemplate>
                         <Grid Padding="0" Margin="0">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="60" />
-                                <ColumnDefinition Width="180" />
+                                <ColumnDefinition Width="80" />
+                                <ColumnDefinition Width="210" />
                                 <ColumnDefinition Width="120" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Text="{Binding Level}" FontFamily="Consolas"/>
-                            <TextBlock Grid.Column="1" Text="{Binding DateStamp}"  FontFamily="Consolas"/>
+                            <TextBlock Grid.Column="1" Text="{Binding DateStamp}" HorizontalAlignment="Right" Margin="0,0,20,0" FontFamily="Consolas"/>
                             <TextBlock Grid.Column="2" Text="{Binding Source}" FontFamily="Consolas"/>
                             <TextBlock Grid.Column="3" Text="{Binding Message}" FontFamily="Consolas"/>
                         </Grid>

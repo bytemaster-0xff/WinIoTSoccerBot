@@ -9,7 +9,7 @@ using Windows.UI.Core;
 
 namespace SoccerBotApp.Managers
 {
-    public class BluetoothChannelWatcher : IChannelWatcher
+    public class BluetoothChannelWatcher : ChannelWatcherBase
     {
         DeviceWatcher _deviceWatcher = null;
 
@@ -17,12 +17,10 @@ namespace SoccerBotApp.Managers
 
         public BluetoothChannelWatcher()
         {
-            StartWatcherCommand = RelayCommand.Create(StartWatcher);
-            StopWatcherCommand = RelayCommand.Create(StopWatcher);
-            StopWatcherCommand.Enabled = false;
+
         }
 
-        private void StopWatcher()
+        protected override void StopWatcher()
         {
             if (null != _deviceWatcher && (DeviceWatcherStatus.Started == _deviceWatcher.Status ||
                     DeviceWatcherStatus.EnumerationCompleted == _deviceWatcher.Status))
@@ -34,7 +32,7 @@ namespace SoccerBotApp.Managers
             }
         }
 
-        private void StartWatcher()
+        protected override void StartWatcher()
         {
             // Request additional properties
             string[] requestedProperties = new string[] { "System.Devices.Aep.DeviceAddress", "System.Devices.Aep.IsConnected" };
@@ -109,8 +107,5 @@ namespace SoccerBotApp.Managers
             StartWatcherCommand.Enabled = false;
             StopWatcherCommand.Enabled = true;
         }        
-
-        public RelayCommand StartWatcherCommand { get; private set; }
-        public RelayCommand StopWatcherCommand { get; private set; }
     }
 }

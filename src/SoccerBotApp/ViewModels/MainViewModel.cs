@@ -14,7 +14,7 @@ namespace SoccerBotApp.ViewModels
         private ObservableCollection<ISoccerBotCommands> _connectedDevices = new ObservableCollection<ISoccerBotCommands>();
         private ObservableCollection<IChannel> _availableChannels = new ObservableCollection<IChannel>();
         public ObservableCollection<Models.Notification> Notifications { get { return Logger.Instance.Notifications; } }
-        private ObservableCollection<IChannelWatcher> _channelWatchers = new ObservableCollection<IChannelWatcher>();
+        private ObservableCollection<ChannelWatcherBase> _channelWatchers = new ObservableCollection<ChannelWatcherBase>();
 
         public event PropertyChangedEventHandler PropertyChanged;
         private async void RaisePropertyChanged([CallerMemberName] string propertyName = null)
@@ -35,7 +35,7 @@ namespace SoccerBotApp.ViewModels
             RegisterChannelWatcher(_blueToothConnectionManager);
         }
 
-        private void RegisterChannelWatcher(IChannelWatcher channelWatcher)
+        private void RegisterChannelWatcher(ChannelWatcherBase channelWatcher)
         {
             channelWatcher.DeviceFoundEvent += ChannelWatcher_DeviceFoundEvent;
             channelWatcher.DeviceRemovedEvent += ChannelWatcher_DeviceRemovedEvent;

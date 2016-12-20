@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SoccerBotApp.Channels
 {
-    public class HIDUartChannel : ChannelBase
+    public class HID_UARTChannel : ChannelBase
     {
         public const string VID = "0416";
         public const string PID = "FFFF";
