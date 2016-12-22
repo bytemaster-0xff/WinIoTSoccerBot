@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SoccerBotApp.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,15 +9,10 @@ namespace SoccerBotApp.Devices
 {
     public interface ISoccerBotCommands
     {
-        Task MoveFowardAsync(byte speed);
-        Task MoveBackwardsAsync(byte speed);
+        short Speed { get; set; }
 
-        Task TurnLeftAsync(float seconds);
-        Task TurnRightAsync(float seconds);
-
-        Task StopAsync();
-
-        Task RefreshSensorsAsync();
-        
+        RelayCommand RefreshSensorsCommand { get; }
+        RelayCommand ForwardCommand { get; }
+        RelayCommand StopCommand { get; }
     }
 }

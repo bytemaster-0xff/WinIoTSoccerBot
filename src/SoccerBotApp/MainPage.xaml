@@ -102,6 +102,23 @@
                         <TextBlock Text="{Binding State}" />
                         <TextBlock Text="{Binding Id}" />
                         <Button Command="{Binding RefreshSensorsCommand}" >Refresh Sensors</Button>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="auto" />
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Column="1" Command="{Binding ForwardCommand}" >Forward</Button>
+                            <Button Grid.Row="1" Grid.Column="1" Command="{Binding StopCommand}" >Stop</Button>
+                            <Button Grid.Row="2" Grid.Column="1" Command="{Binding BackwardsCommand}" >Backwards</Button>
+                            <Button Grid.Row="1" Grid.Column="0" Command="{Binding LeftCommand}" >Left</Button>
+                            <Button Grid.Row="1" Grid.Column="2" Command="{Binding RightCommand}" >Right</Button>
+                        </Grid>
                     </StackPanel>
                 </Grid>
             </Grid>

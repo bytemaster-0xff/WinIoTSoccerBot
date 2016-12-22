@@ -22,6 +22,8 @@ namespace SoccerBotApp.Protocols
 
         private int _messageIndex;
 
+        byte[] _payload = null;
+
         private mBlockOutgingMessage()
         {
             _messageIndex = MessageIndexCounter++;
@@ -46,16 +48,27 @@ namespace SoccerBotApp.Protocols
                 if (Slot.HasValue) length++;
                 if (Data.HasValue) length++;
 
+                if(_payload != null && _payload.Length > 0)
+                {
+                    length += (byte)_payload.Length;
+                }
+
+                var position = 0;
                 var buffer = new byte[length];
-                buffer[0] = 0xFF;
-                buffer[1] = 0x55;
-                buffer[2] = Convert.ToByte(length - HEADER_LENGTH);
-                buffer[3] = (byte)(_messageIndex & 0xFF);                
-                buffer[4] = Convert.ToByte(CommandType);
-                buffer[5] = Convert.ToByte(Device);
-                if (Port.HasValue) buffer[6] = Port.Value;
-                if (Slot.HasValue) buffer[7] = Slot.Value;
-                if (Data.HasValue) buffer[7] = Data.Value;
+                buffer[position++] = 0xFF;
+                buffer[position++] = 0x55;
+                buffer[position++] = Convert.ToByte(length - HEADER_LENGTH);
+                buffer[position++] = (byte)(_messageIndex & 0xFF);                
+                buffer[position++] = Convert.ToByte(CommandType);
+                buffer[position++] = Convert.ToByte(Device);
+                if (Port.HasValue) buffer[position++] = Convert.ToByte(Port.Value);
+                if (Slot.HasValue) buffer[position++] = Slot.Value;
+                if (Data.HasValue) buffer[position++] = Data.Value;
+
+                for(var idx = 0; idx < _payload.Length; ++ idx)
+                {
+                    buffer[position++] = _payload[idx];
+                }
 
                 return buffer;
             }
@@ -70,7 +83,7 @@ namespace SoccerBotApp.Protocols
             };
         }
 
-        public static mBlockOutgingMessage CreateMessage(CommandTypes command, Devices device, byte port)
+        public static mBlockOutgingMessage CreateMessage(CommandTypes command, Devices device, Ports port)
         {            
             return new mBlockOutgingMessage()
             {
@@ -80,7 +93,18 @@ namespace SoccerBotApp.Protocols
             };
         }
 
-        public static mBlockOutgingMessage CreateMessage(CommandTypes command, Devices device, byte port, byte slot)
+        public static mBlockOutgingMessage CreateMessage(CommandTypes command, Devices device, Ports port, byte[] payload)
+        {
+            return new mBlockOutgingMessage()
+            {
+                CommandType = command,
+                Device = device,
+                Port = port,
+                _payload = payload
+            };
+        }
+
+        public static mBlockOutgingMessage CreateMessage(CommandTypes command, Devices device, Ports port, byte slot)
         {
             return new mBlockOutgingMessage()
             {
@@ -91,7 +115,7 @@ namespace SoccerBotApp.Protocols
             };
         }
 
-        public static mBlockOutgingMessage CreateMessage(CommandTypes command, Devices device, byte port, byte slot, byte data)
+        public static mBlockOutgingMessage CreateMessage(CommandTypes command, Devices device, Ports port, byte slot, byte data)
         {
             return new mBlockOutgingMessage()
             {

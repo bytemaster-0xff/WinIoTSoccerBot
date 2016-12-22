@@ -19,16 +19,13 @@ namespace SoccerBotApp.Devices
 
         public ObservableCollection<mBlockIncomingMessage> IncomingMessages { get; private set; }
         public ObservableCollection<mBlockOutgingMessage> OutgoingMessages { get; private set; }
-       
+
 
         public mBlockSoccerBot(IChannel channel) : this()
         {
             _channel = channel;
             _channel.MessageReceived += _channel_MessageReceived;
-
-            RefreshSensorsCommand = RelayCommand.CreateAsync(RefreshSensorsAsync);
-
-            Name = "mSoccerBot";            
+            Name = "mSoccerBot";
         }
 
         private void _channel_MessageReceived(object sender, byte[] buffer)
@@ -42,7 +39,7 @@ namespace SoccerBotApp.Devices
             OutgoingMessages = new ObservableCollection<mBlockOutgingMessage>();
         }
 
-        private  void ProcessBuffer(byte[] buffer)
+        private void ProcessBuffer(byte[] buffer)
         {
             if (_currentIncomingMessage == null)
             {
@@ -80,49 +77,46 @@ namespace SoccerBotApp.Devices
             await _channel.WriteBuffer(msg.Buffer);
         }
 
+        private async Task SendMotorPower(int leftMotor, int rightMotor)
+        {
+            var payload = BitConverter.GetBytes((short)leftMotor);
+            var leftMotorMessage = mBlockOutgingMessage.CreateMessage(mBlockOutgingMessage.CommandTypes.Run, mBlockOutgingMessage.Devices.MOTOR, mBlockIncomingMessage.Ports.M1, payload);
+            await SendMessage(leftMotorMessage);
+            payload = BitConverter.GetBytes((short)rightMotor);
+            var rightMotorMessage = mBlockOutgingMessage.CreateMessage(mBlockOutgingMessage.CommandTypes.Run, mBlockOutgingMessage.Devices.MOTOR, mBlockIncomingMessage.Ports.M2, payload);
+            await SendMessage(rightMotorMessage);
+        }
+
+        protected async override void SendCommand(Commands cmd)
+        {
+            switch (cmd)
+            {
+                case Commands.Forward: await SendMotorPower(Speed, -Speed); break;
+                case Commands.Stop: await SendMotorPower(0, 0); break;
+                case Commands.Left: await SendMotorPower(Speed, -Speed/5); break;
+                case Commands.Right: await SendMotorPower(Speed/5, -Speed); break;
+                case Commands.Backwards: await SendMotorPower(-Speed, Speed); break;
+            }
+        }
+
         public async void RequestSonar()
         {
-            var msg = Protocols.mBlockOutgingMessage.CreateMessage(Protocols.mBlockOutgingMessage.CommandTypes.Get, Protocols.mBlockOutgingMessage.Devices.ULTRASONIC_SENSOR, 0x03);
-            await SendMessage(msg);            
+            var msg = mBlockOutgingMessage.CreateMessage(mBlockOutgingMessage.CommandTypes.Get, mBlockOutgingMessage.Devices.ULTRASONIC_SENSOR, mBlockMessage.Ports.PORT_3);
+            await SendMessage(msg);
         }
+
         
-
-        public async Task MoveFowardAsync(byte speed)
+        public async Task SetRGBAsync(byte r, byte g, byte b)
         {
-            var msg = Protocols.mBlockOutgingMessage.CreateMessage(Protocols.mBlockOutgingMessage.CommandTypes.Get, Protocols.mBlockOutgingMessage.Devices.ULTRASONIC_SENSOR, 0x03);
-            await SendMessage(msg);
+            var payload = new byte[3] { r, g, b };
+            var rgbMessage = mBlockOutgingMessage.CreateMessage(mBlockOutgingMessage.CommandTypes.Run, mBlockOutgingMessage.Devices.MOTOR, mBlockIncomingMessage.Ports.M1, payload);
+            await SendMessage(rgbMessage);
         }
 
-        public async Task MoveBackwardsAsync(byte speed)
+        public async Task MoveBackwardsAsync(short speed)
         {
-            var msg = Protocols.mBlockOutgingMessage.CreateMessage(Protocols.mBlockOutgingMessage.CommandTypes.Get, Protocols.mBlockOutgingMessage.Devices.ULTRASONIC_SENSOR, 0x03);
+            var msg = Protocols.mBlockOutgingMessage.CreateMessage(mBlockOutgingMessage.CommandTypes.Get, mBlockOutgingMessage.Devices.ULTRASONIC_SENSOR, mBlockMessage.Ports.PORT_3);
             await SendMessage(msg);
         }
-
-        public async Task TurnLeftAsync(float seconds)
-        {
-            var msg = Protocols.mBlockOutgingMessage.CreateMessage(Protocols.mBlockOutgingMessage.CommandTypes.Get, Protocols.mBlockOutgingMessage.Devices.ULTRASONIC_SENSOR, 0x03);
-            await SendMessage(msg);
-        }
-
-        public async Task TurnRightAsync(float seconds)
-        {
-            var msg = Protocols.mBlockOutgingMessage.CreateMessage(Protocols.mBlockOutgingMessage.CommandTypes.Get, Protocols.mBlockOutgingMessage.Devices.ULTRASONIC_SENSOR, 0x03);
-            await SendMessage(msg);
-        }
-
-        public async Task StopAsync()
-        {
-            var msg = Protocols.mBlockOutgingMessage.CreateMessage(Protocols.mBlockOutgingMessage.CommandTypes.Get, Protocols.mBlockOutgingMessage.Devices.ULTRASONIC_SENSOR, 0x03);
-            await SendMessage(msg);
-        }
-
-        public async Task RefreshSensorsAsync()
-        {
-            var msg = Protocols.mBlockOutgingMessage.CreateMessage(Protocols.mBlockOutgingMessage.CommandTypes.Get, Protocols.mBlockOutgingMessage.Devices.ULTRASONIC_SENSOR, 0x03);
-            await SendMessage(msg);
-        }
-
-        public RelayCommand RefreshSensorsCommand { get; private set; }
     }
 }

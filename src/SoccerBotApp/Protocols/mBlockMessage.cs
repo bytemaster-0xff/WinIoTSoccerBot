@@ -50,11 +50,25 @@ namespace SoccerBotApp.Protocols
             TIMER = 50,
         }
 
+        public enum Ports
+        {
+            PORT_0 = 0x00,
+            PORT_1 = 0x01,
+            PORT_2 = 0x02,
+            PORT_3 = 0x03,
+            PORT_4 = 0x04,
+            PORT_5 = 0x05,
+            PORT_6 = 0x06,
+            PORT_7 = 0x07,
+            PORT_8 = 0x08,
+            M1 = 0x09,
+            M2 = 0x0a,
+        }
 
         public CommandTypes CommandType { get; set; }
         public Devices Device { get; set; }
 
-        public byte? Port { get; set; }
+        public Ports? Port { get; set; }
 
         public byte? Slot { get; set; }
 
