@@ -69,6 +69,7 @@ namespace SoccerBotApp.ViewModels
         private void channel_Connected(object sender, IChannel device)
         {
             var soccerBot = new Devices.mBlockSoccerBot(device);
+            soccerBot.StartSensorRefreshTimer();
             _connectedDevices.Add(soccerBot);
         }
 

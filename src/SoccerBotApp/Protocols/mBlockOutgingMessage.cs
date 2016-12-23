@@ -65,9 +65,12 @@ namespace SoccerBotApp.Protocols
                 if (Slot.HasValue) buffer[position++] = Slot.Value;
                 if (Data.HasValue) buffer[position++] = Data.Value;
 
-                for(var idx = 0; idx < _payload.Length; ++ idx)
+                if (_payload != null)
                 {
-                    buffer[position++] = _payload[idx];
+                    for (var idx = 0; idx < _payload.Length; ++idx)
+                    {
+                        buffer[position++] = _payload[idx];
+                    }
                 }
 
                 return buffer;

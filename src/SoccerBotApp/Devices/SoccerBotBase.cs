@@ -3,6 +3,7 @@ using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Windows.UI.Core;
+using Windows.UI.Xaml;
 
 namespace SoccerBotApp.Devices
 {
@@ -16,6 +17,8 @@ namespace SoccerBotApp.Devices
             Right,
             Stop
         }
+
+        DispatcherTimer _sensorRefreshTimer = new DispatcherTimer();
 
         public String Id { get; set; }
         public String Name { get; set; }
@@ -43,7 +46,7 @@ namespace SoccerBotApp.Devices
             LeftCommand = RelayCommand.Create(SendCommand, Commands.Left);
             RightCommand = RelayCommand.Create(SendCommand, Commands.Right);
         }
-
+        
         protected abstract void SendCommand(Commands cmd);
 
         public RelayCommand RefreshSensorsCommand { get; private set; }
@@ -55,6 +58,20 @@ namespace SoccerBotApp.Devices
         public RelayCommand LeftCommand { get; private set; }
         public RelayCommand RightCommand { get; private set; }
 
+        public void StartSensorRefreshTimer()
+        {
+            _sensorRefreshTimer.Interval = TimeSpan.FromMilliseconds(250);
+            _sensorRefreshTimer.Tick += _sensorRefreshTimer_Tick;
+            _sensorRefreshTimer.Start();
+        }
+
+        protected abstract void RefreshSensors();
+
+
+        private void _sensorRefreshTimer_Tick(object sender, object e)
+        {
+            RefreshSensors();
+        }
 
         private short _speed = 300;
         public short Speed
@@ -66,5 +83,8 @@ namespace SoccerBotApp.Devices
                 RaisePropertyChanged();
             }
         }
+
+        public Single FrontIRSensor { get; set; }
+        
     }
 }

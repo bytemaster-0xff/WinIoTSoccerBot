@@ -28,6 +28,11 @@ namespace SoccerBotApp.Devices
             Name = "mSoccerBot";
         }
 
+        protected override void RefreshSensors()
+        {
+          //  RequestSonar();
+        }
+
         private void _channel_MessageReceived(object sender, byte[] buffer)
         {
             ProcessBuffer(buffer);
@@ -63,7 +68,13 @@ namespace SoccerBotApp.Devices
                 {
                     IncomingMessages.Add(_currentIncomingMessage);
                     Debug.WriteLine(_currentIncomingMessage.FloatPayload);
-                    Logger.Instance.NotifyUserInfo("mBlock", "<<< " + _currentIncomingMessage.MessageHexString);
+                    FrontIRSensor = _currentIncomingMessage.FloatPayload;
+
+                    if(FrontIRSensor < 10 && CurrentState != Commands.Stop)
+                    {
+                        SendCommand(Commands.Stop);
+                    }
+
                     _currentIncomingMessage = new mBlockIncomingMessage();
                 }
             }
@@ -87,6 +98,8 @@ namespace SoccerBotApp.Devices
             await SendMessage(rightMotorMessage);
         }
 
+        public Commands CurrentState { get; set; }
+
         protected async override void SendCommand(Commands cmd)
         {
             switch (cmd)
@@ -97,6 +110,8 @@ namespace SoccerBotApp.Devices
                 case Commands.Right: await SendMotorPower(Speed/5, -Speed); break;
                 case Commands.Backwards: await SendMotorPower(-Speed, Speed); break;
             }
+
+            CurrentState = cmd;
         }
 
         public async void RequestSonar()
