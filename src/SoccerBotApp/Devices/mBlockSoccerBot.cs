@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using SoccerBotApp.Channels;
 using SoccerBotApp.Utilities;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace SoccerBotApp.Devices
 {
@@ -20,17 +22,23 @@ namespace SoccerBotApp.Devices
         public ObservableCollection<mBlockIncomingMessage> IncomingMessages { get; private set; }
         public ObservableCollection<mBlockOutgingMessage> OutgoingMessages { get; private set; }
 
+        public Queue<mBlockOutgingMessage> _outgoingMessageQueue { get; private set; }
+
+        DateTime _start;
 
         public mBlockSoccerBot(IChannel channel) : this()
         {
             _channel = channel;
             _channel.MessageReceived += _channel_MessageReceived;
             Name = "mSoccerBot";
+
+            _start = DateTime.Now;
         }
 
         protected override void RefreshSensors()
         {
-          //  RequestSonar();
+            RequestSonar();
+            //ProcessQueue();
         }
 
         private void _channel_MessageReceived(object sender, byte[] buffer)
@@ -42,6 +50,7 @@ namespace SoccerBotApp.Devices
         {
             IncomingMessages = new ObservableCollection<mBlockIncomingMessage>();
             OutgoingMessages = new ObservableCollection<mBlockOutgingMessage>();
+            _outgoingMessageQueue = new Queue<mBlockOutgingMessage>();
         }
 
         private void ProcessBuffer(byte[] buffer)
@@ -67,12 +76,24 @@ namespace SoccerBotApp.Devices
                 if (_currentIncomingMessage.EndsWithCRLF())
                 {
                     IncomingMessages.Add(_currentIncomingMessage);
-                    Debug.WriteLine(_currentIncomingMessage.FloatPayload);
-                    FrontIRSensor = _currentIncomingMessage.FloatPayload;
+                    Debug.WriteLine(String.Format("{0:000000} <<<", (DateTime.Now - _start).TotalMilliseconds) + _currentIncomingMessage.MessageHexString);
+                    Logger.Instance.NotifyUserInfo("mBlock", "<<< " + _currentIncomingMessage.MessageHexString);
 
-                    if(FrontIRSensor < 10 && CurrentState != Commands.Stop)
+                    if (_currentIncomingMessage.BufferSize > 4)
                     {
-                        SendCommand(Commands.Stop);
+                        Debug.WriteLine(_currentIncomingMessage.FloatPayload);
+
+                        var frontIRCMs = _currentIncomingMessage.FloatPayload;
+                        FrontIRSensor = String.Format("{0:0.0} cm", frontIRCMs);
+
+                        var factor = Speed / 100;
+
+                        if (frontIRCMs < (10 * factor) && CurrentState == Commands.Forward)
+                        {
+                            PauseRefreshTimer();
+                            SendCommand(Commands.Stop);
+                            StartRefreshTimer();
+                        }
                     }
 
                     _currentIncomingMessage = new mBlockIncomingMessage();
@@ -80,58 +101,90 @@ namespace SoccerBotApp.Devices
             }
         }
 
-
-        private async Task SendMessage(mBlockOutgingMessage msg)
+        protected override void SpeedUpdated(short speed)
         {
-            OutgoingMessages.Add(msg);
-            Logger.Instance.NotifyUserInfo("mBlock", ">>> " + msg.MessageHexString);
-            await _channel.WriteBuffer(msg.Buffer);
+            if (CurrentState != Commands.Stop)
+            {
+                SendCommand(CurrentState);
+            }
         }
 
-        private async Task SendMotorPower(int leftMotor, int rightMotor)
+        private async void ProcessQueue()
         {
+            mBlockOutgingMessage msg = null;
+            lock (_outgoingMessageQueue)
+            {
+                if (_outgoingMessageQueue.Count > 0)
+                {
+                    msg = _outgoingMessageQueue.Dequeue();
+                }
+            }
+
+            if (msg != null)
+            {
+                OutgoingMessages.Add(msg);
+                Debug.WriteLine(String.Format("{0:000000} >>>", (DateTime.Now - _start).TotalMilliseconds) + msg.MessageHexString);
+                Logger.Instance.NotifyUserInfo("mBlock", ">>> " + msg.MessageHexString);
+                await _channel.WriteBuffer(msg.Buffer);
+            }
+        }
+
+
+        private async void SendMessage(mBlockOutgingMessage msg)
+        {
+            OutgoingMessages.Add(msg);
+            Debug.WriteLine(String.Format("{0:000000} >>>", (DateTime.Now - _start).TotalMilliseconds) + msg.MessageHexString);
+            Logger.Instance.NotifyUserInfo("mBlock", ">>> " + msg.MessageHexString); await _channel.WriteBuffer(msg.Buffer);
+        }
+
+        private async void SendMotorPower(int leftMotor, int rightMotor)
+        {
+
+            /* Need to give it about 50ms for the message to come through */
             var payload = BitConverter.GetBytes((short)leftMotor);
             var leftMotorMessage = mBlockOutgingMessage.CreateMessage(mBlockOutgingMessage.CommandTypes.Run, mBlockOutgingMessage.Devices.MOTOR, mBlockIncomingMessage.Ports.M1, payload);
-            await SendMessage(leftMotorMessage);
+            SendMessage(leftMotorMessage);
+            await Task.Delay(15);
             payload = BitConverter.GetBytes((short)rightMotor);
             var rightMotorMessage = mBlockOutgingMessage.CreateMessage(mBlockOutgingMessage.CommandTypes.Run, mBlockOutgingMessage.Devices.MOTOR, mBlockIncomingMessage.Ports.M2, payload);
-            await SendMessage(rightMotorMessage);
+            SendMessage(rightMotorMessage);
+            await Task.Delay(15);
         }
 
         public Commands CurrentState { get; set; }
 
-        protected async override void SendCommand(Commands cmd)
+        protected override void SendCommand(Commands cmd)
         {
             switch (cmd)
             {
-                case Commands.Forward: await SendMotorPower(Speed, -Speed); break;
-                case Commands.Stop: await SendMotorPower(0, 0); break;
-                case Commands.Left: await SendMotorPower(Speed, -Speed/5); break;
-                case Commands.Right: await SendMotorPower(Speed/5, -Speed); break;
-                case Commands.Backwards: await SendMotorPower(-Speed, Speed); break;
+                case Commands.Forward: SendMotorPower(-Speed, Speed); break;
+                case Commands.Stop: SendMotorPower(0, 0); break;
+                case Commands.Left: SendMotorPower(-Speed / 5, Speed); break;
+                case Commands.Right: SendMotorPower(-Speed, Speed / 5); break;
+                case Commands.Backwards: SendMotorPower(Speed, -Speed); break;
             }
 
             CurrentState = cmd;
         }
 
-        public async void RequestSonar()
+        public void RequestSonar()
         {
             var msg = mBlockOutgingMessage.CreateMessage(mBlockOutgingMessage.CommandTypes.Get, mBlockOutgingMessage.Devices.ULTRASONIC_SENSOR, mBlockMessage.Ports.PORT_3);
-            await SendMessage(msg);
+            SendMessage(msg);
         }
 
-        
-        public async Task SetRGBAsync(byte r, byte g, byte b)
+
+        public void SetRGBAsync(byte r, byte g, byte b)
         {
             var payload = new byte[3] { r, g, b };
             var rgbMessage = mBlockOutgingMessage.CreateMessage(mBlockOutgingMessage.CommandTypes.Run, mBlockOutgingMessage.Devices.MOTOR, mBlockIncomingMessage.Ports.M1, payload);
-            await SendMessage(rgbMessage);
+            SendMessage(rgbMessage);
         }
 
-        public async Task MoveBackwardsAsync(short speed)
+        public void MoveBackwardsAsync(short speed)
         {
             var msg = Protocols.mBlockOutgingMessage.CreateMessage(mBlockOutgingMessage.CommandTypes.Get, mBlockOutgingMessage.Devices.ULTRASONIC_SENSOR, mBlockMessage.Ports.PORT_3);
-            await SendMessage(msg);
+            SendMessage(msg);
         }
     }
 }
