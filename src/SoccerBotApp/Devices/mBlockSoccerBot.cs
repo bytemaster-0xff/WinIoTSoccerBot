@@ -104,11 +104,11 @@ namespace SoccerBotApp.Devices
         {
             switch (cmd)
             {
-                case Commands.Forward: await SendMotorPower(-Speed, Speed); break;
+                case Commands.Forward: await SendMotorPower(Speed, -Speed); break;
                 case Commands.Stop: await SendMotorPower(0, 0); break;
                 case Commands.Left: await SendMotorPower(Speed, -Speed/5); break;
                 case Commands.Right: await SendMotorPower(Speed/5, -Speed); break;
-                case Commands.Backwards: await SendMotorPower(Speed, -Speed); break;
+                case Commands.Backwards: await SendMotorPower(-Speed, Speed); break;
             }
 
             CurrentState = cmd;
