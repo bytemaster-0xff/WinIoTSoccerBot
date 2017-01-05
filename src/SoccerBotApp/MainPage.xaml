@@ -119,11 +119,11 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Button Grid.Column="1" Command="{Binding ForwardCommand}" >Forward</Button>
-                            <Button Grid.Row="1" Grid.Column="1" Command="{Binding StopCommand}" >Stop</Button>
-                            <Button Grid.Row="2" Grid.Column="1" Command="{Binding BackwardsCommand}" >Backwards</Button>
-                            <Button Grid.Row="1" Grid.Column="0" Command="{Binding LeftCommand}" >Left</Button>
-                            <Button Grid.Row="1" Grid.Column="2" Command="{Binding RightCommand}" >Right</Button>
+                            <Button Grid.Column="1" Command="{Binding ForwardCommand}" FontFamily="Segoe MDL2 Assets" Content="&#xE110;"  HorizontalAlignment="Center" />
+                            <Button Grid.Row="1" Grid.Column="1" Command="{Binding StopCommand}" FontFamily="Segoe MDL2 Assets" Content="&#xE003;"  HorizontalAlignment="Center" />
+                            <Button Grid.Row="2" Grid.Column="1" Command="{Binding BackwardsCommand}" FontFamily="Segoe MDL2 Assets" Content="&#xE74B;" HorizontalAlignment="Center" />
+                            <Button Grid.Row="1" Grid.Column="0" Command="{Binding LeftCommand}" FontFamily="Segoe MDL2 Assets" Content="&#xE0A6;" HorizontalAlignment="Center" />
+                            <Button Grid.Row="1" Grid.Column="2" Command="{Binding RightCommand}" FontFamily="Segoe MDL2 Assets" Content="&#xE0AD;" HorizontalAlignment="Center" />
                             <TextBlock Text="Speed" Grid.Row="3" />
                             <TextBlock Text="{Binding Speed}" Grid.Row="3" Grid.Column="1" />
                             <Slider x:Name="slider"  VerticalAlignment="Top" Maximum="1000" Value="{Binding Speed, Mode=TwoWay}" Grid.Row="4" Grid.ColumnSpan="3"/>
