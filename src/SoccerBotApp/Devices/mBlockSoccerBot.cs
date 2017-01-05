@@ -33,6 +33,10 @@ namespace SoccerBotApp.Devices
 
             new Timer((state) => { RequestVersion(); }, null, 2000, Timeout.Infinite);
 
+            ModeACommand = RelayCommand.Create(SendModeA);
+            ModeBCommand = RelayCommand.Create(SendModeB);
+            ModeCCommand = RelayCommand.Create(SendModeC);
+
             _start = DateTime.Now;
         }
 
@@ -233,10 +237,18 @@ namespace SoccerBotApp.Devices
             SendMessage(mBlockOutgingMessage.CreateMessage(mBlockIncomingMessage.CommandTypes.Run, mBlockOutgingMessage.Devices.SETMODE, mBlockMessage.Ports.MODE_C));
         }
 
-        public void SetRGBAsync(byte r, byte g, byte b)
+        public void SetRGBA0sync(byte r, byte g, byte b)
         {
             var payload = new byte[3] { r, g, b };
-            var rgbMessage = mBlockOutgingMessage.CreateMessage(mBlockOutgingMessage.CommandTypes.Run, mBlockOutgingMessage.Devices.MOTOR, mBlockIncomingMessage.Ports.M1, payload);
+            var rgbMessage = mBlockOutgingMessage.CreateMessage(mBlockOutgingMessage.CommandTypes.Run, mBlockOutgingMessage.Devices.RGBLED, 0, payload);
+            SendMessage(rgbMessage);
+        }
+
+
+        public void SetRGBA1sync(byte r, byte g, byte b)
+        {
+            var payload = new byte[3] { r, g, b };
+            var rgbMessage = mBlockOutgingMessage.CreateMessage(mBlockOutgingMessage.CommandTypes.Run, mBlockOutgingMessage.Devices.RGBLED, 1, payload);
             SendMessage(rgbMessage);
         }
 

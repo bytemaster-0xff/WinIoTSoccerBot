@@ -113,6 +113,8 @@
                                 <RowDefinition Height="auto" />
                                 <RowDefinition Height="32" />
                                 <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
@@ -127,8 +129,12 @@
                             <TextBlock Text="Speed" Grid.Row="3" />
                             <TextBlock Text="{Binding Speed}" Grid.Row="3" Grid.Column="1" />
                             <Slider x:Name="slider"  VerticalAlignment="Top" Maximum="1000" Value="{Binding Speed, Mode=TwoWay}" Grid.Row="4" Grid.ColumnSpan="3"/>
+                            <TextBlock Text="Mode" Grid.Row="5" />
+                            <Button Content="Standard" Command="{Binding ModeACommand}" Grid.Row="6" HorizontalAlignment="Center" />
+                            <Button Content="Avoidance" Command="{Binding ModeBCommand}" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Center"  />
+                            <Button Content="Line Following" Command="{Binding ModeCCommand}" Grid.Row="6" Grid.Column="2"  HorizontalAlignment="Center" />
                         </Grid>
-                        
+
                     </StackPanel>
                     <Grid Grid.Column="2">
                         <TextBlock Text="{Binding FrontIRSensor}" />
@@ -136,6 +142,6 @@
                 </Grid>
             </Grid>
         </Grid>
-    
+
     </Grid>
 </Page>

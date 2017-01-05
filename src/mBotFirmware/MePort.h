@@ -60,7 +60,7 @@ typedef enum
     PORT_8,
     M1,
     M2,
-	MBOTH,
+	MBOTH = 0x80,
 	SETMODEA = 0x81,
 	SETMODEB = 0x82,
 	SETMODEC = 0x83

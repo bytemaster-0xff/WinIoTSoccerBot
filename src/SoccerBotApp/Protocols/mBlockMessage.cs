@@ -81,6 +81,5 @@ namespace SoccerBotApp.Protocols
         public byte? Data { get; set; }
 
         public byte MessageSerialNumber { get; set; }
-
     }
 }
