@@ -20,13 +20,12 @@ namespace SoccerBotApp.Protocols
 
         public static byte MessageIndexCounter { get; protected set; }
 
-        private int _messageIndex;
 
         byte[] _payload = null;
 
         private mBlockOutgingMessage()
         {
-            _messageIndex = MessageIndexCounter++;
+            MessageSerialNumber = MessageIndexCounter++;
             DateStamp = DateTime.Now;
         }
 
@@ -58,7 +57,7 @@ namespace SoccerBotApp.Protocols
                 buffer[position++] = 0xFF;
                 buffer[position++] = 0x55;
                 buffer[position++] = Convert.ToByte(length - HEADER_LENGTH);
-                buffer[position++] = (byte)(_messageIndex & 0xFF);                
+                buffer[position++] = (byte)(MessageSerialNumber & 0xFF);                
                 buffer[position++] = Convert.ToByte(CommandType);
                 buffer[position++] = Convert.ToByte(Device);
                 if (Port.HasValue) buffer[position++] = Convert.ToByte(Port.Value);
@@ -92,11 +91,22 @@ namespace SoccerBotApp.Protocols
             {
                 CommandType = command,
                 Device = device,
-                Port = port
+                Port = (int)port
             };
         }
 
         public static mBlockOutgingMessage CreateMessage(CommandTypes command, Devices device, Ports port, byte[] payload)
+        {
+            return new mBlockOutgingMessage()
+            {
+                CommandType = command,
+                Device = device,
+                Port = (int)port,
+                _payload = payload
+            };
+        }
+
+        public static mBlockOutgingMessage CreateMessage(CommandTypes command, Devices device, int port, byte[] payload)
         {
             return new mBlockOutgingMessage()
             {
@@ -113,7 +123,7 @@ namespace SoccerBotApp.Protocols
             {
                 CommandType = command,
                 Device = device,
-                Port = port,
+                Port = (int)port,
                 Slot = slot
             };
         }
@@ -124,10 +134,12 @@ namespace SoccerBotApp.Protocols
             {
                 CommandType = command,
                 Device = device,
-                Port = port,
+                Port = (int)port,
                 Slot = slot,
                 Data = data
             };
         }
+
+        public Action<mBlockIncomingMessage> Handler { get; set; }
     }
 }

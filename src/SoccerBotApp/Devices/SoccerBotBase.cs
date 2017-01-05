@@ -24,6 +24,8 @@ namespace SoccerBotApp.Devices
         public String Name { get; set; }
         public String DeviceName { get; set; }
 
+        public String Version { get; set; }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected async void RaisePropertyChanged([CallerMemberName] string propertyName = null)
@@ -46,7 +48,19 @@ namespace SoccerBotApp.Devices
             LeftCommand = RelayCommand.Create(SendCommand, Commands.Left);
             RightCommand = RelayCommand.Create(SendCommand, Commands.Right);
         }
-        
+
+        private String _firmwareVersion;
+        public String FirmwareVersion
+        {
+            get { return _firmwareVersion; }
+            set
+            {
+                _firmwareVersion = value;
+                RaisePropertyChanged();
+                StartSensorRefreshTimer();
+            }
+        }
+
         protected abstract void SendCommand(Commands cmd);
 
         public RelayCommand RefreshSensorsCommand { get; private set; }

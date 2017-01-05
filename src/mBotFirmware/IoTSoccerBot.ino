@@ -95,7 +95,7 @@ byte dataLen;
 byte modulesLen = 0;
 boolean isStart = false;
 char serialRead;
-String mVersion = "1.2.103";
+String mVersion = "5.0.0";
 float angleServo = 90.0;
 unsigned char prevc = 0;
 boolean buttonPressed = false;
@@ -109,7 +109,7 @@ int LineFollowFlag = 0;
 #define LIGHT_SENSOR 3
 #define POTENTIONMETER 4
 #define JOYSTICK 5
-#define GYRO 6
+#define GYRO 6 
 #define SOUND_SENSOR 7
 #define RGBLED 8
 #define SEVSEG 9
@@ -133,6 +133,7 @@ int LineFollowFlag = 0;
 #define BUTTON_INNER 35
 #define LEDMATRIX 41
 #define TIMER 50
+#define SETMODE 100
 
 #define GET 1
 #define RUN 2
@@ -236,6 +237,33 @@ void loop()
 			break;
 		}
 	}
+}
+
+void setModeA() {
+	moveSpeed = 220;
+	mode = MODE_A;
+	Stop();
+	buzzer.tone(NTD1, 300);
+	rgb.clear();
+	rgb.setColor(10, 10, 10);
+}
+
+void setModeB() {
+	moveSpeed = 200;
+	mode = MODE_B;
+	Stop();
+	buzzer.tone(NTD2, 300);
+	rgb.clear();
+	rgb.setColor(0, 10, 0);
+}
+
+void setModeC() {
+	mode = MODE_C;
+	moveSpeed = 120;
+	Stop();
+	buzzer.tone(NTD3, 300);
+	rgb.clear();
+	rgb.setColor(0, 0, 10);
 }
 
 void get_ir_command()
@@ -584,9 +612,32 @@ void runModule(int device) {
 	int port = readBuffer(6);
 	int pin = port;
 	switch (device) {
+	case SETMODE: {
+		switch (port)
+		{
+		case SETMODEA: setModeA(); break;
+		case SETMODEB: setModeB(); break;
+		case SETMODEC: setModeC(); break;
+		}
+	}
+				  break;
 	case MOTOR: {
-		int speed = readShort(7);
-		port == M1 ? MotorL.run(speed) : MotorR.run(speed);
+		switch (port)
+		{
+			case M1: {
+				MotorL.run(readShort(7));
+			}
+				break;
+			case M2: {
+				MotorR.run(readShort(7));			
+			}
+				break;
+			case MBOTH: {
+				MotorL.run(readShort(7));
+				MotorR.run(readShort(9));
+			}
+			break;
+		}
 	}
 				break;
 	case JOYSTICK: {

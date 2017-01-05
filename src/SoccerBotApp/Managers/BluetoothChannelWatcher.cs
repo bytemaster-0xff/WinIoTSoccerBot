@@ -29,6 +29,7 @@ namespace SoccerBotApp.Managers
 
                 StartWatcherCommand.Enabled = true;
                 StopWatcherCommand.Enabled = false;
+                RaiseClearDevicesEvent();
             }
         }
 

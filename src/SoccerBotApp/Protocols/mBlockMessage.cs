@@ -48,7 +48,9 @@ namespace SoccerBotApp.Protocols
             TONE = 34,
             BUTTON_INNER = 35,
             TIMER = 50,
+            SETMODE = 100,
         }
+        
 
         public enum Ports
         {
@@ -63,16 +65,22 @@ namespace SoccerBotApp.Protocols
             PORT_8 = 0x08,
             M1 = 0x09,
             M2 = 0x0a,
+            MBOTH = 0x80,
+            MODE_A = 0x81,
+            MODE_B = 0x82,
+            MODE_C = 0x82,
         }
 
         public CommandTypes CommandType { get; set; }
         public Devices Device { get; set; }
 
-        public Ports? Port { get; set; }
+        public int? Port { get; set; }
 
         public byte? Slot { get; set; }
 
         public byte? Data { get; set; }
+
+        public byte MessageSerialNumber { get; set; }
 
     }
 }

@@ -60,7 +60,12 @@ typedef enum
     PORT_8,
     M1,
     M2,
+	MBOTH,
+	SETMODEA = 0x81,
+	SETMODEB = 0x82,
+	SETMODEC = 0x83
 }MEPORT;
+
 
 // #if defined(__AVR_ATmega32U4__) 
 // // buzzer 

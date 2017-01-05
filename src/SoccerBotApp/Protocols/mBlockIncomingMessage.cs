@@ -23,5 +23,12 @@ namespace SoccerBotApp.Protocols
             get { return BitConverter.ToSingle(Buffer, 4); }
         }
 
+        public String StringPayload
+        {
+            get
+            {
+                return System.Text.ASCIIEncoding.ASCII.GetString(Buffer, 5, Buffer[4]);
+            }
+        }        
     }
 }

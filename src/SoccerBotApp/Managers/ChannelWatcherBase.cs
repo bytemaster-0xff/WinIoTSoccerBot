@@ -14,6 +14,8 @@ namespace SoccerBotApp.Managers
         public event EventHandler<IChannel> DeviceRemovedEvent;
         public event EventHandler<IChannel> DeviceConnectedEvent;
 
+        public event EventHandler ClearDevices;
+
         public ChannelWatcherBase()
         {
             StartWatcherCommand = RelayCommand.Create(StartWatcher);
@@ -50,6 +52,17 @@ namespace SoccerBotApp.Managers
                 await App.TheApp.RunOnMainThread(() =>
                 {
                     DeviceConnectedEvent?.Invoke(this, channel);
+                });
+            }
+        }
+
+        public async void RaiseClearDevicesEvent()
+        {
+            if (App.TheApp != null && App.TheApp.Dispatcher != null)
+            {
+                await App.TheApp.RunOnMainThread(() =>
+                {
+                    ClearDevices?.Invoke(this, null);
                 });
             }
         }

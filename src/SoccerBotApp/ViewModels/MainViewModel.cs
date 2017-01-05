@@ -39,7 +39,14 @@ namespace SoccerBotApp.ViewModels
         {
             channelWatcher.DeviceFoundEvent += ChannelWatcher_DeviceFoundEvent;
             channelWatcher.DeviceRemovedEvent += ChannelWatcher_DeviceRemovedEvent;
+            channelWatcher.ClearDevices += ChannelWatcher_ClearDevices;
             _channelWatchers.Add(channelWatcher);
+        }
+
+        private void ChannelWatcher_ClearDevices(object sender, System.EventArgs e)
+        {
+            AvailableChannels.Clear();
+            ConnectedDevices.Clear();
         }
 
         private void ChannelWatcher_DeviceRemovedEvent(object sender, IChannel e)
@@ -69,7 +76,6 @@ namespace SoccerBotApp.ViewModels
         private void channel_Connected(object sender, IChannel device)
         {
             var soccerBot = new Devices.mBlockSoccerBot(device);
-            soccerBot.StartSensorRefreshTimer();
             _connectedDevices.Add(soccerBot);
         }
 
