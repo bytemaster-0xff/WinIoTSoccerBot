@@ -74,7 +74,7 @@ namespace SoccerBotApp.Devices
 
         public void StartSensorRefreshTimer()
         {
-            _sensorRefreshTimer.Interval = TimeSpan.FromMilliseconds(250);
+            _sensorRefreshTimer.Interval = TimeSpan.FromMilliseconds(500);
             _sensorRefreshTimer.Tick += _sensorRefreshTimer_Tick;
             StartRefreshTimer();
         }
@@ -89,7 +89,7 @@ namespace SoccerBotApp.Devices
             RefreshSensors();
         }
 
-        private short _speed = 300;
+        private short _speed = 100;
         public short Speed
         {
             get { return _speed; }
@@ -100,8 +100,8 @@ namespace SoccerBotApp.Devices
             }
         }
 
-        private String _frontIRSensor = "?";
-        public String FrontIRSensor
+        private int _frontIRSensor = 0;
+        public int FrontIRSensor
         {
             get { return _frontIRSensor; }
             set

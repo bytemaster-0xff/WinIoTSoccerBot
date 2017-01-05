@@ -19,7 +19,7 @@
         <Grid DataContext="{StaticResource MainViewModel}" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
-                <RowDefinition Height="400" />
+                <RowDefinition Height="450" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
@@ -92,7 +92,7 @@
             </Grid>
 
             <Grid Grid.Column="2" Grid.Row="1"  Grid.RowSpan="4" Visibility="{Binding ActiveDevice, Converter={StaticResource HideIfNullConverter}}">
-                <Grid DataContext="{Binding ActiveDevice}" d:DataContext="{Binding sampleDevice}" >
+                <Grid DataContext="{Binding ActiveDevice}" d:DataContext="{Binding sampleDevice}"  >
                     <Grid.RowDefinitions>
                         <RowDefinition  Height="auto"/>
                     </Grid.RowDefinitions>
@@ -100,11 +100,16 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <StackPanel>
+                    <StackPanel Margin="10">
                         <TextBlock Text="Active Device" />
                         <TextBlock Text="{Binding Name}" />
                         <TextBlock Text="{Binding State}" />
-                        <TextBlock Text="{Binding FirmwareVersion}" />
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Version:"  />
+                            <TextBlock Margin="10,0,0,0" Text="{Binding FirmwareVersion, FallbackValue=?}" />
+                            <TextBlock Text="APIMode:" Margin="10,0,0,0" />
+                            <TextBlock Text="{Binding APIMode, FallbackValue=Unknown}" Margin="10,0,0,0" />
+                        </StackPanel>
                         <TextBlock Text="{Binding Id}" />
                         <Grid>
                             <Grid.RowDefinitions>
@@ -112,6 +117,8 @@
                                 <RowDefinition Height="auto" />
                                 <RowDefinition Height="auto" />
                                 <RowDefinition Height="32" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
                                 <RowDefinition Height="auto" />
                                 <RowDefinition Height="auto" />
                                 <RowDefinition Height="auto" />
@@ -127,17 +134,35 @@
                             <Button Grid.Row="1" Grid.Column="0" Command="{Binding LeftCommand}" FontFamily="Segoe MDL2 Assets" Content="&#xE0A6;" HorizontalAlignment="Center" />
                             <Button Grid.Row="1" Grid.Column="2" Command="{Binding RightCommand}" FontFamily="Segoe MDL2 Assets" Content="&#xE0AD;" HorizontalAlignment="Center" />
                             <TextBlock Text="Speed" Grid.Row="3" />
+                            
                             <TextBlock Text="{Binding Speed}" Grid.Row="3" Grid.Column="1" />
-                            <Slider x:Name="slider"  VerticalAlignment="Top" Maximum="1000" Value="{Binding Speed, Mode=TwoWay}" Grid.Row="4" Grid.ColumnSpan="3"/>
-                            <TextBlock Text="Mode" Grid.Row="5" />
-                            <Button Content="Standard" Command="{Binding ModeACommand}" Grid.Row="6" HorizontalAlignment="Center" />
-                            <Button Content="Avoidance" Command="{Binding ModeBCommand}" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Center"  />
-                            <Button Content="Line Following" Command="{Binding ModeCCommand}" Grid.Row="6" Grid.Column="2"  HorizontalAlignment="Center" />
+                            <Slider VerticalAlignment="Top" Maximum="100" Value="{Binding Speed, Mode=TwoWay}" Grid.Row="4" Grid.ColumnSpan="3"/>
+                            <TextBlock Text="Mode:" Grid.Row="5" />
+                            <Button Content="Standard" Command="{Binding ModeACommand}" Grid.Row="6" HorizontalAlignment="Center" IsEnabled="{Binding IsAdvancedAPIMode}" />
+                            <Button Content="Avoidance" Command="{Binding ModeBCommand}" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Center" IsEnabled="{Binding IsAdvancedAPIMode}" />
+                            <Button Content="Line Following" Command="{Binding ModeCCommand}" Grid.Row="6" Grid.Column="2"  HorizontalAlignment="Center" IsEnabled="{Binding IsAdvancedAPIMode}" />
+
+                            <TextBlock Text="LCD Message" Grid.Row="7" Grid.ColumnSpan="2"  />
+                            <TextBox Text="{Binding LEDMessage, Mode=TwoWay}" Grid.Row="8" Grid.ColumnSpan="2"  />
+                            <Button Content="Send" Command="{Binding SendLEDMessageCommand}" Grid.Row="8" Grid.Column="2" HorizontalAlignment="Center" />
                         </Grid>
 
                     </StackPanel>
-                    <Grid Grid.Column="2">
-                        <TextBlock Text="{Binding FrontIRSensor}" />
+                    <Grid Grid.Column="2" Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Sonar" />
+                        <Grid Grid.Row="2">
+                        <Rectangle Height="32" HorizontalAlignment="Stretch"  Fill="Silver" VerticalAlignment="Top" />
+                        <Rectangle Width="{Binding FrontIRSensor, FallbackValue=400}" Height="32" HorizontalAlignment="Left"  Fill="Green" VerticalAlignment="Top" />
+                        <Rectangle Height="32" HorizontalAlignment="Stretch" Stroke="Black" VerticalAlignment="Top" />
+                        <StackPanel Orientation="Horizontal" Margin="10,5,0,0">
+                            <TextBlock Text="{Binding FrontIRSensor, FallbackValue=30}" Foreground="White" />
+                            <TextBlock Text="cm" Foreground="White"/>
+                        </StackPanel>
+                        </Grid>
                     </Grid>
                 </Grid>
             </Grid>

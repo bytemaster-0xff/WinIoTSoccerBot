@@ -47,6 +47,7 @@ namespace SoccerBotApp.Protocols
             SERVO_PIN = 33,
             TONE = 34,
             BUTTON_INNER = 35,
+            LED_MATRIX = 41,
             TIMER = 50,
             SETMODE = 100,
         }

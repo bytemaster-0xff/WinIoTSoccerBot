@@ -36,13 +36,15 @@ namespace SoccerBotApp.Devices
             ModeACommand = RelayCommand.Create(SendModeA);
             ModeBCommand = RelayCommand.Create(SendModeB);
             ModeCCommand = RelayCommand.Create(SendModeC);
+            SendLEDMessageCommand = RelayCommand.Create(SendLEDMessage);
 
             _start = DateTime.Now;
         }
 
+
         protected override void RefreshSensors()
         {
-            //RequestSonar();
+            RequestSonar();
         }
 
         private void _channel_MessageReceived(object sender, byte[] buffer)
@@ -145,6 +147,9 @@ namespace SoccerBotApp.Devices
 
         private async void SendMotorPower(int leftMotor, int rightMotor)
         {
+            leftMotor = Convert.ToInt32((leftMotor * 255.0) / 100.0f);
+            rightMotor = Convert.ToInt32((rightMotor * 255.0) / 100.0f);
+
             if (!String.IsNullOrEmpty(FirmwareVersion) && Convert.ToInt32(FirmwareVersion.Split('.')[0]) >= 5)
             {
                 var buffer = new byte[4];
@@ -189,13 +194,11 @@ namespace SoccerBotApp.Devices
 
         public void ProcessSonar(mBlockIncomingMessage message)
         {
-
-            var frontIRCMs = _currentIncomingMessage.FloatPayload;
-            FrontIRSensor = String.Format("{0:0.0} cm", frontIRCMs);
-
+            FrontIRSensor = Convert.ToInt32(_currentIncomingMessage.FloatPayload);
+            
             var factor = Speed / 100;
 
-            if (frontIRCMs < (10 * factor) && CurrentState == Commands.Forward)
+            if (FrontIRSensor < (10 * factor) && CurrentState == Commands.Forward)
             {
                 PauseRefreshTimer();
                 SendCommand(Commands.Stop);
@@ -205,7 +208,17 @@ namespace SoccerBotApp.Devices
 
         public void ProcessVersion(mBlockIncomingMessage message)
         {
-            FirmwareVersion = message.StringPayload;
+            if (!String.IsNullOrEmpty(message.StringPayload))
+            {
+                var parts = message.StringPayload.Split('.');
+                int majorVersion;
+                Int32.TryParse(parts[0], out majorVersion);
+
+                IsAdvancedAPIMode = majorVersion >= 5.0;
+                APIMode = IsAdvancedAPIMode ? "Advanced" : "Standard";
+
+                FirmwareVersion = message.StringPayload;
+            }
         }
 
         public void RequestSonar()
@@ -237,6 +250,34 @@ namespace SoccerBotApp.Devices
             SendMessage(mBlockOutgingMessage.CreateMessage(mBlockIncomingMessage.CommandTypes.Run, mBlockOutgingMessage.Devices.SETMODE, mBlockMessage.Ports.MODE_C));
         }
 
+        public void SendLEDMessage()
+        {
+            if (!String.IsNullOrEmpty(LEDMessage))
+            {
+                const int HEADER_LENGTH = 8;
+                var payload = new byte[HEADER_LENGTH + LEDMessage.Length];
+                payload[0] = 1; /* action 1 = DrawString, 2 = Draw Bitmap, 3 = Show Click*/  
+                payload[1] = 9; /* 0-9 brightness */
+                payload[2] = 1; /* 1 = On, 0 = Off color */
+                payload[3] = 0; /* X Location */
+                payload[4] = 0; /* X Location */
+                payload[5] = 7; /* X Location */
+                payload[6] = 0; /* Y Location */
+                payload[7] = (byte)LEDMessage.Length;
+                var bytes = System.Text.ASCIIEncoding.ASCII.GetBytes(LEDMessage);
+
+                var idx = 0;
+                foreach(var ch in bytes)
+                {
+                    payload[idx + HEADER_LENGTH] = bytes[idx];
+                    idx++;
+                }
+          
+                var ledMessage = mBlockOutgingMessage.CreateMessage(mBlockOutgingMessage.CommandTypes.Run, mBlockOutgingMessage.Devices.LED_MATRIX, 1, payload);
+                SendMessage(ledMessage);
+            }
+        }
+
         public void SetRGBA0sync(byte r, byte g, byte b)
         {
             var payload = new byte[3] { r, g, b };
@@ -256,5 +297,41 @@ namespace SoccerBotApp.Devices
         public RelayCommand ModeBCommand { get; private set; }
         public RelayCommand ModeCCommand { get; private set; }
         public RelayCommand PlayToneCommand { get; private set; }
+
+        public RelayCommand SendLEDMessageCommand { get; private set; }
+
+
+        private bool _isAdvancedAPIMode;
+        public bool IsAdvancedAPIMode
+        {
+            get { return _isAdvancedAPIMode; }
+            set
+            {
+                _isAdvancedAPIMode = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private String _apiMode = "Uknown";
+        public string APIMode
+        {
+            get { return _apiMode; }
+            set
+            {
+                _apiMode = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private String _ledMessage = "HI";
+        public String LEDMessage
+        {
+            get { return _ledMessage; }
+            set
+            {
+                _ledMessage = value;
+                RaisePropertyChanged();
+            }
+        }
     }
 }
