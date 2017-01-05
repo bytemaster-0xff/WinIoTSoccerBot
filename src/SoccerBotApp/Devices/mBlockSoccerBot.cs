@@ -214,7 +214,7 @@ namespace SoccerBotApp.Devices
                 int majorVersion;
                 Int32.TryParse(parts[0], out majorVersion);
 
-                IsAdvancedAPIMode = majorVersion >= 5.0;
+                IsAdvancedAPIMode = majorVersion == 5;
                 APIMode = IsAdvancedAPIMode ? "Advanced" : "Standard";
 
                 FirmwareVersion = message.StringPayload;
