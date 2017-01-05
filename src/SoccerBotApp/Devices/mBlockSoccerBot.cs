@@ -150,7 +150,7 @@ namespace SoccerBotApp.Devices
             leftMotor = Convert.ToInt32((leftMotor * 255.0) / 100.0f);
             rightMotor = Convert.ToInt32((rightMotor * 255.0) / 100.0f);
 
-            if (!String.IsNullOrEmpty(FirmwareVersion) && Convert.ToInt32(FirmwareVersion.Split('.')[0]) >= 5)
+            if (IsAdvancedAPIMode)
             {
                 var buffer = new byte[4];
                 buffer[0] = BitConverter.GetBytes(leftMotor)[0]; 
