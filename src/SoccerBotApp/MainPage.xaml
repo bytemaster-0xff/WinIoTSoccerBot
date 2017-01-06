@@ -48,7 +48,7 @@
                         <DataTemplate>
                             <StackPanel d:DataContext="{StaticResource sampleDevice}">
                                 <TextBlock Text="{Binding DeviceName}"></TextBlock>
-                                <TextBlock Text="{Binding Id}"></TextBlock>
+                                <TextBlock FontSize="10" Text="{Binding Id}"></TextBlock>
                                 <Button Content="Connect" Command="{Binding ConnectCommand}" />
                             </StackPanel>
                         </DataTemplate>
@@ -143,7 +143,7 @@
                             <Button Content="Line Following" Command="{Binding ModeCCommand}" Grid.Row="6" Grid.Column="2"  HorizontalAlignment="Center" IsEnabled="{Binding IsAdvancedAPIMode}" />
 
                             <TextBlock Text="LCD Message" Grid.Row="7" Grid.ColumnSpan="2"  />
-                            <TextBox Text="{Binding LEDMessage, Mode=TwoWay}" Grid.Row="8" Grid.ColumnSpan="2"  />
+                            <TextBox Text="{Binding LEDMessage, Mode=TwoWay}" Grid.Row="8" Grid.ColumnSpan="2" FontFamily="Segoe MDL2 Assets"  />
                             <Button Content="Send" Command="{Binding SendLEDMessageCommand}" Grid.Row="8" Grid.Column="2" HorizontalAlignment="Center" />
                         </Grid>
 
