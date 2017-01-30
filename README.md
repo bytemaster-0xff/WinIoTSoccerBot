@@ -11,6 +11,9 @@ Added custom firmware for mBot with the following features:
 
 The first thing the app does is requests the version from the mBot.  Our custom firmware will start at 5.0 so if it returns 5.0 it will use our enhanced features otherwise it will use the default firmware on the mBot 
 
+#### Suggested Parts List
+[Shopping List](PartsList.md)
+
 
 #### Getting Started
 These instructions currently assume you are developing on a Windows host machine.
@@ -21,6 +24,8 @@ Download and install the following:
 * [Windows Universal App SDK v14393](https://download.microsoft.com/download/C/D/8/CD8533F8-5324-4D30-824C-B834C5AD51F9/standalonesdk/sdksetup.exe)
 * [Arduino IDE](https://www.microsoft.com/en-us/store/p/arduino-ide/9nblggh4rsd8) - *optional*
 * [Visual Studio Arduino plugin](https://visualstudiogallery.msdn.microsoft.com/069a905d-387d-4415-bc37-665a5ac9caba/file/208854/78/Visual.Micro.Arduino.Studio.vsix)
+
+* [More Getting Started](GettingStarted.md)
 
 #### Building your MBot
 
