@@ -1,4 +1,4 @@
-# Win IoT Soccer Bot Repo
+# Windows 10 IoT Core - Soccer Bot Repo
 ### Tampa IoT Society
 
 For more details please review our documentation directory.
