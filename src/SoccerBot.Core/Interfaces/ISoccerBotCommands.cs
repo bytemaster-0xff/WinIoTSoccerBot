@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static SoccerBot.Core.Devices.SoccerBotBase;
 
 namespace SoccerBot.Core.Interfaces
 {
@@ -12,7 +13,7 @@ namespace SoccerBot.Core.Interfaces
         short Speed { get; set; }
 
         RelayCommand RefreshSensorsCommand { get; }
-        RelayCommand ForwardCommand { get; }
-        RelayCommand StopCommand { get; }
+        RelayCommand<Commands> ForwardCommand { get; }
+        RelayCommand<Commands> StopCommand { get; }
     }
 }

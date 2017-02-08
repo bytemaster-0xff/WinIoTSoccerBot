@@ -112,7 +112,7 @@ namespace SoccerBot.UWP.Channels
             }
             catch (Exception ex)
             {
-                _loggerfs.NotifyUserError("BT Channel", ex.Message);
+                _logger.NotifyUserError("BT Channel", ex.Message);
                 return;
             }
         }

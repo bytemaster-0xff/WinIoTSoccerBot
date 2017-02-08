@@ -11,7 +11,6 @@ namespace SoccerBot.Core.ViewModels
     {
         ISoccerBotLogger _logger;
 
-        private Managers.BluetoothChannelWatcher _blueToothConnectionManager = new Managers.BluetoothChannelWatcher();
         private ObservableCollection<ISoccerBotCommands> _connectedDevices = new ObservableCollection<ISoccerBotCommands>();
         private ObservableCollection<IChannel> _availableChannels = new ObservableCollection<IChannel>();
         public ObservableCollection<Models.Notification> Notifications { get { return _logger.Notifications; } }
@@ -26,12 +25,11 @@ namespace SoccerBot.Core.ViewModels
             );
         }
 
-        public MainViewModel(ISoccerBotLogger logger)
+        public MainViewModel()
         {
-            _logger = logger;
-            _blueToothConnectionManager = new BluetoothChannelWatcher();
-            RegisterChannelWatcher(_blueToothConnectionManager);
         }
+
+        public ISoccerBotLogger Logger { get { return _logger; } set {  _logger = value; } }
 
         private void RegisterChannelWatcher(ChannelWatcherBase channelWatcher)
         {
@@ -88,9 +86,7 @@ namespace SoccerBot.Core.ViewModels
                 RaisePropertyChanged();
             }
         }
-
-        public Managers.BluetoothChannelWatcher BlueTooth { get { return _blueToothConnectionManager; } }
-
+       
         public ObservableCollection<ISoccerBotCommands> ConnectedDevices { get { return _connectedDevices; } }
 
         public ObservableCollection<IChannel> AvailableChannels { get { return _availableChannels; } }

@@ -41,11 +41,11 @@ namespace SoccerBot.Core.Devices
 
         public SoccerBotBase()
         {
-            ForwardCommand = RelayCommand.Create(SendCommand, Commands.Forward);
-            StopCommand = RelayCommand.Create(SendCommand, Commands.Stop);
-            BackwardsCommand = RelayCommand.Create(SendCommand, Commands.Backwards);
-            LeftCommand = RelayCommand.Create(SendCommand, Commands.Left);
-            RightCommand = RelayCommand.Create(SendCommand, Commands.Right);
+            ForwardCommand = RelayCommand<Commands>.Create(SendCommand, Commands.Forward);
+            StopCommand = RelayCommand<Commands>.Create(SendCommand, Commands.Stop);
+            BackwardsCommand = RelayCommand<Commands>.Create(SendCommand, Commands.Backwards);
+            LeftCommand = RelayCommand<Commands>.Create(SendCommand, Commands.Left);
+            RightCommand = RelayCommand<Commands>.Create(SendCommand, Commands.Right);
         }
 
         private String _firmwareVersion;
@@ -64,12 +64,12 @@ namespace SoccerBot.Core.Devices
 
         public RelayCommand RefreshSensorsCommand { get; private set; }
 
-        public RelayCommand ForwardCommand { get; private set; }
-        public RelayCommand StopCommand { get; private set; }
-        public RelayCommand BackwardsCommand { get; private set; }
+        public RelayCommand<Commands> ForwardCommand { get; private set; }
+        public RelayCommand<Commands> StopCommand { get; private set; }
+        public RelayCommand<Commands> BackwardsCommand { get; private set; }
 
-        public RelayCommand LeftCommand { get; private set; }
-        public RelayCommand RightCommand { get; private set; }
+        public RelayCommand<Commands> LeftCommand { get; private set; }
+        public RelayCommand<Commands> RightCommand { get; private set; }
 
         public void StartSensorRefreshTimer()
         {

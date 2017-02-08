@@ -1,6 +1,8 @@
 ﻿{
   "dependencies": {
-    "LagoVista.Core": "0.8.67-alpha01079",
+    "LagoVista.Core": "0.8.69-alpha00807",
+    "LagoVista.Core.Networking": "0.8.69-alpha00807",
+    "LagoVista.Core.UWP": "0.8.69-alpha00989",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0"
   },
   "frameworks": {

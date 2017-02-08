@@ -69,7 +69,8 @@ namespace SoccerBot.UWP.Channels
                     var updatedChannel = _channels.Where(itm => itm.Id == deviceInfoUpdate.Id).FirstOrDefault();
                     if(updatedChannel != null)
                     {
-                        updatedChannel.Update(deviceInfoUpdate);
+                        //TODO: Maybe introduce again.
+                        //updatedChannel.Update(deviceInfoUpdate);
                     }
                 });
             });

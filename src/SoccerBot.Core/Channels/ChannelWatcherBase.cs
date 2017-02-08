@@ -2,12 +2,9 @@
 using LagoVista.Core.PlatformSupport;
 using SoccerBot.Core.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 namespace SoccerBot.Core.Channels
 {
@@ -58,5 +55,7 @@ namespace SoccerBot.Core.Channels
 
         public RelayCommand StartWatcherCommand { get; private set; }
         public RelayCommand StopWatcherCommand { get; private set; }
+
+        public ObservableCollection<IChannel> Channels { get; private set; }
     }
 }
