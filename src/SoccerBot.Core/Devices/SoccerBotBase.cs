@@ -15,7 +15,8 @@ namespace SoccerBot.Core.Devices
             Backwards,
             Left,
             Right,
-            Stop
+            Stop,
+            Reset
         }
 
         ITimer _sensorRefreshTimer;
@@ -24,6 +25,7 @@ namespace SoccerBot.Core.Devices
         public String Name { get; set; }
         public String DeviceName { get; set; }
         public String DeviceTypeId { get; set; }
+       
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -37,11 +39,14 @@ namespace SoccerBot.Core.Devices
 
         public SoccerBotBase()
         {
-            ForwardCommand = RelayCommand<Commands>.Create(SendCommand, Commands.Forward);
-            StopCommand = RelayCommand<Commands>.Create(SendCommand, Commands.Stop);
-            BackwardsCommand = RelayCommand<Commands>.Create(SendCommand, Commands.Backwards);
-            LeftCommand = RelayCommand<Commands>.Create(SendCommand, Commands.Left);
-            RightCommand = RelayCommand<Commands>.Create(SendCommand, Commands.Right);
+            ForwardCommand = RelayCommand.Create(SendCommand, Commands.Forward);
+            StopCommand = RelayCommand.Create(SendCommand, Commands.Stop);
+            BackwardsCommand = RelayCommand.Create(SendCommand, Commands.Backwards);
+            LeftCommand = RelayCommand.Create(SendCommand, Commands.Left);
+            RightCommand = RelayCommand.Create(SendCommand, Commands.Right);
+            ResetCommand = RelayCommand.Create(SendCommand, Commands.Reset);
+
+            FirmwareVersion = "??";
         }
 
         private String _firmwareVersion;
@@ -50,28 +55,37 @@ namespace SoccerBot.Core.Devices
             get { return _firmwareVersion; }
             set
             {
-                _firmwareVersion = value;
+                _firmwareVersion = value;                
                 RaisePropertyChanged();
-                StartSensorRefreshTimer();
+
+                if (_firmwareVersion != "??")
+                {
+                    StartSensorRefreshTimer();
+                }
             }
         }
 
-        protected abstract void SendCommand(Commands cmd);
+        protected abstract void SendCommand(object cmd);
 
         public RelayCommand RefreshSensorsCommand { get; private set; }
 
-        public RelayCommand<Commands> ForwardCommand { get; private set; }
-        public RelayCommand<Commands> StopCommand { get; private set; }
-        public RelayCommand<Commands> BackwardsCommand { get; private set; }
+        public RelayCommand ForwardCommand { get; private set; }
+        public RelayCommand StopCommand { get; private set; }
+        public RelayCommand BackwardsCommand { get; private set; }
 
-        public RelayCommand<Commands> LeftCommand { get; private set; }
-        public RelayCommand<Commands> RightCommand { get; private set; }
+        public RelayCommand LeftCommand { get; private set; }
+        public RelayCommand RightCommand { get; private set; }
+
+        public RelayCommand ResetCommand { get; private set; }
 
         public void StartSensorRefreshTimer()
         {
-            _sensorRefreshTimer.Interval = TimeSpan.FromMilliseconds(500);
-            _sensorRefreshTimer.Tick += _sensorRefreshTimer_Tick;
-            StartRefreshTimer();
+            if (_sensorRefreshTimer != null)
+            {
+                _sensorRefreshTimer.Interval = TimeSpan.FromMilliseconds(500);
+                _sensorRefreshTimer.Tick += _sensorRefreshTimer_Tick;
+                StartRefreshTimer();
+            }
         }
 
         protected abstract void RefreshSensors();
@@ -116,5 +130,15 @@ namespace SoccerBot.Core.Devices
             _sensorRefreshTimer.Start();
         }
 
+        private String _apiMode = "Uknown/Not Connected";
+        public string APIMode
+        {
+            get { return _apiMode; }
+            set
+            {
+                _apiMode = value;
+                RaisePropertyChanged();
+            }
+        }
     }
 }

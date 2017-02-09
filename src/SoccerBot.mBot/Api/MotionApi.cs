@@ -15,6 +15,17 @@ namespace SoccerBot.mBot.Api
             _logger = logger;
         }
 
+        [MethodHandler(MethodHandlerAttribute.MethodTypes.GET, FullPath = "/reset")]
+        public HttpResponseMessage Reset(HttpRequestMessage msg)
+        {
+            _soccerBot.ResetCommand.Execute(null);
+
+            var response = msg.GetResponseMessage();
+            response.ContentType = "text/html";
+            response.Content = Managers.ConnectionManager.Instance.GetDefaultPageHTML("Ok - Resetting");
+            return response;
+        }
+
         [MethodHandler(MethodHandlerAttribute.MethodTypes.GET, FullPath = "/motion/forward/{speed}")]
         public HttpResponseMessage Forward(HttpRequestMessage msg, int speed)
         {
@@ -23,7 +34,7 @@ namespace SoccerBot.mBot.Api
 
             var response = msg.GetResponseMessage();
             response.ContentType = "text/html";
-            response.Content = Managers.ConnectionManager.GetDefaultPageHTML("Ok - starting forward");
+            response.Content = Managers.ConnectionManager.Instance.GetDefaultPageHTML("Ok - starting forward");
             return response;
         }
 
@@ -35,7 +46,7 @@ namespace SoccerBot.mBot.Api
 
             var response = msg.GetResponseMessage();
             response.ContentType = "text/html";
-            response.Content = Managers.ConnectionManager.GetDefaultPageHTML("Ok - starting left");
+            response.Content = Managers.ConnectionManager.Instance.GetDefaultPageHTML("Ok - starting left");
             return response;
         }
 
@@ -47,7 +58,7 @@ namespace SoccerBot.mBot.Api
 
             var response = msg.GetResponseMessage();
             response.ContentType = "text/html";
-            response.Content = Managers.ConnectionManager.GetDefaultPageHTML("Ok - starting right");
+            response.Content = Managers.ConnectionManager.Instance.GetDefaultPageHTML("Ok - starting right");
             return response;
         }
 
@@ -59,7 +70,7 @@ namespace SoccerBot.mBot.Api
 
             var response = msg.GetResponseMessage();
             response.ContentType = "text/html";
-            response.Content = Managers.ConnectionManager.GetDefaultPageHTML("Ok - starting backawards");
+            response.Content = Managers.ConnectionManager.Instance.GetDefaultPageHTML("Ok - starting backwards");
             return response;
         }
 
@@ -69,7 +80,7 @@ namespace SoccerBot.mBot.Api
             var response = msg.GetResponseMessage();
             _soccerBot.StopCommand.Execute(null);
             response.ContentType = "text/html";
-            response.Content = Managers.ConnectionManager.GetDefaultPageHTML("Ok - stopping");
+            response.Content = Managers.ConnectionManager.Instance.GetDefaultPageHTML("Ok - stopping");
             return response;
         }
     }

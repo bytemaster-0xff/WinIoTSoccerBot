@@ -34,7 +34,9 @@ namespace SoccerBot.UWP.Watchers
 
         private void _ssdpClient_NewDeviceFound(object sender, LagoVista.Core.Networking.Models.uPnPDevice device)
         {
-             if(device.FriendlyName.StartsWith("ByteMa"))
+            Debug.Write(device.FriendlyName + " " + device.ModelName);
+
+             if(device.ModelName == "SoccerBot - mBot")
             {
                 _logger.NotifyUserInfo("TCPIP Mgr", "Found Channel =>: " + device.FriendlyName);
                 RaiseDeviceFoundEvent(new TCPIPChannel(device, _logger));

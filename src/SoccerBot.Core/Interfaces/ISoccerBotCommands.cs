@@ -13,10 +13,12 @@ namespace SoccerBot.Core.Interfaces
         short Speed { get; set; }
 
         RelayCommand RefreshSensorsCommand { get; }
-        RelayCommand<Commands> ForwardCommand { get; }
-        RelayCommand<Commands> LeftCommand { get; }
-        RelayCommand<Commands> RightCommand { get; }
-        RelayCommand<Commands> BackwardsCommand { get; }
-        RelayCommand<Commands> StopCommand { get; }
+        RelayCommand ForwardCommand { get; }
+        RelayCommand LeftCommand { get; }
+        RelayCommand RightCommand { get; }
+        RelayCommand BackwardsCommand { get; }
+        RelayCommand StopCommand { get; }
+
+        RelayCommand ResetCommand { get; }
     }
 }

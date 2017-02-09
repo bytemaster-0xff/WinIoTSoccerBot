@@ -27,22 +27,22 @@ namespace SoccerBot.UWP.Channels
 
         public override Task<bool> ConnectAsync()
         {
-            throw new NotImplementedException();
+            return Task.FromResult(true);
         }
 
         public override void Disconnect()
-        {
-            throw new NotImplementedException();
+        { 
+            
         }
 
         public override Task DisconnectAsync()
         {
-            throw new NotImplementedException();
+            return Task.FromResult(default(object));
         }
 
         public override Task WriteBuffer(byte[] buffer)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(default(object));
         }
     }
 }

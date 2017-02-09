@@ -13,6 +13,7 @@ namespace SoccerBot.Core.Interfaces
         String DeviceName { get; }
         String FirmwareVersion { get; }
         String DeviceTypeId { get; }
+        String APIMode { get; }
 
     }
 }

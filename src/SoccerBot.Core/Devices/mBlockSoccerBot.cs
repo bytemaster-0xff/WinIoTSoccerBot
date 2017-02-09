@@ -150,7 +150,7 @@ namespace SoccerBot.Core.Devices
             leftMotor = Convert.ToInt32((leftMotor * 255.0) / 100.0f);
             rightMotor = Convert.ToInt32((rightMotor * 255.0) / 100.0f);
 
-            if (IsAdvancedAPIMode)
+            if (DeviceMode == DeviceModes.CustomFirmware)
             {
                 var buffer = new byte[4];
                 buffer[0] = BitConverter.GetBytes(leftMotor)[0]; 
@@ -161,7 +161,7 @@ namespace SoccerBot.Core.Devices
                 var message = mBlockOutgingMessage.CreateMessage(mBlockOutgingMessage.CommandTypes.Run, mBlockOutgingMessage.Devices.MOTOR, mBlockIncomingMessage.Ports.MBOTH, buffer);
                 SendMessage(message);
             }
-            else
+            else if(DeviceMode == DeviceModes.Normal)
             {
                 /* Need to give it about 50ms for the message to come through */
                 var payload = BitConverter.GetBytes((short)leftMotor);
@@ -173,12 +173,29 @@ namespace SoccerBot.Core.Devices
                 SendMessage(rightMotorMessage);
                 await Task.Delay(15);
             }
+            else if(DeviceMode == DeviceModes.CustomFirmwareRanger)
+            {
+                
+                var buffer = new byte[3];
+                buffer[0] = (byte)mBlockOutgingMessage.Slots.SLOT1;
+                buffer[1] = BitConverter.GetBytes(leftMotor)[0];
+                buffer[2] = BitConverter.GetBytes(leftMotor)[1];
+                var message = mBlockOutgingMessage.CreateMessage(mBlockOutgingMessage.CommandTypes.Run, mBlockOutgingMessage.Devices.ENCODER_BOARD, 0, buffer);
+                SendMessage(message);
+
+                buffer[0] = (byte)mBlockOutgingMessage.Slots.SLOT2;
+                buffer[1] = BitConverter.GetBytes(rightMotor)[0];
+                buffer[2] = BitConverter.GetBytes(rightMotor)[1];
+                message = mBlockOutgingMessage.CreateMessage(mBlockOutgingMessage.CommandTypes.Run, mBlockOutgingMessage.Devices.ENCODER_BOARD, 0, buffer);
+                SendMessage(message);
+            }
         }
 
         public Commands CurrentState { get; set; }
 
-        protected override void SendCommand(Commands cmd)
+        protected override void SendCommand(object inputCmd)
         {
+            var cmd = (Commands)inputCmd;
             switch (cmd)
             {
                 case Commands.Forward: SendMotorPower(-Speed, Speed); break;
@@ -186,11 +203,17 @@ namespace SoccerBot.Core.Devices
                 case Commands.Left: SendMotorPower(-Speed / 5, Speed); break;
                 case Commands.Right: SendMotorPower(-Speed, Speed / 5); break;
                 case Commands.Backwards: SendMotorPower(Speed, -Speed); break;
+                case Commands.Reset: SendReset(); break;
             }
 
             CurrentState = cmd;
         }
 
+
+        public void SendReset()
+        {
+            SendMessage(mBlockOutgingMessage.CreateMessage(mBlockIncomingMessage.CommandTypes.Reset, mBlockMessage.Devices.SYSTEM));
+        }
 
         public void ProcessSonar(mBlockIncomingMessage message)
         {
@@ -214,8 +237,20 @@ namespace SoccerBot.Core.Devices
                 int majorVersion;
                 Int32.TryParse(parts[0], out majorVersion);
 
-                IsAdvancedAPIMode = majorVersion == 5;
-                APIMode = IsAdvancedAPIMode ? "Advanced" : "Standard";
+                if(majorVersion == 5)
+                {
+                    DeviceMode = DeviceModes.CustomFirmware;
+                    APIMode = "Custom mBot";
+                }
+                else if(majorVersion == 9)
+                {
+                    DeviceMode = DeviceModes.CustomFirmwareRanger;
+                    APIMode = "Ranger Firmware";
+                }
+                else
+                {
+                    APIMode = "Stock mBot";
+                }
 
                 FirmwareVersion = message.StringPayload;
             }
@@ -300,25 +335,21 @@ namespace SoccerBot.Core.Devices
 
         public RelayCommand SendLEDMessageCommand { get; private set; }
 
-
-        private bool _isAdvancedAPIMode;
-        public bool IsAdvancedAPIMode
+        public enum DeviceModes
         {
-            get { return _isAdvancedAPIMode; }
-            set
-            {
-                _isAdvancedAPIMode = value;
-                RaisePropertyChanged();
-            }
+            Normal,
+            CustomFirmware,
+            CustomFirmwareRanger,
         }
 
-        private String _apiMode = "Uknown";
-        public string APIMode
+
+        private DeviceModes _deviceMode;
+        public DeviceModes DeviceMode
         {
-            get { return _apiMode; }
+            get { return _deviceMode; }
             set
             {
-                _apiMode = value;
+                _deviceMode = value;
                 RaisePropertyChanged();
             }
         }

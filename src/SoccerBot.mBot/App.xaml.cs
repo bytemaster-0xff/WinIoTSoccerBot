@@ -109,8 +109,6 @@ namespace SoccerBot.mBot
             {
                 throw new Exception("Found more than one serial port, please add additional logic to select the serial port the mBot is connected to.");
             }
-            
-
 
             var serialPortChannel = new SerialChannel(ports.First().Id, _logger);
             await serialPortChannel.ConnectAsync();

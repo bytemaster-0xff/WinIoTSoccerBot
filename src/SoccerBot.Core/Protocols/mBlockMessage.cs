@@ -49,9 +49,18 @@ namespace SoccerBot.Core.Protocols
             BUTTON_INNER = 35,
             LED_MATRIX = 41,
             TIMER = 50,
+            ENCODER_BOARD = 61,
             SETMODE = 100,
+            SYSTEM = 101,
         }
-        
+
+        public enum Slots
+        {
+            SLOT1 = 1,
+            SLOT2 = 2,
+            SLOT3 = 3,
+            SLOT4 = 4
+        }        
 
         public enum Ports
         {
