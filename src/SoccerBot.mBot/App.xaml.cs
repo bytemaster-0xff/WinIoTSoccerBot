@@ -2,6 +2,7 @@
 using SoccerBot.Core.Channels;
 using SoccerBot.Core.Devices;
 using SoccerBot.Core.Interfaces;
+using SoccerBot.UWP.Channels;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,6 +12,8 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Networking;
+using Windows.Networking.Connectivity;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -92,21 +95,32 @@ namespace SoccerBot.mBot
 
         private async void InitSoccerBot()
         {
-            _logger = new Loggers.DebugLogger();
-            
-            var portInfo = (await LagoVista.Core.PlatformSupport.Services.DeviceManager.GetSerialPortsAsync()).First();
-            portInfo.BaudRate = 115200;
-            var port = LagoVista.Core.PlatformSupport.Services.DeviceManager.CreateSerialPort(portInfo);
+            var hostNames = NetworkInformation.GetHostNames();
+            var computerName = hostNames.FirstOrDefault(name => name.Type == HostNameType.DomainName)?.DisplayName ?? "???";
 
-            var serialPortChannel = new SerialPortChannel(port, _logger);
+            _logger = new Loggers.DebugLogger();
+
+            var ports = (await LagoVista.Core.PlatformSupport.Services.DeviceManager.GetSerialPortsAsync());
+            if(ports.Count == 0)
+            {
+                throw new Exception("Could not find any serial ports, a serial port is required.");
+            }
+            else if(ports.Count > 1)
+            {
+                throw new Exception("Found more than one serial port, please add additional logic to select the serial port the mBot is connected to.");
+            }
+            
+
+
+            var serialPortChannel = new SerialChannel(ports.First().Id, _logger);
             await serialPortChannel.ConnectAsync();
 
             _soccerBot = new mBlockSoccerBot(serialPortChannel, _logger);
 
             Managers.ConnectionManager.Instance.Init(_soccerBot, _logger);
 
-            Managers.ConnectionManager.Instance.MakeDiscoverable("ByteMaster001", "12345");
-            Managers.ConnectionManager.Instance.StartWebServer(80, "ByteMaster001");
+            Managers.ConnectionManager.Instance.MakeDiscoverable(computerName);
+            Managers.ConnectionManager.Instance.StartWebServer(80, computerName);
         }
 
         /// <summary>

@@ -114,7 +114,6 @@ namespace SoccerBot.Core.Channels
         public async override Task WriteBuffer(byte[] buffer)
         {
             await _writer.WriteAsync(buffer.ToCharArray(0, buffer.Length));
-            await _writer.FlushAsync();
         }
     }
 }

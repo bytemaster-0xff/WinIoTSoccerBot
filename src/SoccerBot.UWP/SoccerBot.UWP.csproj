@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Channels\BluetoothChannel.cs" />
+    <Compile Include="Channels\SerialChannel.cs" />
     <Compile Include="Channels\TCPIPChannel.cs" />
     <Compile Include="Watchers\BluetoothChannelWatcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
