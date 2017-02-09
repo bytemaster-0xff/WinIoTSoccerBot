@@ -38,14 +38,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Channels\ChannelBase.cs" />
+    <Compile Include="Channels\SerialPortChannel.cs" />
+    <Compile Include="Extensions\ArrayHelpers.cs" />
     <Compile Include="Interfaces\IChannel.cs" />
     <Compile Include="Commanding\SoccerBotRelayCommand.cs" />
     <Compile Include="Devices\mBlockSoccerBot.cs" />
     <Compile Include="Devices\SoccerBotBase.cs" />
     <Compile Include="Interfaces\IChannelWatcher.cs" />
+    <Compile Include="Interfaces\ISoccerBot.cs" />
     <Compile Include="Interfaces\ISoccerBotCommands.cs" />
     <Compile Include="Interfaces\ISoccerBotLogger.cs" />
     <Compile Include="Channels\ChannelWatcherBase.cs" />
+    <Compile Include="Interfaces\ISoccerBotSensors.cs" />
     <Compile Include="Models\Connection.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\Notification.cs" />

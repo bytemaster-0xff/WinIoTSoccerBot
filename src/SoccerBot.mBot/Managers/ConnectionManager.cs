@@ -1,6 +1,7 @@
 ﻿using LagoVista.Core.Networking.Interfaces;
 using LagoVista.Core.Networking.Models;
 using LagoVista.Core.Networking.Services;
+using SoccerBot.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +15,19 @@ namespace SoccerBot.mBot.Managers
         ISSDPServer _server;
         IWebServer _webServer;
 
+        ISoccerBotCommands _soccerBot;
+        ISoccerBotLogger _logger;
+
         private static string _deviceName;
 
         static ConnectionManager _instance = new ConnectionManager();
-        
+
+        public void Init(ISoccerBotCommands soccerBot, ISoccerBotLogger logger)
+        {
+            _soccerBot = soccerBot;
+            _logger = logger;
+        }
+
         public static string GetDefaultPageHTML(string message)
         {
             var html = @"<head>
@@ -29,15 +39,15 @@ namespace SoccerBot.mBot.Managers
 <h2>" + message + @"</h2> 
 <img src='https://raw.githubusercontent.com/bytemaster-0xff/WinIoTSoccerBot/master/Documentation/BasicVersion.jpg' />
 <div class='row'>
-<div class='col-md-2'><a class='btn btn-success' href='/motion/forward/150' >Forward</a></div>
-<div class='col-md-2'><a class='btn btn-success' href='/motion/backwards/150' >Back</a></div>
-<div class='col-md-2'><a class='btn btn-success' href='/motion/left/150' >Left</a></div>
-<div class='col-md-2'><a class='btn btn-success' href='/motion/right/150' >Right</a></div>
-<div class='col-md-2'><a class='btn btn-success' href='/motion/stop/150' >Stop</a></div>
+<div class='col-md-1'><a class='btn btn-success' href='/motion/forward/150' >Forward</a></div>
+<div class='col-md-1'><a class='btn btn-success' href='/motion/backwards/150' >Back</a></div>
+<div class='col-md-1'><a class='btn btn-success' href='/motion/left/150' >Left</a></div>
+<div class='col-md-1'><a class='btn btn-success' href='/motion/right/150' >Right</a></div>
+<div class='col-md-1'><a class='btn btn-success' href='/motion/stop/150' >Stop</a></div>
+<div class='col-md-6'></div>
 </div>
 </body>
 </html>";
-
 
             return html;
         }
@@ -79,7 +89,7 @@ namespace SoccerBot.mBot.Managers
             _deviceName = name;
 
             _webServer = NetworkServices.GetWebServer();
-            _webServer.RegisterAPIHandler(new Api.MotionApi());
+            _webServer.RegisterAPIHandler(new Api.MotionApi(_soccerBot, _logger));
             _webServer.DefaultPageHtml = GetDefaultPageHTML("Ready");
             _webServer.StartServer(port);
         }

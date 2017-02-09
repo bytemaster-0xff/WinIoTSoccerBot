@@ -14,6 +14,9 @@ namespace SoccerBot.Core.Interfaces
 
         RelayCommand RefreshSensorsCommand { get; }
         RelayCommand<Commands> ForwardCommand { get; }
+        RelayCommand<Commands> LeftCommand { get; }
+        RelayCommand<Commands> RightCommand { get; }
+        RelayCommand<Commands> BackwardsCommand { get; }
         RelayCommand<Commands> StopCommand { get; }
     }
 }

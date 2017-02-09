@@ -18,7 +18,6 @@ namespace SoccerBot.Core.Devices
         ISoccerBotLogger _logger;
         mBlockIncomingMessage _currentIncomingMessage;
 
-
         public ObservableCollection<mBlockIncomingMessage> IncomingMessages { get; private set; }
         public ObservableCollection<mBlockOutgingMessage> OutgoingMessages { get; private set; }
 
@@ -138,8 +137,9 @@ namespace SoccerBot.Core.Devices
                 _logger.NotifyUserInfo("mBlock", ">>> " + msg.MessageHexString);
                 await _channel.WriteBuffer(msg.Buffer);
             }
-            catch(Exception )
+            catch(Exception ex)
             {
+                _logger.NotifyUserError("mBlock_SendMessage", ex.Message);
                 _logger.NotifyUserInfo("mBlock", "DISCONNECTED!");
                 _channel.State = States.Disconnected;
             }

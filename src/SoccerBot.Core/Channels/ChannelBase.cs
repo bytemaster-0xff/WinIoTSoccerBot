@@ -55,7 +55,6 @@ namespace SoccerBot.Core.Channels
             Services.DispatcherServices.Invoke(() =>
                 Connected?.Invoke(this, this)
             );
-
         }
 
         protected void InvokeDisconnected()

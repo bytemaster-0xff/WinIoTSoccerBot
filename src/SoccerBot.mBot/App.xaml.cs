@@ -1,4 +1,7 @@
 ﻿using LagoVista.Core.UWP.Services;
+using SoccerBot.Core.Channels;
+using SoccerBot.Core.Devices;
+using SoccerBot.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,6 +26,9 @@ namespace SoccerBot.mBot
     /// </summary>
     sealed partial class App : Application
     {
+        ISoccerBotLogger _logger;
+        ISoccerBot _soccerBot;
+
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -56,8 +62,8 @@ namespace SoccerBot.mBot
                 rootFrame = new Frame();
                 UWPDeviceServices.Init(rootFrame.Dispatcher);
 
-                Managers.ConnectionManager.Instance.MakeDiscoverable("ByteMaster001","12345");
-                Managers.ConnectionManager.Instance.StartWebServer(80, "ByteMaster001");
+                InitSoccerBot();
+                
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
@@ -82,6 +88,25 @@ namespace SoccerBot.mBot
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
+        }
+
+        private async void InitSoccerBot()
+        {
+            _logger = new Loggers.DebugLogger();
+            
+            var portInfo = (await LagoVista.Core.PlatformSupport.Services.DeviceManager.GetSerialPortsAsync()).First();
+            portInfo.BaudRate = 115200;
+            var port = LagoVista.Core.PlatformSupport.Services.DeviceManager.CreateSerialPort(portInfo);
+
+            var serialPortChannel = new SerialPortChannel(port, _logger);
+            await serialPortChannel.ConnectAsync();
+
+            _soccerBot = new mBlockSoccerBot(serialPortChannel, _logger);
+
+            Managers.ConnectionManager.Instance.Init(_soccerBot, _logger);
+
+            Managers.ConnectionManager.Instance.MakeDiscoverable("ByteMaster001", "12345");
+            Managers.ConnectionManager.Instance.StartWebServer(80, "ByteMaster001");
         }
 
         /// <summary>
