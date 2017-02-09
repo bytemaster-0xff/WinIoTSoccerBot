@@ -11,7 +11,7 @@
           "lib/uap10.0/FontAwesome.UWP.dll": {}
         }
       },
-      "LagoVista.Core/0.8.69-alpha00807": {
+      "LagoVista.Core/0.8.69-alpha01388": {
         "dependencies": {
           "Newtonsoft.Json": "9.0.1"
         },
@@ -22,21 +22,19 @@
           "lib/portable46-net451+win81/LagoVista.Core.dll": {}
         }
       },
-      "LagoVista.Core.Networking/0.8.69-alpha00807": {
+      "LagoVista.Core.Networking/0.8.69-alpha01388": {
         "dependencies": {
           "LagoVista.Core": "0.8.0",
           "Newtonsoft.Json": "9.0.1"
         },
         "compile": {
-          "lib/portable46-net451+win81/LagoVista.Core.Networking.dll": {},
-          "lib/portable46-net451+win81/LagoVista.Core.dll": {}
+          "lib/portable46-net451+win81/LagoVista.Core.Networking.dll": {}
         },
         "runtime": {
-          "lib/portable46-net451+win81/LagoVista.Core.Networking.dll": {},
-          "lib/portable46-net451+win81/LagoVista.Core.dll": {}
+          "lib/portable46-net451+win81/LagoVista.Core.Networking.dll": {}
         }
       },
-      "LagoVista.Core.UWP/0.8.69-alpha00989": {
+      "LagoVista.Core.UWP/0.8.69-alpha01115": {
         "dependencies": {
           "LagoVista.Core": "0.8.0",
           "LagoVista.Core.Networking": "0.8.0",
@@ -2106,7 +2104,7 @@
           "lib/uap10.0/FontAwesome.UWP.dll": {}
         }
       },
-      "LagoVista.Core/0.8.69-alpha00807": {
+      "LagoVista.Core/0.8.69-alpha01388": {
         "dependencies": {
           "Newtonsoft.Json": "9.0.1"
         },
@@ -2117,21 +2115,19 @@
           "lib/portable46-net451+win81/LagoVista.Core.dll": {}
         }
       },
-      "LagoVista.Core.Networking/0.8.69-alpha00807": {
+      "LagoVista.Core.Networking/0.8.69-alpha01388": {
         "dependencies": {
           "LagoVista.Core": "0.8.0",
           "Newtonsoft.Json": "9.0.1"
         },
         "compile": {
-          "lib/portable46-net451+win81/LagoVista.Core.Networking.dll": {},
-          "lib/portable46-net451+win81/LagoVista.Core.dll": {}
+          "lib/portable46-net451+win81/LagoVista.Core.Networking.dll": {}
         },
         "runtime": {
-          "lib/portable46-net451+win81/LagoVista.Core.Networking.dll": {},
-          "lib/portable46-net451+win81/LagoVista.Core.dll": {}
+          "lib/portable46-net451+win81/LagoVista.Core.Networking.dll": {}
         }
       },
-      "LagoVista.Core.UWP/0.8.69-alpha00989": {
+      "LagoVista.Core.UWP/0.8.69-alpha01115": {
         "dependencies": {
           "LagoVista.Core": "0.8.0",
           "LagoVista.Core.Networking": "0.8.0",
@@ -4270,7 +4266,7 @@
           "lib/uap10.0/FontAwesome.UWP.dll": {}
         }
       },
-      "LagoVista.Core/0.8.69-alpha00807": {
+      "LagoVista.Core/0.8.69-alpha01388": {
         "dependencies": {
           "Newtonsoft.Json": "9.0.1"
         },
@@ -4281,21 +4277,19 @@
           "lib/portable46-net451+win81/LagoVista.Core.dll": {}
         }
       },
-      "LagoVista.Core.Networking/0.8.69-alpha00807": {
+      "LagoVista.Core.Networking/0.8.69-alpha01388": {
         "dependencies": {
           "LagoVista.Core": "0.8.0",
           "Newtonsoft.Json": "9.0.1"
         },
         "compile": {
-          "lib/portable46-net451+win81/LagoVista.Core.Networking.dll": {},
-          "lib/portable46-net451+win81/LagoVista.Core.dll": {}
+          "lib/portable46-net451+win81/LagoVista.Core.Networking.dll": {}
         },
         "runtime": {
-          "lib/portable46-net451+win81/LagoVista.Core.Networking.dll": {},
-          "lib/portable46-net451+win81/LagoVista.Core.dll": {}
+          "lib/portable46-net451+win81/LagoVista.Core.Networking.dll": {}
         }
       },
-      "LagoVista.Core.UWP/0.8.69-alpha00989": {
+      "LagoVista.Core.UWP/0.8.69-alpha01115": {
         "dependencies": {
           "LagoVista.Core": "0.8.0",
           "LagoVista.Core.Networking": "0.8.0",
@@ -6473,7 +6467,7 @@
           "lib/uap10.0/FontAwesome.UWP.dll": {}
         }
       },
-      "LagoVista.Core/0.8.69-alpha00807": {
+      "LagoVista.Core/0.8.69-alpha01388": {
         "dependencies": {
           "Newtonsoft.Json": "9.0.1"
         },
@@ -6484,21 +6478,19 @@
           "lib/portable46-net451+win81/LagoVista.Core.dll": {}
         }
       },
-      "LagoVista.Core.Networking/0.8.69-alpha00807": {
+      "LagoVista.Core.Networking/0.8.69-alpha01388": {
         "dependencies": {
           "LagoVista.Core": "0.8.0",
           "Newtonsoft.Json": "9.0.1"
         },
         "compile": {
-          "lib/portable46-net451+win81/LagoVista.Core.Networking.dll": {},
-          "lib/portable46-net451+win81/LagoVista.Core.dll": {}
+          "lib/portable46-net451+win81/LagoVista.Core.Networking.dll": {}
         },
         "runtime": {
-          "lib/portable46-net451+win81/LagoVista.Core.Networking.dll": {},
-          "lib/portable46-net451+win81/LagoVista.Core.dll": {}
+          "lib/portable46-net451+win81/LagoVista.Core.Networking.dll": {}
         }
       },
-      "LagoVista.Core.UWP/0.8.69-alpha00989": {
+      "LagoVista.Core.UWP/0.8.69-alpha01115": {
         "dependencies": {
           "LagoVista.Core": "0.8.0",
           "LagoVista.Core.Networking": "0.8.0",
@@ -8646,7 +8638,7 @@
           "lib/uap10.0/FontAwesome.UWP.dll": {}
         }
       },
-      "LagoVista.Core/0.8.69-alpha00807": {
+      "LagoVista.Core/0.8.69-alpha01388": {
         "dependencies": {
           "Newtonsoft.Json": "9.0.1"
         },
@@ -8657,21 +8649,19 @@
           "lib/portable46-net451+win81/LagoVista.Core.dll": {}
         }
       },
-      "LagoVista.Core.Networking/0.8.69-alpha00807": {
+      "LagoVista.Core.Networking/0.8.69-alpha01388": {
         "dependencies": {
           "LagoVista.Core": "0.8.0",
           "Newtonsoft.Json": "9.0.1"
         },
         "compile": {
-          "lib/portable46-net451+win81/LagoVista.Core.Networking.dll": {},
-          "lib/portable46-net451+win81/LagoVista.Core.dll": {}
+          "lib/portable46-net451+win81/LagoVista.Core.Networking.dll": {}
         },
         "runtime": {
-          "lib/portable46-net451+win81/LagoVista.Core.Networking.dll": {},
-          "lib/portable46-net451+win81/LagoVista.Core.dll": {}
+          "lib/portable46-net451+win81/LagoVista.Core.Networking.dll": {}
         }
       },
-      "LagoVista.Core.UWP/0.8.69-alpha00989": {
+      "LagoVista.Core.UWP/0.8.69-alpha01115": {
         "dependencies": {
           "LagoVista.Core": "0.8.0",
           "LagoVista.Core.Networking": "0.8.0",
@@ -10858,7 +10848,7 @@
           "lib/uap10.0/FontAwesome.UWP.dll": {}
         }
       },
-      "LagoVista.Core/0.8.69-alpha00807": {
+      "LagoVista.Core/0.8.69-alpha01388": {
         "dependencies": {
           "Newtonsoft.Json": "9.0.1"
         },
@@ -10869,21 +10859,19 @@
           "lib/portable46-net451+win81/LagoVista.Core.dll": {}
         }
       },
-      "LagoVista.Core.Networking/0.8.69-alpha00807": {
+      "LagoVista.Core.Networking/0.8.69-alpha01388": {
         "dependencies": {
           "LagoVista.Core": "0.8.0",
           "Newtonsoft.Json": "9.0.1"
         },
         "compile": {
-          "lib/portable46-net451+win81/LagoVista.Core.Networking.dll": {},
-          "lib/portable46-net451+win81/LagoVista.Core.dll": {}
+          "lib/portable46-net451+win81/LagoVista.Core.Networking.dll": {}
         },
         "runtime": {
-          "lib/portable46-net451+win81/LagoVista.Core.Networking.dll": {},
-          "lib/portable46-net451+win81/LagoVista.Core.dll": {}
+          "lib/portable46-net451+win81/LagoVista.Core.Networking.dll": {}
         }
       },
-      "LagoVista.Core.UWP/0.8.69-alpha00989": {
+      "LagoVista.Core.UWP/0.8.69-alpha01115": {
         "dependencies": {
           "LagoVista.Core": "0.8.0",
           "LagoVista.Core.Networking": "0.8.0",
@@ -13031,7 +13019,7 @@
           "lib/uap10.0/FontAwesome.UWP.dll": {}
         }
       },
-      "LagoVista.Core/0.8.69-alpha00807": {
+      "LagoVista.Core/0.8.69-alpha01388": {
         "dependencies": {
           "Newtonsoft.Json": "9.0.1"
         },
@@ -13042,21 +13030,19 @@
           "lib/portable46-net451+win81/LagoVista.Core.dll": {}
         }
       },
-      "LagoVista.Core.Networking/0.8.69-alpha00807": {
+      "LagoVista.Core.Networking/0.8.69-alpha01388": {
         "dependencies": {
           "LagoVista.Core": "0.8.0",
           "Newtonsoft.Json": "9.0.1"
         },
         "compile": {
-          "lib/portable46-net451+win81/LagoVista.Core.Networking.dll": {},
-          "lib/portable46-net451+win81/LagoVista.Core.dll": {}
+          "lib/portable46-net451+win81/LagoVista.Core.Networking.dll": {}
         },
         "runtime": {
-          "lib/portable46-net451+win81/LagoVista.Core.Networking.dll": {},
-          "lib/portable46-net451+win81/LagoVista.Core.dll": {}
+          "lib/portable46-net451+win81/LagoVista.Core.Networking.dll": {}
         }
       },
-      "LagoVista.Core.UWP/0.8.69-alpha00989": {
+      "LagoVista.Core.UWP/0.8.69-alpha01115": {
         "dependencies": {
           "LagoVista.Core": "0.8.0",
           "LagoVista.Core.Networking": "0.8.0",
@@ -15256,38 +15242,36 @@
         "tools/install.ps1"
       ]
     },
-    "LagoVista.Core/0.8.69-alpha00807": {
-      "sha512": "G1cE/SNPV4GLtRzUKsPkJA/HnJGlXQWVpb4XoX6B4zrI7w5NqjyObGZgLi2VCaUimauQ7WmrFB/PyDUrXdoMSw==",
+    "LagoVista.Core/0.8.69-alpha01388": {
+      "sha512": "DRQXWvj/Q3rffPr0Ale1c0AbHLT0X0D45vSh1FzQA9EybhVzdr84wzPsKI0jW+gKt+NK9CC4ly3O+rVPhBR8XA==",
       "type": "package",
-      "path": "LagoVista.Core/0.8.69-alpha00807",
+      "path": "LagoVista.Core/0.8.69-alpha01388",
       "files": [
-        "LagoVista.Core.0.8.69-alpha00807.nupkg.sha512",
+        "LagoVista.Core.0.8.69-alpha01388.nupkg.sha512",
         "LagoVista.Core.nuspec",
         "ReadMe.txt",
         "lib/netstandard1.2/LagoVista.Core.dll",
         "lib/portable46-net451+win81/LagoVista.Core.dll"
       ]
     },
-    "LagoVista.Core.Networking/0.8.69-alpha00807": {
-      "sha512": "lHTRq4BvF3SSfXbAW0GOdto3yoDBSUJhF6hX/ffdZd2ivzq7fCAj8hGWS73FVbTSwv1Ui1nU4JBYRJXSICboFQ==",
+    "LagoVista.Core.Networking/0.8.69-alpha01388": {
+      "sha512": "/Lzu8EBWfnOfP1ZrW/I8IouKFUaaoGPf0tRikdSoy5IKVTZz9tQJjleNofVKc2iSlPSgSNanYR2MfcdXZYlHDA==",
       "type": "package",
-      "path": "LagoVista.Core.Networking/0.8.69-alpha00807",
+      "path": "LagoVista.Core.Networking/0.8.69-alpha01388",
       "files": [
-        "LagoVista.Core.Networking.0.8.69-alpha00807.nupkg.sha512",
+        "LagoVista.Core.Networking.0.8.69-alpha01388.nupkg.sha512",
         "LagoVista.Core.Networking.nuspec",
         "ReadMe.txt",
         "lib/netstandard1.2/LagoVista.Core.Networking.dll",
-        "lib/netstandard1.2/LagoVista.Core.dll",
-        "lib/portable46-net451+win81/LagoVista.Core.Networking.dll",
-        "lib/portable46-net451+win81/LagoVista.Core.dll"
+        "lib/portable46-net451+win81/LagoVista.Core.Networking.dll"
       ]
     },
-    "LagoVista.Core.UWP/0.8.69-alpha00989": {
-      "sha512": "Llo0tXKDvlrwOvY13bBMMPsrzlJQmJend45R7ZEaNVmiIL/O0p00IKvWRgnZNorbr0+RqlKZgPg9dw48/3cwqQ==",
+    "LagoVista.Core.UWP/0.8.69-alpha01115": {
+      "sha512": "BiQ2zicTs67F8UinZ/4Ezf65Wi9ipE9BMHGqLD4LYrjlQ4ySNfa5W/aPSlhGlJJY/4dNt9G6JbBEov3BtD5HLA==",
       "type": "package",
-      "path": "LagoVista.Core.UWP/0.8.69-alpha00989",
+      "path": "LagoVista.Core.UWP/0.8.69-alpha01115",
       "files": [
-        "LagoVista.Core.UWP.0.8.69-alpha00989.nupkg.sha512",
+        "LagoVista.Core.UWP.0.8.69-alpha01115.nupkg.sha512",
         "LagoVista.Core.UWP.nuspec",
         "ReadMe.txt",
         "ref/uap10.0/LagoVista.Core.UWP.dll",
@@ -21494,9 +21478,9 @@
   "projectFileDependencyGroups": {
     "": [
       "FontAwesome.UWP >= 4.7.0.9",
-      "LagoVista.Core >= 0.8.69-alpha00807",
-      "LagoVista.Core.Networking >= 0.8.69-alpha00807",
-      "LagoVista.Core.UWP >= 0.8.69-alpha00989",
+      "LagoVista.Core >= 0.8.69-alpha01388",
+      "LagoVista.Core.Networking >= 0.8.69-alpha01388",
+      "LagoVista.Core.UWP >= 0.8.69-alpha01115",
       "Microsoft.NETCore.UniversalWindowsPlatform >= 5.2.2"
     ],
     "UAP,Version=v10.0": []

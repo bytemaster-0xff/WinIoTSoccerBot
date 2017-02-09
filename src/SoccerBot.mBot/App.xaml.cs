@@ -56,7 +56,8 @@ namespace SoccerBot.mBot
                 rootFrame = new Frame();
                 UWPDeviceServices.Init(rootFrame.Dispatcher);
 
-                Managers.ConnectionManager.Instance.StartListening();
+                Managers.ConnectionManager.Instance.MakeDiscoverable("ByteMaster001","12345");
+                Managers.ConnectionManager.Instance.StartWebServer(80, "ByteMaster001");
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
