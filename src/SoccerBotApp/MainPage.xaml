@@ -16,7 +16,7 @@
 
             </devices:mBlockSoccerBot>
         </Grid.Resources>
-        <Grid DataContext="{StaticResource MainViewModel}" >
+        <Grid >
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="450" />
@@ -37,8 +37,8 @@
             </Grid.Resources>
 
             <StackPanel Grid.Row="0" Orientation="Horizontal">
-                <Button Command="{Binding BlueTooth.StartWatcherCommand}" >Start Listening</Button>
-                <Button Command="{Binding BlueTooth.StopWatcherCommand}" >Stop Listening</Button>
+                <Button Command="{Binding StartWatchersCommand}" >Start Listening</Button>
+                <Button Command="{Binding StopWatchersCommand}" >Stop Listening</Button>
             </StackPanel>
             <Grid Grid.Row="1" >
                 <TextBlock Text="Available Devices" Margin="6,0,0,0" />

@@ -7,17 +7,18 @@ using Windows.UI.Core;
 using SoccerBot.Core.Channels;
 using SoccerBot.Core.Interfaces;
 using LagoVista.Core.PlatformSupport;
+using SoccerBot.UWP.Channels;
 
-namespace SoccerBot.UWP.Channels
+namespace SoccerBot.UWP.Watchers
 {
-    public class BluetoothChannelWatcher : ChannelWatcherBase
+    public class BluetoothChannelWatcher : ChannelWatcherBase, IChannelWatcher
     {
         ISoccerBotLogger _logger;
         DeviceWatcher _deviceWatcher = null;
 
         private ObservableCollection<IChannel> _channels = new ObservableCollection<IChannel>();
 
-        public BluetoothChannelWatcher(ISoccerBotLogger logger)
+        public BluetoothChannelWatcher(ISoccerBotLogger logger) : base(logger)
         {
             _logger = logger;
         }
@@ -44,7 +45,7 @@ namespace SoccerBot.UWP.Channels
                                                             requestedProperties,
                                                             DeviceInformationKind.AssociationEndpoint);
 
-            _logger.NotifyUserInfo("BT Mgr", $"Started BT Watcher");
+            _logger.NotifyUserInfo("BT Mgr", "Watcher Started");
 
             // Hook up handlers for the watcher events before starting the watcher
             _deviceWatcher.Added += new TypedEventHandler<DeviceWatcher, DeviceInformation>( (watcher, deviceInfo) =>
@@ -54,10 +55,9 @@ namespace SoccerBot.UWP.Channels
                     // Make sure device name isn't blank
                     if (deviceInfo.Name != "")
                     {
+                        _logger.NotifyUserInfo("BT Mgr", $"Found Channel => " + deviceInfo.Name);
                         RaiseDeviceFoundEvent(new BluetoothChannel(deviceInfo, _logger));
-                        _logger.NotifyUserInfo("BT Mgr", $"Found Device => " + deviceInfo.Name);
                     }
-
                 });
             });
 

@@ -3,12 +3,10 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:SoccerBotApp"
-    xmlns:srvcs ="using:SoccerBotApp.Managers"
     xmlns:vms ="using:SoccerBot.Core.ViewModels"
     RequestedTheme="Light">
 
     <Application.Resources>
-        <vms:MainViewModel x:Key="MainViewModel" />
     </Application.Resources>
     
 </Application>
