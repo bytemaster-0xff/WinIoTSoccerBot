@@ -60,14 +60,14 @@ namespace SoccerBot.mBot.Managers
 
         public static ConnectionManager Instance { get { return _instance; } }
 
-        public void MakeDiscoverable(string name, string serialNumber)
+        public void MakeDiscoverable(string name)
         {
             var _configuration = new UPNPConfiguration()
             {
                 UdpListnerPort = 1900,
                 FriendlyName = name,
                 Manufacture = "Tampa IoT Dev",
-                SerialNumber = serialNumber,
+                ModelName = "SoccerBot-mBot",
                 DefaultPageHtml = @"<html>
 <head>
 <title>SoccerBo</title>

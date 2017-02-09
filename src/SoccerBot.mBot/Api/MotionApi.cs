@@ -1,12 +1,6 @@
 ﻿using LagoVista.Core.Networking.Interfaces;
 using LagoVista.Core.Networking.Models;
-using SoccerBot.Core.Devices;
 using SoccerBot.Core.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SoccerBot.mBot.Api
 {
@@ -28,7 +22,7 @@ namespace SoccerBot.mBot.Api
             _soccerBot.ForwardCommand.Execute(null);
 
             var response = msg.GetResponseMessage();
-            response.Content = "text/html";
+            response.ContentType = "text/html";
             response.Content = Managers.ConnectionManager.GetDefaultPageHTML("Ok - starting forward");
             return response;
         }
@@ -40,7 +34,7 @@ namespace SoccerBot.mBot.Api
             _soccerBot.LeftCommand.Execute(null);
 
             var response = msg.GetResponseMessage();
-            response.Content = "text/html";
+            response.ContentType = "text/html";
             response.Content = Managers.ConnectionManager.GetDefaultPageHTML("Ok - starting left");
             return response;
         }
@@ -52,7 +46,7 @@ namespace SoccerBot.mBot.Api
             _soccerBot.RightCommand.Execute(null);
 
             var response = msg.GetResponseMessage();
-            response.Content = "text/html";
+            response.ContentType = "text/html";
             response.Content = Managers.ConnectionManager.GetDefaultPageHTML("Ok - starting right");
             return response;
         }
@@ -64,7 +58,7 @@ namespace SoccerBot.mBot.Api
             _soccerBot.BackwardsCommand.Execute(null);
 
             var response = msg.GetResponseMessage();
-            response.Content = "text/html";
+            response.ContentType = "text/html";
             response.Content = Managers.ConnectionManager.GetDefaultPageHTML("Ok - starting backawards");
             return response;
         }
@@ -74,7 +68,7 @@ namespace SoccerBot.mBot.Api
         {
             var response = msg.GetResponseMessage();
             _soccerBot.StopCommand.Execute(null);
-            response.Content = "text/html";
+            response.ContentType = "text/html";
             response.Content = Managers.ConnectionManager.GetDefaultPageHTML("Ok - stopping");
             return response;
         }
