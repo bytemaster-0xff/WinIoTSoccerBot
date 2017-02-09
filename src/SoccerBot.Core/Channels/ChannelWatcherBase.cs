@@ -12,14 +12,18 @@ namespace SoccerBot.Core.Channels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+        ISoccerBotLogger _logger;
+
         public event EventHandler<IChannel> DeviceFoundEvent;
         public event EventHandler<IChannel> DeviceRemovedEvent;
         public event EventHandler<IChannel> DeviceConnectedEvent;
 
         public event EventHandler ClearDevices;
 
-        public ChannelWatcherBase()
+        public ChannelWatcherBase(ISoccerBotLogger logger)
         {
+            _logger = logger;
+
             StartWatcherCommand = RelayCommand.Create(StartWatcher);
             StopWatcherCommand = RelayCommand.Create(StopWatcher);
             StopWatcherCommand.Enabled = false;

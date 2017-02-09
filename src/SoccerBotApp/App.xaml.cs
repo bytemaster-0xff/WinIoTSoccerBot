@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LagoVista.Core.UWP.Services;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -60,6 +61,8 @@ namespace SoccerBotApp
             {
                 // Create a Frame to act as the navigation context and navigate to the first page
                 rootFrame = new Frame();
+                UWPDeviceServices.Init(rootFrame.Dispatcher);
+
                 Dispatcher = rootFrame.Dispatcher;
 
                 rootFrame.NavigationFailed += OnNavigationFailed;

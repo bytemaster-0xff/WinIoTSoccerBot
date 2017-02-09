@@ -108,10 +108,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Channels\BluetoothChannel.cs" />
-    <Compile Include="Channels\BluetoothChannelWatcher.cs" />
+    <Compile Include="Channels\TCPIPChannel.cs" />
+    <Compile Include="Watchers\BluetoothChannelWatcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\RemoteLogger.cs" />
     <Compile Include="Utilities\SoccerBotAppLogger.cs" />
+    <Compile Include="Watchers\UPNPChannelWatcher.cs" />
     <EmbeddedResource Include="Properties\SoccerBot.UWP.rd.xml" />
   </ItemGroup>
   <ItemGroup>

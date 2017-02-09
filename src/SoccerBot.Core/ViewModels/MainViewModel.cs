@@ -1,4 +1,5 @@
-﻿using LagoVista.Core.PlatformSupport;
+﻿using LagoVista.Core.Commanding;
+using LagoVista.Core.PlatformSupport;
 using SoccerBot.Core.Channels;
 using SoccerBot.Core.Interfaces;
 using System.Collections.ObjectModel;
@@ -11,10 +12,10 @@ namespace SoccerBot.Core.ViewModels
     {
         ISoccerBotLogger _logger;
 
-        private ObservableCollection<ISoccerBotCommands> _connectedDevices = new ObservableCollection<ISoccerBotCommands>();
-        private ObservableCollection<IChannel> _availableChannels = new ObservableCollection<IChannel>();
+        private ObservableCollection<ISoccerBotCommands> _connectedDevices;
+        private ObservableCollection<IChannelWatcher> _channelWatchers;
+        private ObservableCollection<IChannel> _availableChannels;
         public ObservableCollection<Models.Notification> Notifications { get { return _logger.Notifications; } }
-        private ObservableCollection<ChannelWatcherBase> _channelWatchers = new ObservableCollection<ChannelWatcherBase>();
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void RaisePropertyChanged([CallerMemberName] string propertyName = null)
@@ -25,13 +26,19 @@ namespace SoccerBot.Core.ViewModels
             );
         }
 
-        public MainViewModel()
+        public MainViewModel(ISoccerBotLogger logger)
         {
+            _logger = logger;
+            _availableChannels = new ObservableCollection<IChannel>();
+            _channelWatchers = new ObservableCollection<IChannelWatcher>();
+            _connectedDevices = new ObservableCollection<ISoccerBotCommands>();
+            StartWatchersCommand = new RelayCommand(StartWatchers);
+            StopWatchersCommand = new RelayCommand(StopWatchers);
         }
 
         public ISoccerBotLogger Logger { get { return _logger; } set {  _logger = value; } }
 
-        private void RegisterChannelWatcher(ChannelWatcherBase channelWatcher)
+        public void RegisterChannelWatcher(IChannelWatcher channelWatcher)
         {
             channelWatcher.DeviceFoundEvent += ChannelWatcher_DeviceFoundEvent;
             channelWatcher.DeviceRemovedEvent += ChannelWatcher_DeviceRemovedEvent;
@@ -86,7 +93,33 @@ namespace SoccerBot.Core.ViewModels
                 RaisePropertyChanged();
             }
         }
-       
+
+        public void StartWatchers()
+        {
+            foreach(var watcher in _channelWatchers)
+            {
+                watcher.StartWatcherCommand.Execute(null);
+            }
+
+            StartWatchersCommand.Enabled = false;
+            StopWatchersCommand.Enabled = true;
+        }
+
+        public void StopWatchers()
+        {
+            foreach(var watcher in _channelWatchers)
+            {
+                watcher.StopWatcherCommand.Execute(null);
+            }
+
+            StartWatchersCommand.Enabled = true;
+            StopWatchersCommand.Enabled = false;
+        }
+
+
+        public RelayCommand StartWatchersCommand { get; private set; }
+        public RelayCommand StopWatchersCommand { get; private set; }
+
         public ObservableCollection<ISoccerBotCommands> ConnectedDevices { get { return _connectedDevices; } }
 
         public ObservableCollection<IChannel> AvailableChannels { get { return _availableChannels; } }
