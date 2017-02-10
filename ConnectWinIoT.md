@@ -60,7 +60,7 @@ Make the following connections
     
     Signal   Raspberry Pi      mBot
     ==================================
-    +5V         Pin 6  <------> Pin 1
+    +5V         Pin 4  <------> Pin 1
     Gnd         Pin 6  <------> Pin 2
     Tx From Pi  Pin 8  <------> Pin 4
     Rx To Pi    Pin 10 <------> Pin 3
