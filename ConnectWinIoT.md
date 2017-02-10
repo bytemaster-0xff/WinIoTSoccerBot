@@ -14,7 +14,7 @@ You will need to ensure you have Visual Studio 2015 installed on your machine an
 
 4. Set the **SoccerBot.mBot (Universal Windows)** program to the startup application.
 
-![Alt](Documentation/SetStartupApp.png)
+![Alt](Documentation/SetStartupApp.PNG)
 
 5. Right mouse click on the **Properties** node within **SoccerBot.mBot (Universal Windows)** app
 
