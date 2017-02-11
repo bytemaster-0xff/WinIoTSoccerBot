@@ -26,7 +26,7 @@ Custom Firmware - Additional features and tuned software to work with the Window
 
 ### Installing Firmware on mBot
 
-Note: We are using custom firmware for optimziation, do so at your own risk.  Every effort has been made to ensure that it will not brick your device, however if you have problems you should be able to install the default formware from the MakeBlock [GitHub repository](https://github.com/Makeblock-official/)
+Note: We are using custom firmware for optimziation, do so at your own risk.  Every effort has been made to ensure that it will not brick your device, however if you have problems you should be able to install the default firmware from the MakeBlock [GitHub repository](https://github.com/Makeblock-official/)
 
 The mBot is very similar to an Arduino.  If you know how to upload firmware to and Arduino, you know how to upload firmware to your mBot platform.
 
