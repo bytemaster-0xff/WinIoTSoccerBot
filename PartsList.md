@@ -40,14 +40,68 @@ You will also need an Micro SD card to install the firmware.  Below find an exam
 
 ![Alt](Documentation/MicroSDCard.jpg)
 
+### Mounting Plate for Raspberry PI to mBot
 
-### [M4x30 Standoffs](https://www.amazon.com/gp/product/B0177VGC92/ref=oh_aui_search_detailpage?ie=UTF8&psc=1)
-### [M4x25 Plastic Stand Offs](https://www.amazon.com/gp/product/B016VQYGGA/ref=od_aui_detailpages00?ie=UTF8&psc=1)
-Used to attach the mounting board for the Raspberry Pi to the mBot
+![Alt](Documentation/mBot.png)
+
+Contact kevinw@software-logistics.com for more details.
+
+### Attaching Mounting Plate to mBot
+The Raspberry PI Mounting Plate needs to be attached to the mBot with some stand-offs.  You may also need some miscellaneous M4 mounting hardware such as nuts a screws.
+#### Option 1
+#### [M4x30 Standoffs](https://www.amazon.com/gp/product/B0177VGC92/ref=oh_aui_search_detailpage?ie=UTF8&psc=1)
 
 ![Alt](Documentation/Standoffs.jpg)
 
-### [M2.5 Standoff Kit](https://www.amazon.com/HVAZI-Standoff-Stainless-Assortment-Male-Female/dp/B01L06CUJG/ref=sr_1_1?ie=UTF8&qid=1486738108&sr=8-1-spons&keywords=M2.5%C2%A0standoff&psc=1)
-Used to attach the RaspberryPi to the mounting board 
+#### Option 2
+#### [M4x25 Plastic Stand Offs](https://www.amazon.com/gp/product/B016VQYGGA/ref=od_aui_detailpages00?ie=UTF8&psc=1)
+Used to attach the mounting board for the Raspberry Pi to the mBot
 
+![Alt](Documentation/PlasticStandoff.jpg)
 
+### Attaching the Raspberry PI to the Mounting Plate
+The kit below is relativley inexpensive and contains everything you need.  You only need a few parts so you will have left overs for future projects.
+
+#### [M2.5 Standoff Kit](https://www.amazon.com/HVAZI-Standoff-Stainless-Assortment-Male-Female/dp/B01L06CUJG/ref=sr_1_1?ie=UTF8&qid=1486738108&sr=8-1-spons&keywords=M2.5%C2%A0standoff&psc=1)
+
+![Alt](Documentation/2.5mmStandoff.jpg)
+
+## Powering mBot
+
+There will be muliple options for powering our Raspberry PI and mBot.  The long term option will likely be a 7.4 or 11.2 LIPO battery.  This will power the Raspberry PI and the mBot and it's motors.  More research needs to be done.  
+
+Our current solution is to use a relatively wireless cheap phone charger to power the Raspberry PI and the standard battery pack or LIPO to power the mBot.
+
+See options below for a portable power source.  If you already have one, you can use that and a Micro USB cable.
+
+### Portable 5V Power Source (Can use any Cell Phone Charger)
+### [PowerSupply](https://www.amazon.com/Anker-PowerCore-Lipstick-Sized-Generation-Batteries/dp/B005X1Y7I2/ref=sr_1_5?ie=UTF8&qid=1488811969&sr=8-5&keywords=phone+battery+backup)
+Note: Most phone charging batteries should work.  We will provide more specifications once we do more testing, the better the charger, the longer the Raspberry Pi will run. 
+![Alt](Documentation/Power.jpg)
+
+### MicroUSB Cable(Short is good)
+### [USB Cable](https://www.amazon.com/Pack-micro-USB-Compatible-Powering-Streaming/dp/B01HBMOEAQ/ref=sr_1_5?ie=UTF8&qid=1488817223&sr=8-5&keywords=6%22+USB+Micro+cable)
+![Alt](Documentation/MicroUSB.jpg)
+
+## XBox Controller (Wired or Wireless)
+
+As one of our interim steps of developing our Fully Autonmous bots we will use an XBox controller connected to the PC to control our robot.
+
+If you have an existing Wired controller from an old XBox that should work as well.  If you have a wireless XBox controller, you will need a wireless adapter for the PC.
+
+### XBox Controllers
+![Alt](Documentation/XBoxOneWirelessController.jpg)
+
+#### [XBOX Controller - OK](https://www.amazon.com/Hydra-Performance-Wired-Xbox-Controller-S-Type/dp/B006ZQ85YG/ref=sr_1_35?s=videogames&ie=UTF8&qid=1488820193&sr=1-35&keywords=xbox%C2%A0+controller)
+
+#### [XBOX Controller - Better](https://www.amazon.com/Microsoft-Wired-Controller-Windows-Console/dp/B004QRKWLA/ref=sr_1_98?s=videogames&ie=UTF8&qid=1488820311&sr=1-98&keywords=xbox%C2%A0+controller)
+
+#### [XBOX Controller - Best - Wireless](https://www.amazon.com/Microsoft-Xbox-Controller-Wireless-Adapter-Windows/dp/B015IX3X3E/ref=sr_1_2?ie=UTF8&qid=1488820851&sr=8-2&keywords=xbox+controller+wireless+adapter+for+windows+10)
+
+#### [XBOX Controller - Elite (note requires wireless adapter)](https://www.amazon.com/Xbox-One-Elite-Wireless-Controller/dp/B00ZDNNRB8/ref=sr_1_1?s=electronics&ie=UTF8&qid=1488820416&sr=1-1&keywords=xbox+one+elite)
+
+### XBox Wireless Adapters
+![Alt](Documentation/XBoxOneWirelessAdapter.jpg)
+#### [XBox 360 Wireless Adapter](https://www.amazon.com/Microsoft-Xbox-Wireless-Receiver-Windows/dp/B000HZFCT2/ref=sr_1_5?ie=UTF8&qid=1488820851&sr=8-5&keywords=xbox+controller+wireless+adapter+for+windows+10)
+
+#### [XBox One Wireless Adapter](https://www.amazon.com/Microsoft-Xbox-Wireless-Adapter-Windows/dp/B00ZB7W4QU/ref=sr_1_3?ie=UTF8&qid=1488820851&sr=8-3&keywords=xbox+controller+wireless+adapter+for+windows+10)
