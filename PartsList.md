@@ -75,11 +75,18 @@ Our current solution is to use a relatively wireless cheap phone charger to powe
 See options below for a portable power source.  If you already have one, you can use that and a Micro USB cable.
 
 ### Portable 5V Power Source (Can use any Cell Phone Charger)
-### [PowerSupply](https://www.amazon.com/Anker-PowerCore-Lipstick-Sized-Generation-Batteries/dp/B005X1Y7I2/ref=sr_1_5?ie=UTF8&qid=1488811969&sr=8-5&keywords=phone+battery+backup)
 Note: Most phone charging batteries should work.  We will provide more specifications once we do more testing, the better the charger, the longer the Raspberry Pi will run. 
+### [Power Supply](https://www.amazon.com/Anker-PowerCore-Lipstick-Sized-Generation-Batteries/dp/B005X1Y7I2/ref=sr_1_5?ie=UTF8&qid=1488811969&sr=8-5&keywords=phone+battery+backup)
+
+
 ![Alt](Documentation/Power.jpg)
 
-### MicroUSB Cable(Short is good)
+OR 
+
+### [Larger Power Supply](https://www.amazon.com/gp/product/B00P7N0320/ref=crt_ewc_title_dp_1?ie=UTF8&psc=1&smid=A294P4X9EWVXLJ)
+![Alt](Documentation/LargerPower.jpg)
+
+### MicroUSB Cable (Short is good)
 ### [USB Cable](https://www.amazon.com/Pack-micro-USB-Compatible-Powering-Streaming/dp/B01HBMOEAQ/ref=sr_1_5?ie=UTF8&qid=1488817223&sr=8-5&keywords=6%22+USB+Micro+cable)
 ![Alt](Documentation/MicroUSB.jpg)
 
