@@ -23,6 +23,11 @@ namespace SoccerBot.Core.Devices
 
         DateTime _start;
 
+
+        Timer _timer;
+        bool _connectedToBot;
+        DateTime? _lastVersionCheck;
+
         public mBlockSoccerBot(IChannel channel, ISoccerBotLogger logger) : this()
         {
             _logger = logger;
@@ -30,7 +35,7 @@ namespace SoccerBot.Core.Devices
             _channel.MessageReceived += _channel_MessageReceived;
             Name = "mSoccerBot";
 
-            new Timer((state) => { RequestVersion(); }, null, 2000, Timeout.Infinite);
+            _timer = new Timer((state) => { RequestVersion(); }, null, 0, 5000);
 
             ModeACommand = RelayCommand.Create(SendModeA);
             ModeBCommand = RelayCommand.Create(SendModeB);
@@ -253,21 +258,35 @@ namespace SoccerBot.Core.Devices
                 }
 
                 FirmwareVersion = message.StringPayload;
+
+                if(!_connectedToBot)
+                {
+                    var msg = mBlockOutgingMessage.CreateMessage(mBlockOutgingMessage.CommandTypes.Run, mBlockOutgingMessage.Devices.TONE, 294);
+                    SendMessage(msg);
+                }
+
+                _connectedToBot = true;
+                _lastVersionCheck = DateTime.Now;
             }
         }
 
         public void RequestSonar()
         {
             var msg = mBlockOutgingMessage.CreateMessage(mBlockOutgingMessage.CommandTypes.Get, mBlockOutgingMessage.Devices.ULTRASONIC_SENSOR, mBlockMessage.Ports.PORT_3);
-            msg.Handler = ProcessSonar;
-            SendMessage(msg);
+            //msg.Handler = ProcessSonar;
+            //SendMessage(msg);
         }
 
         public void RequestVersion()
-        {
+        {            
             var msg = mBlockOutgingMessage.CreateMessage(mBlockOutgingMessage.CommandTypes.Get, mBlockOutgingMessage.Devices.VERSION);
             msg.Handler = ProcessVersion;
             SendMessage(msg);
+
+            if(_lastVersionCheck == null || ((DateTime.Now - _lastVersionCheck) > TimeSpan.FromSeconds(12)))
+            {
+                _connectedToBot = false;
+            }
         }
 
         public void SendModeA()

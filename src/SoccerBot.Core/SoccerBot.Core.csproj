@@ -53,6 +53,7 @@
     <Compile Include="Interfaces\ISoccerBotSensors.cs" />
     <Compile Include="Models\Connection.cs" />
     <Compile Include="Models\Message.cs" />
+    <Compile Include="Models\NetworkMessage.cs" />
     <Compile Include="Models\Notification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Protocols\mBlockIncomingMessage.cs" />

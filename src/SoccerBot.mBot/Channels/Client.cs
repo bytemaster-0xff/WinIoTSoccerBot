@@ -79,18 +79,6 @@ namespace SoccerBot.mBot.Channels
         {
             lock (this)
             {
-                if (_inputStream != null)
-                {
-                    _inputStream.Dispose();
-                    _inputStream = null;
-                }
-
-                if (_outputStream != null)
-                {
-                    _outputStream.Dispose();
-                    _outputStream = null;
-                }
-
                 if (_reader != null)
                 {
                     _reader.Dispose();
@@ -101,6 +89,18 @@ namespace SoccerBot.mBot.Channels
                 {
                     _writer.Dispose();
                     _writer = null;
+                }
+
+                if (_inputStream != null)
+                {
+                    _inputStream.Dispose();
+                    _inputStream = null;
+                }
+
+                if (_outputStream != null)
+                {
+                    _outputStream.Dispose();
+                    _outputStream = null;
                 }
 
                 if (_socket != null)

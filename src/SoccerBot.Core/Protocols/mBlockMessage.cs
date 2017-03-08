@@ -88,6 +88,8 @@ namespace SoccerBot.Core.Protocols
 
         public byte? Slot { get; set; }
 
+        public short? Parameter { get; set; }
+
         public byte? Data { get; set; }
 
         public byte MessageSerialNumber { get; set; }

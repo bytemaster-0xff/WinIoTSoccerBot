@@ -16,6 +16,8 @@ namespace SoccerBot.mBot.Channels
         Timer _watchDog;
         int _port;
 
+        Object _clientAccessLocker = new object();
+
         public Server(ISoccerBotLogger logger, int port)
         {
             _port = port;
@@ -36,19 +38,16 @@ namespace SoccerBot.mBot.Channels
 
         private void _watchDog_Tick(object sender, EventArgs e)
         {
-            lock (_clients)
+
+            var clientsToRemove = _clients.Where(clnt => clnt.IsConnected == false).ToList();
+
+            foreach (var client in clientsToRemove)
             {
-                /* To List gives us a different enumeration so we can remove disconnected ones without the original enumerator barfing */
-                foreach (var client in _clients.ToList())
-                {
-                    if(!client.IsConnected)
-                    {
-                        client.Disconnect();
-                        client.Dispose();
-                        _clients.Remove(client);
-                    }
-                }
+                _clients.Remove(client);
+                client.Disconnect();
+                client.Dispose();
             }
+
         }
 
         public void ClientConnected(StreamSocket socket)
