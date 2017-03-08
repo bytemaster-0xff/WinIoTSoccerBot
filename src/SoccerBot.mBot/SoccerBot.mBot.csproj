@@ -96,6 +96,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Channels\Client.cs" />
+    <Compile Include="Channels\Server.cs" />
+    <Compile Include="Channels\TCPListener.cs" />
     <Compile Include="Loggers\DebugLogger.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
