@@ -14,6 +14,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Networking;
 using Windows.Networking.Connectivity;
+using Windows.System.Profile;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -66,7 +67,7 @@ namespace SoccerBot.mBot
                 UWPDeviceServices.Init(rootFrame.Dispatcher);
 
                 InitSoccerBot();
-                
+
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
@@ -100,25 +101,34 @@ namespace SoccerBot.mBot
 
             _logger = new Loggers.DebugLogger();
 
-            var ports = (await LagoVista.Core.PlatformSupport.Services.DeviceManager.GetSerialPortsAsync());
-            if(ports.Count == 0)
+            switch (AnalyticsInfo.VersionInfo.DeviceFamily)
             {
-                throw new Exception("Could not find any serial ports, a serial port is required.");
-            }
-            else if(ports.Count > 1)
-            {
-                throw new Exception("Found more than one serial port, please add additional logic to select the serial port the mBot is connected to.");
-            }
+                case "Windows.IoT":
+                    var ports = (await LagoVista.Core.PlatformSupport.Services.DeviceManager.GetSerialPortsAsync());
+                    if (ports.Count == 0)
+                    {
+                        throw new Exception("Could not find any serial ports, a serial port is required.");
+                    }
+                    else if (ports.Count > 1)
+                    {
+                        throw new Exception("Found more than one serial port, please add additional logic to select the serial port the mBot is connected to.");
+                    }
 
-            var serialPortChannel = new SerialChannel(ports.First().Id, _logger);
-            await serialPortChannel.ConnectAsync();
+                    var serialPortChannel = new SerialChannel(ports.First().Id, _logger);
+                    await serialPortChannel.ConnectAsync();
+                    _soccerBot = new mBlockSoccerBot(serialPortChannel, _logger);                    
 
-            _soccerBot = new mBlockSoccerBot(serialPortChannel, _logger);
+                    Managers.ConnectionManager.Instance.MakeDiscoverable(computerName);
+                    break;
+                case "Windows.Desktop":
+                    _soccerBot = new SimulatedSoccerBot();
+
+                    break;
+            }
 
             Managers.ConnectionManager.Instance.Init(_soccerBot, _logger);
-
-            Managers.ConnectionManager.Instance.MakeDiscoverable(computerName);
             Managers.ConnectionManager.Instance.StartWebServer(80, computerName);
+            Managers.ConnectionManager.Instance.StartTCPServer(9000);
         }
 
         /// <summary>

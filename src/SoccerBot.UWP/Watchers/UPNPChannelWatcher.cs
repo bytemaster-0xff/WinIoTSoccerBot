@@ -29,7 +29,7 @@ namespace SoccerBot.UWP.Watchers
             _ssdpClient = NetworkServices.GetSSDPClient();
             _ssdpClient.ShowDiagnostics = true;
             _ssdpClient.NewDeviceFound += _ssdpClient_NewDeviceFound;
-            _ssdpClient.SsdpQueryAsync();
+            _ssdpClient.SsdpQueryAsync(port:1900);
         }
 
         private void _ssdpClient_NewDeviceFound(object sender, LagoVista.Core.Networking.Models.uPnPDevice device)

@@ -12,8 +12,9 @@ namespace SoccerBot.mBot.Managers
 {
     public class ConnectionManager
     {
-        ISSDPServer _server;
+        ISSDPServer _ssdpServer;
         IWebServer _webServer;
+        Channels.Server _tcpServer;
 
          ISoccerBot _soccerBot;
         ISoccerBotLogger _logger;
@@ -84,8 +85,8 @@ namespace SoccerBot.mBot.Managers
             };
 
 
-            _server = NetworkServices.GetSSDPServer();
-            _server.MakeDiscoverable(9500, _configuration);
+            _ssdpServer = NetworkServices.GetSSDPServer();
+            _ssdpServer.MakeDiscoverable(9500, _configuration);
         }
 
         public void StartWebServer(int port, string name)
@@ -96,6 +97,12 @@ namespace SoccerBot.mBot.Managers
             _webServer.RegisterAPIHandler(new Api.MotionApi(_soccerBot, _logger));
             _webServer.DefaultPageHtml = GetDefaultPageHTML("Ready");
             _webServer.StartServer(port);
+        }
+
+        public void StartTCPServer(int port)
+        {
+            _tcpServer = new Channels.Server(_logger, port);
+            _tcpServer.Start();
         }
     }
 }

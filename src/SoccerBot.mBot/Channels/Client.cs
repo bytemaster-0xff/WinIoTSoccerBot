@@ -54,6 +54,11 @@ namespace SoccerBot.mBot.Channels
             _listenerTask.Start();
         }
 
+        public async void SendWelcome()
+        {
+            await Write("Welcome - Tank Bot".ToByteArray());
+        }
+
         public bool IsConnected
         {
             get { return (DateTime.Now - _lastMessageDateStamp) < CONNECTION_TIMEOUT; }

@@ -41,5 +41,10 @@ namespace SoccerBot.Core
 
             return chBuffer;
         }
+
+        public static byte[] ToByteArray(this string str)
+        {
+            return System.Text.UTF8Encoding.UTF8.GetBytes(str);
+        }
     }
 }

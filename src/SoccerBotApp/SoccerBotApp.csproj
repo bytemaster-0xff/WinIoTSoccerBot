@@ -95,6 +95,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Client\SoccerBotClient.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Converters\NotNullVisibleConverter.cs" />
     <Compile Include="MainPage.xaml.cs">

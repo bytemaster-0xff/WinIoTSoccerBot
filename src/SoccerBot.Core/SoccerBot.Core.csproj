@@ -39,6 +39,7 @@
   <ItemGroup>
     <Compile Include="Channels\ChannelBase.cs" />
     <Compile Include="Channels\SerialPortChannel.cs" />
+    <Compile Include="Devices\SimulatedSoccerBot.cs" />
     <Compile Include="Extensions\ArrayHelpers.cs" />
     <Compile Include="Interfaces\IChannel.cs" />
     <Compile Include="Commanding\SoccerBotRelayCommand.cs" />

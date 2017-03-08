@@ -14,10 +14,13 @@ namespace SoccerBot.mBot.Channels
 
         Server _server;
         ISoccerBotLogger _logger;
-        public TCPListener(ISoccerBotLogger logger, Server server)
+        int _port;
+
+        public TCPListener(ISoccerBotLogger logger, Server server, int port)
         {
             _server = server;
             _logger = logger;
+            _port = port;
             _logger.NotifyUserInfo("TCPIP Listener", $"Created Listener");
             _listener = new Windows.Networking.Sockets.StreamSocketListener();
             _listener.ConnectionReceived += _listener_ConnectionReceived;
@@ -30,8 +33,15 @@ namespace SoccerBot.mBot.Channels
 
         public async void StartListening()
         {
-            await _listener.BindServiceNameAsync("9050");
+            try
+            {
+                _logger.NotifyUserInfo("TCPIP Listener", $"Started Listening on Port {_port}");
+                await _listener.BindServiceNameAsync(_port.ToString());
+            }
+            catch(Exception ex)
+            {
+                _logger.NotifyUserError("TCPIP Listener", ex.Message);
+            }
         }
-
     }
 }
