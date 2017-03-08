@@ -36,7 +36,7 @@ namespace SoccerBot.UWP.Watchers
         {
             Debug.Write(device.FriendlyName + " " + device.ModelName);
 
-             if(device.ModelName == "SoccerBot - mBot")
+             if(device.ModelName == "SoccerBot-mBot")
             {
                 _logger.NotifyUserInfo("TCPIP Mgr", "Found Channel =>: " + device.FriendlyName);
                 RaiseDeviceFoundEvent(new TCPIPChannel(device, _logger));

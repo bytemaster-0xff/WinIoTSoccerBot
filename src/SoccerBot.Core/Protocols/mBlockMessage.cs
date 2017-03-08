@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SoccerBot.Core.Protocols
 {
-    public class mBlockMessage : Message
+    public class mBlockMessage : SoccerBot.Core.Models.Message
     {
         public enum CommandTypes
         {

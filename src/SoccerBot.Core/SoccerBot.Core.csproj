@@ -58,6 +58,7 @@
     <Compile Include="Protocols\mBlockIncomingMessage.cs" />
     <Compile Include="Protocols\mBlockMessage.cs" />
     <Compile Include="Protocols\mBlockOutgingMessage.cs" />
+    <Compile Include="Protocols\MessageParser.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
