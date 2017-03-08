@@ -118,7 +118,7 @@ namespace SoccerBot.mBot
                     await serialPortChannel.ConnectAsync();
                     _soccerBot = new mBlockSoccerBot(serialPortChannel, _logger);                    
 
-              //      Managers.ConnectionManager.Instance.MakeDiscoverable(computerName);
+                    Managers.ConnectionManager.Instance.MakeDiscoverable(computerName);
                     break;
                 case "Windows.Desktop":
                     _soccerBot = new SimulatedSoccerBot();

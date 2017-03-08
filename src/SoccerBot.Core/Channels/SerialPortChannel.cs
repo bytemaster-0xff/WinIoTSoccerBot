@@ -21,9 +21,9 @@ namespace SoccerBot.Core.Channels
             _logger = logger;
         }
 
-        public override void Connect()
+        public async override void Connect()
         {
-
+            await ConnectAsync();
         }
 
         public async override Task<bool> ConnectAsync()

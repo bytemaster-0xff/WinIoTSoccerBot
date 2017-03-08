@@ -2,67 +2,92 @@
 using SoccerBot.Core.Channels;
 using SoccerBot.Core.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
+using SoccerBot.Core;
+using System.Threading;
 using System.Threading.Tasks;
+using Windows.Networking.Sockets;
 
 namespace SoccerBot.UWP.Channels
 {
     public class TCPIPChannel : ChannelBase
     {
-        Windows.Networking.Sockets.StreamSocketListener _listener;
+        uPnPDevice _remoteDevice;
+
+        const int MAX_BUFFER_SIZE = 1024;
+
+        StreamSocket _socket;
+        StreamReader _reader;
+        StreamWriter _writer;
+        Stream _inputStream;
+        Stream _outputStream;
+
+        char[] _readBuffer;
+
+
+        CancellationTokenSource _cancellListenerSource;
+        Task _listenerTask;
 
         ISoccerBotLogger _logger;
         public TCPIPChannel(uPnPDevice device, ISoccerBotLogger logger)
         {
+            _remoteDevice = device;
             DeviceName = device.FriendlyName;
             Id = device.UDN + " " + device.IPAddress;
             _logger = logger;
             _logger.NotifyUserInfo("TCPIP Channel", $"Created Device for: {DeviceName}");
         }
 
-        public async Task StartListening()
+        public void ReceiveData()
         {
-            _listener = new Windows.Networking.Sockets.StreamSocketListener();
+            _cancellListenerSource = new CancellationTokenSource();
+            _listenerTask = new Task(async () =>
+            {
+                var bytesRead = await _reader.ReadAsync(_readBuffer, 0, MAX_BUFFER_SIZE);
 
-            //Hook up an event handler to call when connections are received.
-            _listener.ConnectionReceived += _listener_ConnectionReceived;
+                RaiseMessageReceived(_readBuffer.ToByteArray(0, bytesRead));
 
-            //Start listening for incoming TCP connections on the specified port. You can specify any port that' s not currently in use.
-            await _listener.BindServiceNameAsync("9050");
+            }, _cancellListenerSource.Token);
+
+            _listenerTask.Start();
         }
 
-        private async void _listener_ConnectionReceived(Windows.Networking.Sockets.StreamSocketListener sender, Windows.Networking.Sockets.StreamSocketListenerConnectionReceivedEventArgs args)
+        public async override void Connect()
         {
-            Stream inStream = args.Socket.InputStream.AsStreamForRead();
-            StreamReader reader = new StreamReader(inStream);
-            string request = await reader.ReadLineAsync();
-
-            //Send the line back to the remote client.
-            Stream outStream = args.Socket.OutputStream.AsStreamForWrite();
-            StreamWriter writer = new StreamWriter(outStream);
-            await writer.WriteLineAsync(request);
-            await writer.FlushAsync();
-
-
-            throw new NotImplementedException();
+            await ConnectAsync();
         }
 
-        public override void Connect()
+        public async override Task<bool> ConnectAsync()
         {
-           
-        }
+            try
+            {
+                _readBuffer = new char[MAX_BUFFER_SIZE];
 
-        public override Task<bool> ConnectAsync()
-        {
-            return Task.FromResult(true);
+                _socket = new Windows.Networking.Sockets.StreamSocket();
+                var host = new Windows.Networking.HostName(_remoteDevice.IPAddress);
+                var port = 9000;
+                await _socket.ConnectAsync(host, port.ToString());
+
+                _inputStream = _socket.InputStream.AsStreamForRead();
+                _reader = new StreamReader(_inputStream);
+
+                _outputStream = _socket.OutputStream.AsStreamForWrite();
+                _writer = new StreamWriter(_outputStream);
+
+                ReceiveData();
+
+                return true;
+            }
+            catch(Exception ex)
+            {
+                _logger.NotifyUserError("TCPIPChannel_Listen", ex.Message);
+                return false;
+            }
         }
 
         public override void Disconnect()
-        { 
-            
+        {
+
         }
 
         public override Task DisconnectAsync()
@@ -70,9 +95,10 @@ namespace SoccerBot.UWP.Channels
             return Task.FromResult(default(object));
         }
 
-        public override Task WriteBuffer(byte[] buffer)
+        public async override Task WriteBuffer(byte[] buffer)
         {
-            return Task.FromResult(default(object));
+            await _writer.WriteAsync(buffer.ToCharArray());
+            await _writer.FlushAsync();
         }
     }
 }

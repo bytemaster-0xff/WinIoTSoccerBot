@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using Windows.Networking.Sockets;
+using System.Diagnostics;
 
 namespace SoccerBot.mBot.Channels
 {
@@ -43,18 +44,28 @@ namespace SoccerBot.mBot.Channels
 
             foreach (var client in clientsToRemove)
             {
-                _clients.Remove(client);
-                client.Disconnect();
-                client.Dispose();
-            }
+                try
+                {
 
+                    _clients.Remove(client);
+                    client.Disconnect();
+                    client.Dispose();
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+
+            }
         }
+
+
 
         public void ClientConnected(StreamSocket socket)
         {
             lock (_clients)
             {
-                var client = Client.Create(socket);
+                var client = Client.Create(socket, _logger);
                 client.SendWelcome();
                 _clients.Add(client);
                 client.StartListening();
