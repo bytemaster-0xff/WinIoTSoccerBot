@@ -32,6 +32,7 @@ namespace SoccerBot.mBot.Channels
         private Client(StreamSocket socket, ISoccerBotLogger logger)
         {
             _socket = socket;
+            _logger = logger;
 
             _inputStream = socket.InputStream.AsStreamForRead();
             _reader = new StreamReader(_inputStream);

@@ -23,13 +23,15 @@ namespace SoccerBot.Core.Devices
 
         DateTime _start;
 
+        string _pin;
 
         Timer _timer;
         bool _connectedToBot;
         DateTime? _lastVersionCheck;
 
-        public mBlockSoccerBot(IChannel channel, ISoccerBotLogger logger) : this()
+        public mBlockSoccerBot(IChannel channel, ISoccerBotLogger logger, string pin = "9999") : this()
         {
+            _pin = pin;
             _logger = logger;
             _channel = channel;
             _channel.MessageReceived += _channel_MessageReceived;

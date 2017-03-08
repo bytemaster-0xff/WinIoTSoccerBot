@@ -5,6 +5,7 @@ using SoccerBot.Core.Interfaces;
 using SoccerBot.UWP.Channels;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -99,6 +100,20 @@ namespace SoccerBot.mBot
             var hostNames = NetworkInformation.GetHostNames();
             var computerName = hostNames.FirstOrDefault(name => name.Type == HostNameType.DomainName)?.DisplayName ?? "???";
 
+
+
+            var pin = await LagoVista.Core.PlatformSupport.Services.Storage.GetKVPAsync<string>("PIN");
+            if(String.IsNullOrEmpty(pin))
+            {
+                var rnd = new Random();
+                pin = rnd.Next(1000, 9999).ToString();
+                await LagoVista.Core.PlatformSupport.Services.Storage.StoreKVP("PIN", pin);
+            }
+
+            Debug.Write("========================================");
+            Debug.Write("NOTE: NOTE: NOTE: Your PIN is: " + pin);
+            Debug.Write("========================================");
+
             _logger = new Loggers.DebugLogger();
 
             switch (AnalyticsInfo.VersionInfo.DeviceFamily)
@@ -116,7 +131,7 @@ namespace SoccerBot.mBot
 
                     var serialPortChannel = new SerialChannel(ports.First().Id, _logger);
                     await serialPortChannel.ConnectAsync();
-                    _soccerBot = new mBlockSoccerBot(serialPortChannel, _logger);                    
+                    _soccerBot = new mBlockSoccerBot(serialPortChannel, _logger, pin);                    
 
                     Managers.ConnectionManager.Instance.MakeDiscoverable(computerName);
                     break;
