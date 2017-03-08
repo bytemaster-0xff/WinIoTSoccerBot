@@ -99,9 +99,9 @@ namespace SoccerBot.mBot.Managers
             _webServer.StartServer(port);
         }
 
-        public void StartTCPServer(int port)
+        public void StartTCPServer(int port, ISoccerBot soccerBot)
         {
-            _tcpServer = new Channels.Server(_logger, port);
+            _tcpServer = new Channels.Server(_logger, port, soccerBot);
             _tcpServer.Start();
         }
     }

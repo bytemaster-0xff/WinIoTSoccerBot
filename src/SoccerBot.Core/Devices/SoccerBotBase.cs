@@ -78,6 +78,8 @@ namespace SoccerBot.Core.Devices
 
         public RelayCommand ResetCommand { get; private set; }
 
+        public abstract void PlayTone(short frequency);
+
         public void StartSensorRefreshTimer()
         {
             if (_sensorRefreshTimer != null)

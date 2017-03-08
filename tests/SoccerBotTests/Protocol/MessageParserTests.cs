@@ -31,6 +31,8 @@ namespace SoccerBotTests.Protocol
             var parser = new MessageParser();
             parser.MessageReady += (e, args) =>
             {
+                Assert.AreEqual(PayloadFormats.JSON, args.PayloadFormat);
+                Assert.AreEqual(101, args.MessageTypeCode);
                 var parstedInstance = args.DeserializePayload<TestObject>();
                 Assert.AreEqual(payload.Field1, parstedInstance.Field1);
                 Assert.AreEqual(payload.Field2, parstedInstance.Field2);

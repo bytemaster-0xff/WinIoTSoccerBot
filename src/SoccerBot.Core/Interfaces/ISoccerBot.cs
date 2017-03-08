@@ -15,5 +15,6 @@ namespace SoccerBot.Core.Interfaces
         String DeviceTypeId { get; }
         String APIMode { get; }
 
+        void PlayTone(short frequence);
     }
 }

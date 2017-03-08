@@ -7,6 +7,8 @@ using System.Threading;
 using System.Diagnostics;
 using LagoVista.Core.PlatformSupport;
 using SoccerBot.Core.Interfaces;
+using SoccerBot.Core.Models;
+using SoccerBot.Core.Protocols;
 
 namespace SoccerBot.mBot.Channels
 {
@@ -24,15 +26,18 @@ namespace SoccerBot.mBot.Channels
         Stream _inputStream;
         Stream _outputStream;
         Task _listenerTask;
-        CancellationTokenSource _cancellListenerSource;
+        CancellationTokenSource _cancelListenerSource;
         char[] _readBuffer;
         DateTime _lastMessageDateStamp;
         ISoccerBotLogger _logger;
+        MessageParser _parser;
 
         private Client(StreamSocket socket, ISoccerBotLogger logger)
         {
             _socket = socket;
             _logger = logger;
+            _parser = new MessageParser();
+            _parser.MessageReady += _parser_MessageReady;
 
             _inputStream = socket.InputStream.AsStreamForRead();
             _reader = new StreamReader(_inputStream);
@@ -45,6 +50,19 @@ namespace SoccerBot.mBot.Channels
             _readBuffer = new char[MAX_BUFFER_SIZE];
         }
 
+        private async void _parser_MessageReady(object sender, NetworkMessage e)
+        {
+            if(e.MessageTypeCode == 1)
+            {
+                var msg = NetworkMessage.CreateEmptyMessage(2);
+                await Write(msg.GetBuffer());
+                _logger.NotifyUserInfo("Client_MessageReceived", "Ping Received");
+            }
+
+            _lastMessageDateStamp = DateTime.Now;
+            
+        }
+
         public static Client Create(StreamSocket socket, ISoccerBotLogger logger)
         {
             return new Client(socket, logger);
@@ -52,7 +70,7 @@ namespace SoccerBot.mBot.Channels
 
         public void StartListening()
         {
-            _cancellListenerSource = new CancellationTokenSource();
+            _cancelListenerSource = new CancellationTokenSource();
             _listenerTask = new Task(async () =>
             {
                 var running = true;
@@ -61,10 +79,14 @@ namespace SoccerBot.mBot.Channels
                     try
                     {
                         var readTask = _reader.ReadAsync(_readBuffer, 0, MAX_BUFFER_SIZE);
-                        readTask.Wait(_cancellListenerSource.Token);
+                        readTask.Wait(_cancelListenerSource.Token);
                         var bytesRead = await readTask;
 
-                        MessageRecevied?.Invoke(this, _readBuffer.ToByteArray(0, bytesRead));
+                        var byteBuffer = _readBuffer.ToByteArray(0, bytesRead);
+
+                        _parser.Parse(byteBuffer);
+
+                        MessageRecevied?.Invoke(this, byteBuffer);
                     }
                     catch (OperationCanceledException)
                     {
@@ -73,11 +95,12 @@ namespace SoccerBot.mBot.Channels
                     }
                     catch(Exception ex)
                     {
+                        running = false;
                         _logger.NotifyUserError("Client_Listening", ex.Message);
                     }
                 }
 
-            }, _cancellListenerSource.Token);
+            });
 
             _listenerTask.Start();
         }
@@ -94,13 +117,23 @@ namespace SoccerBot.mBot.Channels
 
         public void Disconnect()
         {
-            _cancellListenerSource.Cancel();
+            _cancelListenerSource.Cancel();
         }
 
         public async Task Write(byte[] buffer)
         {
-            await _writer.WriteAsync(buffer.ToCharArray());
-            await _writer.FlushAsync();
+            if (_writer != null)
+            {
+                try
+                {
+                    await _writer.WriteAsync(buffer.ToCharArray());
+                    await _writer.FlushAsync();
+                }
+                catch(Exception )
+                {
+                    Disconnect();
+                }
+            }
         }
 
         public void Dispose()

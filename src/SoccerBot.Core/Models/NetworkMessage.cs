@@ -17,6 +17,8 @@ namespace SoccerBot.Core.Models
         const byte ETX = 0x03;
         const byte EOT = 0x04;
 
+        
+
         public short PayloadLength { get; set; }
 
         public PayloadFormats PayloadFormat { get; set; }
@@ -40,6 +42,18 @@ namespace SoccerBot.Core.Models
             message.PayloadFormat = PayloadFormats.JSON;
             message.Payload = JsonConvert.SerializeObject(payload).ToByteArray();
             message.PayloadLength = (short)message.Payload.Length;
+            message.MessageTypeCode = messageTypeCode;
+
+            return message;
+        }
+
+        public static NetworkMessage CreateEmptyMessage(byte messageTypeCode)
+        {
+            var message = new NetworkMessage();
+            message.SerialNumber = NetworkMessage.NextMessageSerialNumber++;
+            message.MessageTypeCode = messageTypeCode;
+            message.PayloadFormat = PayloadFormats.None;
+            message.PayloadLength = 0;
 
             return message;
         }

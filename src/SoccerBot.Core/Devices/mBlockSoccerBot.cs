@@ -47,6 +47,13 @@ namespace SoccerBot.Core.Devices
             _start = DateTime.Now;
         }
 
+        public override void PlayTone(short frequency)
+        {
+            var msg = mBlockOutgingMessage.CreateMessage(mBlockOutgingMessage.CommandTypes.Run, mBlockOutgingMessage.Devices.TONE, frequency);
+            SendMessage(msg);
+
+        }
+
 
         protected override void RefreshSensors()
         {
@@ -263,8 +270,7 @@ namespace SoccerBot.Core.Devices
 
                 if(!_connectedToBot)
                 {
-                    var msg = mBlockOutgingMessage.CreateMessage(mBlockOutgingMessage.CommandTypes.Run, mBlockOutgingMessage.Devices.TONE, 294);
-                    SendMessage(msg);
+                    PlayTone(294);
                 }
 
                 _connectedToBot = true;

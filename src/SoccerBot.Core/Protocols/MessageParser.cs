@@ -16,7 +16,8 @@ namespace SoccerBot.Core.Protocols
         CSV = 101,
         ByteArray = 102,
         Text = 103,
-        Number = 104
+        Number = 104,
+        None = 105
         /* If Payload Formats are added, make sure you adjust in the parser state machine */
     }
 
@@ -103,7 +104,7 @@ namespace SoccerBot.Core.Protocols
                             _parserState = ParserStates.ExpectingPayloadFormat;
                             break;
                         case ParserStates.ExpectingPayloadFormat:
-                            if (ch < (byte)PayloadFormats.JSON || ch > (byte)PayloadFormats.Number) /* If Payload Formats are added, make sure you adjust here */
+                            if (ch < (byte)PayloadFormats.JSON || ch > (byte)PayloadFormats.None) /* If Payload Formats are added, make sure you adjust here */
                             {
                                 _currentMessage = null;
                                 _parserState = ParserStates.ExpectingSOH;

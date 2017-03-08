@@ -143,7 +143,7 @@ namespace SoccerBot.mBot
 
             Managers.ConnectionManager.Instance.Init(_soccerBot, _logger);
             Managers.ConnectionManager.Instance.StartWebServer(80, computerName);
-            Managers.ConnectionManager.Instance.StartTCPServer(9000);
+            Managers.ConnectionManager.Instance.StartTCPServer(9000, _soccerBot);
         }
 
         /// <summary>

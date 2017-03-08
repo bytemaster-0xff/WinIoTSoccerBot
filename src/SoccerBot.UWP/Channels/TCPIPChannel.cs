@@ -7,10 +7,12 @@ using SoccerBot.Core;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Networking.Sockets;
+using SoccerBot.Core.Models;
+using SoccerBot.Core.Protocols;
 
 namespace SoccerBot.UWP.Channels
 {
-    public class TCPIPChannel : ChannelBase
+    public class TCPIPChannel : ChannelBase, IDisposable
     {
         uPnPDevice _remoteDevice;
 
@@ -24,9 +26,12 @@ namespace SoccerBot.UWP.Channels
 
         char[] _readBuffer;
 
+        Timer _pingTimer;
 
-        CancellationTokenSource _cancellListenerSource;
+        CancellationTokenSource _cancelListenerSource;
         Task _listenerTask;
+
+        MessageParser _parser;
 
         ISoccerBotLogger _logger;
         public TCPIPChannel(uPnPDevice device, ISoccerBotLogger logger)
@@ -36,18 +41,48 @@ namespace SoccerBot.UWP.Channels
             Id = device.UDN + " " + device.IPAddress;
             _logger = logger;
             _logger.NotifyUserInfo("TCPIP Channel", $"Created Device for: {DeviceName}");
+
+            _parser = new MessageParser();
+            _parser.MessageReady += _parser_MessageReady;
+        }
+
+        private void _parser_MessageReady(object sender, NetworkMessage e)
+        {
+            _logger.NotifyUserInfo("Client_MessageReceived", "Message Received");
         }
 
         public void ReceiveData()
         {
-            _cancellListenerSource = new CancellationTokenSource();
+            _cancelListenerSource = new CancellationTokenSource();
             _listenerTask = new Task(async () =>
             {
-                var bytesRead = await _reader.ReadAsync(_readBuffer, 0, MAX_BUFFER_SIZE);
 
-                RaiseMessageReceived(_readBuffer.ToByteArray(0, bytesRead));
+                var running = true;
+                while (running)
+                {
+                    try
+                    {
+                        var readTask = _reader.ReadAsync(_readBuffer, 0, MAX_BUFFER_SIZE);
+                        readTask.Wait(_cancelListenerSource.Token);
+                        var bytesRead = await readTask;
 
-            }, _cancellListenerSource.Token);
+                        var byteBuffer = _readBuffer.ToByteArray(0, bytesRead);
+                        _parser.Parse(byteBuffer);
+
+                        RaiseMessageReceived(byteBuffer);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        running = false;
+                        /* Task Cancellation */
+                    }
+                    catch (Exception ex)
+                    {
+                        running = false;
+                        _logger.NotifyUserError("Client_Listening", ex.Message);
+                    }
+                }
+            });
 
             _listenerTask.Start();
         }
@@ -76,18 +111,29 @@ namespace SoccerBot.UWP.Channels
 
                 ReceiveData();
 
+                _pingTimer = new Timer(Ping, null, 0, 2500);
+
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.NotifyUserError("TCPIPChannel_Listen", ex.Message);
                 return false;
             }
         }
 
+        private async void Ping(Object state)
+        {
+            var msg = NetworkMessage.CreateEmptyMessage(1);
+            msg.PayloadFormat = Core.Protocols.PayloadFormats.None;
+            await WriteBuffer(msg.GetBuffer());
+
+            _logger.NotifyUserError("TCPIPChannel_Ping", "Ping Sent");
+        }
+
         public override void Disconnect()
         {
-
+            _cancelListenerSource.Cancel();
         }
 
         public override Task DisconnectAsync()
@@ -97,8 +143,55 @@ namespace SoccerBot.UWP.Channels
 
         public async override Task WriteBuffer(byte[] buffer)
         {
-            await _writer.WriteAsync(buffer.ToCharArray());
-            await _writer.FlushAsync();
+            try
+            {
+                if (_writer != null)
+                {
+                    await _writer.WriteAsync(buffer.ToCharArray());
+                    await _writer.FlushAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.NotifyUserError("TCPIPChannel_WriteBuffer", ex.Message);
+                Disconnect();
+            }
+        }
+
+        public void Dispose()
+        {
+            lock (this)
+            {
+                if (_reader != null)
+                {
+                    _reader.Dispose();
+                    _reader = null;
+                }
+
+                if (_writer != null)
+                {
+                    _writer.Dispose();
+                    _writer = null;
+                }
+
+                if (_inputStream != null)
+                {
+                    _inputStream.Dispose();
+                    _inputStream = null;
+                }
+
+                if (_outputStream != null)
+                {
+                    _outputStream.Dispose();
+                    _outputStream = null;
+                }
+
+                if (_socket != null)
+                {
+                    _socket.Dispose();
+                    _socket = null;
+                }
+            }
         }
     }
 }

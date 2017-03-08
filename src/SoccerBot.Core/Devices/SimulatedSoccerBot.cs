@@ -10,6 +10,11 @@ namespace SoccerBot.Core.Devices
 {
     public class SimulatedSoccerBot : SoccerBotBase, ISoccerBot
     {
+        public override void PlayTone(short frequency)
+        {
+            
+        }
+
         protected override void RefreshSensors()
         {
             
