@@ -9,6 +9,7 @@ using System.Threading;
 using SoccerBot.Core.Interfaces;
 using SoccerBot.Core.Protocols;
 using LagoVista.Core.Commanding;
+using LagoVista.Core.Models.Drawing;
 
 namespace SoccerBot.Core.Devices
 {
@@ -51,7 +52,18 @@ namespace SoccerBot.Core.Devices
         {
             var msg = mBlockOutgingMessage.CreateMessage(mBlockOutgingMessage.CommandTypes.Run, mBlockOutgingMessage.Devices.TONE, frequency);
             SendMessage(msg);
+        }
 
+        public override void SetLED(byte index, Color color)
+        {
+            var payload = new byte[4];
+            payload[0] = index;
+            payload[1] = color.R;
+            payload[2] = color.G;
+            payload[3] = color.B;
+
+            var msg = mBlockOutgingMessage.CreateMessage(mBlockOutgingMessage.CommandTypes.Run, mBlockIncomingMessage.Devices.RGBLED, 0, payload);
+            SendMessage(msg);
         }
 
 

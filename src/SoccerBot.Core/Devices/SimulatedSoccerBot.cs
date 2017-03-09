@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LagoVista.Core.Commanding;
+using LagoVista.Core.Models.Drawing;
 
 namespace SoccerBot.Core.Devices
 {
@@ -28,6 +29,11 @@ namespace SoccerBot.Core.Devices
         protected override void SpeedUpdated(short speed)
         {
             
+        }
+
+        public override void SetLED(byte index, Color color)
+        {
+
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using LagoVista.Core.Commanding;
+using LagoVista.Core.Models.Drawing;
 using LagoVista.Core.PlatformSupport;
 using SoccerBot.Core.Interfaces;
 using System;
@@ -79,6 +80,8 @@ namespace SoccerBot.Core.Devices
         public RelayCommand ResetCommand { get; private set; }
 
         public abstract void PlayTone(short frequency);
+
+        public abstract void SetLED(byte index, Color color);
 
         public void StartSensorRefreshTimer()
         {

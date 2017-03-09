@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LagoVista.Core.Models.Drawing;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,5 +17,7 @@ namespace SoccerBot.Core.Interfaces
         String APIMode { get; }
 
         void PlayTone(short frequence);
+
+        void SetLED(byte index, Color color);
     }
 }

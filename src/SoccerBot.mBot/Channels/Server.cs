@@ -5,6 +5,7 @@ using System.Linq;
 using System.Collections.Generic;
 using Windows.Networking.Sockets;
 using System.Diagnostics;
+using LagoVista.Core.Models.Drawing;
 
 namespace SoccerBot.mBot.Channels
 {
@@ -47,6 +48,10 @@ namespace SoccerBot.mBot.Channels
 
             if(clientsToRemove.Count > 0)
             {
+                if(_clients.Count == 1)
+                {
+                    _soccerBot.SetLED(0, NamedColors.Red);
+                }
                 _soccerBot.PlayTone(200);
             }
 
@@ -70,6 +75,7 @@ namespace SoccerBot.mBot.Channels
         public void ClientConnected(StreamSocket socket)
         {
             _soccerBot.PlayTone(400);
+            _soccerBot.SetLED(0, NamedColors.Green);
 
             lock (_clients)
             {
