@@ -13,7 +13,7 @@ using LagoVista.Core.Models.Drawing;
 
 namespace SoccerBot.Core.Devices
 {
-    public class mBlockSoccerBot : SoccerBotBase, INotifyPropertyChanged, ISoccerBotCommands
+    public class mBlockSoccerBot : SoccerBotBase, ISoccerBot, INotifyPropertyChanged, ISoccerBotCommands
     {
         IChannel _channel;
         ISoccerBotLogger _logger;
@@ -367,6 +367,16 @@ namespace SoccerBot.Core.Devices
             SendMessage(rgbMessage);
         }
 
+        public void Move(short heading, short speed, int? durationMS = default(int?))
+        {
+
+        }
+
+        public void Stop()
+        {
+
+        }
+
         public RelayCommand ModeACommand { get; private set; }
         public RelayCommand ModeBCommand { get; private set; }
         public RelayCommand ModeCCommand { get; private set; }
@@ -402,6 +412,16 @@ namespace SoccerBot.Core.Devices
                 _ledMessage = value;
                 RaisePropertyChanged();
             }
+        }
+
+        public ISensor FrontSonar
+        {
+            get; set;
+        }
+
+        public ISensor Compass
+        {
+            get; set;
         }
     }
 }

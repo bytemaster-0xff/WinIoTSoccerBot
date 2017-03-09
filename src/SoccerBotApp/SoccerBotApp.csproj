@@ -97,6 +97,7 @@
     </Compile>
     <Compile Include="Client\SoccerBotClient.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Controller\XBoxController.cs" />
     <Compile Include="Converters\NotNullVisibleConverter.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>

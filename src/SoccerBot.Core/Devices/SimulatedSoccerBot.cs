@@ -11,6 +11,16 @@ namespace SoccerBot.Core.Devices
 {
     public class SimulatedSoccerBot : SoccerBotBase, ISoccerBot
     {
+        public ISensor FrontSonar
+        {
+            get; set;
+        }
+
+        public ISensor Compass
+        {
+            get; set;
+        }
+
         public override void PlayTone(short frequency)
         {
             
@@ -32,6 +42,16 @@ namespace SoccerBot.Core.Devices
         }
 
         public override void SetLED(byte index, Color color)
+        {
+
+        }
+
+        public void Move(short heading, short speed, int? durationMS = default(int?))
+        {
+
+        }
+
+        public void Stop()
         {
 
         }

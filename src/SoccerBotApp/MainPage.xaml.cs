@@ -27,44 +27,11 @@ namespace SoccerBotApp
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private Gamepad _gamePad = null;
 
         public MainPage()
         {
             this.InitializeComponent();
             Loaded += MainPage_Loaded;
-
-            Gamepad.GamepadAdded += Gamepad_GamepadAdded;
-
-
-            StartListening();
-        }
-
-        private async void StartListening()
-        {
-
-            while (true)
-            {
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    if (_gamePad == null)
-                    {
-                        return;
-                    }
-
-                    var reading = _gamePad.GetCurrentReading();
-
-                    System.Diagnostics.Debug.WriteLine(reading.LeftTrigger.ToString());
-
-                });
-
-
-                await Task.Delay(TimeSpan.FromMilliseconds(500));
-            }
-        }
-        private void Gamepad_GamepadAdded(object sender, Gamepad e)
-        {
-            _gamePad = e;
         }
 
         public MainViewModel ViewModel

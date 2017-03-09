@@ -46,11 +46,16 @@
     <Compile Include="Devices\mBlockSoccerBot.cs" />
     <Compile Include="Devices\SoccerBotBase.cs" />
     <Compile Include="Interfaces\IChannelWatcher.cs" />
+    <Compile Include="Interfaces\ISensor.cs" />
     <Compile Include="Interfaces\ISoccerBot.cs" />
     <Compile Include="Interfaces\ISoccerBotCommands.cs" />
     <Compile Include="Interfaces\ISoccerBotLogger.cs" />
     <Compile Include="Channels\ChannelWatcherBase.cs" />
     <Compile Include="Interfaces\ISoccerBotSensors.cs" />
+    <Compile Include="Messages\ConnectionStatus.cs" />
+    <Compile Include="Messages\Move.cs" />
+    <Compile Include="Messages\SensorData.cs" />
+    <Compile Include="Messages\Sound.cs" />
     <Compile Include="Models\Connection.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\NetworkMessage.cs" />
