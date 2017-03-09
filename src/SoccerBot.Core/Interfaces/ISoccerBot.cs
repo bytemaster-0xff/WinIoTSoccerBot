@@ -20,11 +20,15 @@ namespace SoccerBot.Core.Interfaces
 
         void SetLED(byte index, Color color);
 
-        void Move(short heading, short speed, int? durationMS = null);
+        void Move(short speed = 0, short? relativeHeading = 0, short? absoluteHeading = 0, short? duration = 0);
 
         void Stop();
 
+        void Reset();
+
         ISensor FrontSonar { get; set; }
         ISensor Compass { get; set; }
+
+        DateTime? LastBotContact { get; set; }
     }
 }

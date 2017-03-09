@@ -21,7 +21,7 @@ namespace SoccerBot.Core.Devices
             get; set;
         }
 
-        public override void PlayTone(short frequency)
+        public void PlayTone(short frequency)
         {
             
         }
@@ -41,12 +41,17 @@ namespace SoccerBot.Core.Devices
             
         }
 
-        public override void SetLED(byte index, Color color)
+        public void Reset()
         {
 
         }
 
-        public void Move(short heading, short speed, int? durationMS = default(int?))
+        public  void SetLED(byte index, Color color)
+        {
+
+        }
+
+        public void Move(short speed = 0, short? relativeHeading = 0, short? absoluteHeading = 0, short? duration = 0)
         {
 
         }

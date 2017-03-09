@@ -40,6 +40,7 @@
     <Compile Include="Channels\ChannelBase.cs" />
     <Compile Include="Channels\SerialPortChannel.cs" />
     <Compile Include="Devices\SimulatedSoccerBot.cs" />
+    <Compile Include="Devices\SoccerBotClient.cs" />
     <Compile Include="Extensions\ArrayHelpers.cs" />
     <Compile Include="Interfaces\IChannel.cs" />
     <Compile Include="Commanding\SoccerBotRelayCommand.cs" />
@@ -52,7 +53,7 @@
     <Compile Include="Interfaces\ISoccerBotLogger.cs" />
     <Compile Include="Channels\ChannelWatcherBase.cs" />
     <Compile Include="Interfaces\ISoccerBotSensors.cs" />
-    <Compile Include="Messages\ConnectionStatus.cs" />
+    <Compile Include="Messages\SystemMessages.cs" />
     <Compile Include="Messages\Move.cs" />
     <Compile Include="Messages\SensorData.cs" />
     <Compile Include="Messages\Sound.cs" />
@@ -66,6 +67,7 @@
     <Compile Include="Protocols\mBlockOutgingMessage.cs" />
     <Compile Include="Protocols\MessageParser.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\SoccerBotViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="LagoVista.Core, Version=1.1.0.32, Culture=neutral, processorArchitecture=MSIL">

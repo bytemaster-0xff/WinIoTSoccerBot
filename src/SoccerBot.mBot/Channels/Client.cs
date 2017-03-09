@@ -9,12 +9,13 @@ using LagoVista.Core.PlatformSupport;
 using SoccerBot.Core.Interfaces;
 using SoccerBot.Core.Models;
 using SoccerBot.Core.Protocols;
+using SoccerBot.Core.Messages;
 
 namespace SoccerBot.mBot.Channels
 {
     public class Client : IDisposable
     {
-        public event EventHandler<byte[]> MessageRecevied;
+        public event EventHandler<NetworkMessage> MessageRecevied;
 
         const int MAX_BUFFER_SIZE = 1024;
 
@@ -52,12 +53,16 @@ namespace SoccerBot.mBot.Channels
 
         private async void _parser_MessageReady(object sender, NetworkMessage e)
         {
-            if(e.MessageTypeCode == 1)
+            if(e.MessageTypeCode == SystemMessages.Ping)
             {
-                var msg = NetworkMessage.CreateEmptyMessage(2);
-                await Write(msg.GetBuffer());
-                _logger.NotifyUserInfo("Client_MessageReceived", "Ping Received");
+                await Write(SystemMessages.CreatePong().GetBuffer());
+                _logger.NotifyUserInfo("Client_MessageReceived", "Ping Received >> Pong Sent");
             }
+            else
+            {
+                MessageRecevied?.Invoke(sender, e);
+            }
+
 
             _lastMessageDateStamp = DateTime.Now;
             
@@ -85,8 +90,6 @@ namespace SoccerBot.mBot.Channels
                         var byteBuffer = _readBuffer.ToByteArray(0, bytesRead);
 
                         _parser.Parse(byteBuffer);
-
-                        MessageRecevied?.Invoke(this, byteBuffer);
                     }
                     catch (OperationCanceledException)
                     {
@@ -103,11 +106,6 @@ namespace SoccerBot.mBot.Channels
             });
 
             _listenerTask.Start();
-        }
-
-        public async void SendWelcome()
-        {
-            await Write("Welcome - Tank Bot".ToByteArray());
         }
 
         public bool IsConnected

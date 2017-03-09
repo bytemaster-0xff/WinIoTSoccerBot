@@ -1,6 +1,7 @@
 ﻿using LagoVista.Core.Commanding;
 using LagoVista.Core.PlatformSupport;
 using SoccerBot.Core.Interfaces;
+using SoccerBot.Core.Models;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -14,6 +15,7 @@ namespace SoccerBot.Core.Channels
         public event EventHandler<string> Disconnected;
         public event EventHandler<byte[]> MessageReceived;
         public event PropertyChangedEventHandler PropertyChanged;
+        public event EventHandler<NetworkMessage> NetworkMessageReceived;
 
 
         public ChannelBase()
@@ -26,6 +28,21 @@ namespace SoccerBot.Core.Channels
         public abstract void Disconnect();
 
 
+        private DateTime? _lastMessageReceived;
+        public DateTime? LastMessageReceived
+        {
+            get { return _lastMessageReceived; }
+            set
+            {
+                _lastMessageReceived = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public void RaiseNetworkMessageReceived(NetworkMessage message)
+        {
+            NetworkMessageReceived?.Invoke(this, message);
+        }
 
         private States _state;
         public States State

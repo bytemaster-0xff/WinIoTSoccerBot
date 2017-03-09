@@ -1,4 +1,5 @@
 ﻿using SoccerBot.Core.Interfaces;
+using SoccerBot.mBot.Channels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +8,21 @@ using System.Threading.Tasks;
 
 namespace SoccerBot.mBot.ViewModels
 {
-    public class MainViewModel
+    public class SoccerBotViewModel
     {
+
+        ISoccerBotLogger _logger;
         ISoccerBot _soccerBot;
+        Server _server;
+
+        public SoccerBotViewModel(ISoccerBot soccerBot, ISoccerBotLogger logger, Server server)
+        {
+            _server = server;
+
+            _logger = logger;
+
+            _soccerBot = soccerBot;
+        }
 
         public ISoccerBot SoccerBot { get { return _soccerBot; } }
         

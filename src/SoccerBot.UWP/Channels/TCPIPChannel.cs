@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Windows.Networking.Sockets;
 using SoccerBot.Core.Models;
 using SoccerBot.Core.Protocols;
+using SoccerBot.Core.Messages;
 
 namespace SoccerBot.UWP.Channels
 {
@@ -49,6 +50,8 @@ namespace SoccerBot.UWP.Channels
         private void _parser_MessageReady(object sender, NetworkMessage e)
         {
             _logger.NotifyUserInfo("Client_MessageReceived", "Message Received");
+
+            RaiseNetworkMessageReceived(e);
         }
 
         public void ReceiveData()
@@ -68,8 +71,6 @@ namespace SoccerBot.UWP.Channels
 
                         var byteBuffer = _readBuffer.ToByteArray(0, bytesRead);
                         _parser.Parse(byteBuffer);
-
-                        RaiseMessageReceived(byteBuffer);
                     }
                     catch (OperationCanceledException)
                     {
@@ -113,6 +114,8 @@ namespace SoccerBot.UWP.Channels
 
                 _pingTimer = new Timer(Ping, null, 0, 2500);
 
+                InvokeConnected();
+
                 return true;
             }
             catch (Exception ex)
@@ -124,15 +127,20 @@ namespace SoccerBot.UWP.Channels
 
         private async void Ping(Object state)
         {
-            var msg = NetworkMessage.CreateEmptyMessage(1);
-            msg.PayloadFormat = Core.Protocols.PayloadFormats.None;
-            await WriteBuffer(msg.GetBuffer());
+            await WriteBuffer(SystemMessages.CreatePing().GetBuffer());
 
             _logger.NotifyUserError("TCPIPChannel_Ping", "Ping Sent");
         }
 
         public override void Disconnect()
         {
+            if (_pingTimer != null)
+            {
+                _pingTimer.Change(Timeout.Infinite, Timeout.Infinite);
+                _pingTimer.Dispose();
+                _pingTimer = null;
+            }
+
             _cancelListenerSource.Cancel();
         }
 

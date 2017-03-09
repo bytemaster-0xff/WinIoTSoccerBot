@@ -13,17 +13,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Documentation\BasicVersion.jpg = Documentation\BasicVersion.jpg
 		Documentation\ComPort.png = Documentation\ComPort.png
 		ConnectWinIoT.md = ConnectWinIoT.md
+		DesktopApp.md = DesktopApp.md
 		Documentation\DeviceManager.png = Documentation\DeviceManager.png
 		GettingStarted.md = GettingStarted.md
 		HelpWanted.md = HelpWanted.md
+		March2017Goals.md = March2017Goals.md
 		MBot_InternalApp.ino.txt = MBot_InternalApp.ino.txt
 		Documentation\MicroSDCard.jpg = Documentation\MicroSDCard.jpg
 		PartsList.md = PartsList.md
 		Documentation\RangerArduino.png = Documentation\RangerArduino.png
 		Documentation\RaspberyPi.jpg = Documentation\RaspberyPi.jpg
 		README.md = README.md
+		RemoteClient.md = RemoteClient.md
 		Documentation\RoverVersion.jpg = Documentation\RoverVersion.jpg
 		Documentation\Standoffs.jpg = Documentation\Standoffs.jpg
+		WiFiConnectivity.md = WiFiConnectivity.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoccerBot.Core", "src\SoccerBot.Core\SoccerBot.Core.csproj", "{89591A82-D13A-4A27-B378-8E176C3104E2}"

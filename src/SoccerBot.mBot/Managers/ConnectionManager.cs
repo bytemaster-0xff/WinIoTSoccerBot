@@ -104,5 +104,7 @@ namespace SoccerBot.mBot.Managers
             _tcpServer = new Channels.Server(_logger, port, soccerBot);
             _tcpServer.Start();
         }
+
+        public Channels.Server TCPIPServer { get { return _tcpServer; } }
     }
 }

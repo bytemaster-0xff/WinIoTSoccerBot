@@ -25,6 +25,8 @@ namespace SoccerBot.mBot
         public MainPage()
         {
             this.InitializeComponent();
+
+            this.DataContext = new ViewModels.SoccerBotViewModel(App.TheApp.SoccerBot, App.TheApp.Logger, App.TheApp.TCPIPServer);
         }
     }
 }

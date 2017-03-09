@@ -62,7 +62,7 @@ Make the following connections
     ==================================
     +5V         Pin 4  <------> Pin 1
     Gnd         Pin 6  <------> Pin 2
-    Tx From Pi  Pin 8  <------> Pin 4
-    Rx To Pi    Pin 10 <------> Pin 3
+    Tx From Pi  Pin 8  <------> Pin 3
+    Rx To Pi    Pin 10 <------> Pin 4
 
 Once you have made these connections, restart your Raspberry Pi, go back to the Raspberry Pi Home page and now be able to control the bot from the web page.

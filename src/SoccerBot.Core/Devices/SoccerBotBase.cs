@@ -79,10 +79,6 @@ namespace SoccerBot.Core.Devices
 
         public RelayCommand ResetCommand { get; private set; }
 
-        public abstract void PlayTone(short frequency);
-
-        public abstract void SetLED(byte index, Color color);
-
         public void StartSensorRefreshTimer()
         {
             if (_sensorRefreshTimer != null)
@@ -121,6 +117,17 @@ namespace SoccerBot.Core.Devices
             set
             {
                 _frontIRSensor = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private DateTime? _lastBotContact;
+        public DateTime? LastBotContact
+        {
+            get { return _lastBotContact; }
+            set
+            {
+                _lastBotContact = value;
                 RaisePropertyChanged();
             }
         }

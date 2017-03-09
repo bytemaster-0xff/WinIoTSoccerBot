@@ -2,6 +2,7 @@
 using LagoVista.Core.PlatformSupport;
 using SoccerBot.Core.Channels;
 using SoccerBot.Core.Interfaces;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -11,6 +12,8 @@ namespace SoccerBot.Core.ViewModels
     public class MainViewModel : INotifyPropertyChanged
     {
         ISoccerBotLogger _logger;
+
+        public event EventHandler<IChannel> ChannelConnected;
 
         private ObservableCollection<ISoccerBotCommands> _connectedDevices;
         private ObservableCollection<IChannelWatcher> _channelWatchers;
@@ -75,16 +78,13 @@ namespace SoccerBot.Core.ViewModels
             }            
         }
               
-
         private void channel_Connected(object sender, IChannel device)
         {
-            var soccerBot = new Devices.mBlockSoccerBot(device,_logger);
-            _connectedDevices.Add(soccerBot);
+            ChannelConnected?.Invoke(this, device);
         }
 
-
-        ISoccerBotCommands _activeDevice;
-        public ISoccerBotCommands ActiveDevice
+        ISoccerBot _activeDevice;
+        public ISoccerBot ActiveDevice
         {
             get { return _activeDevice; }
             set
@@ -93,6 +93,18 @@ namespace SoccerBot.Core.ViewModels
                 RaisePropertyChanged();
             }
         }
+
+        ISoccerBot _activeRemoteDevice;
+        public ISoccerBot ActiveRemoteDevice
+        {
+            get { return _activeRemoteDevice; }
+            set
+            {
+                _activeRemoteDevice = value;
+                RaisePropertyChanged();
+            }
+        }
+
 
         public void StartWatchers()
         {

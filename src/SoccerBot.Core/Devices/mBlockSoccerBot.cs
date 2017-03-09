@@ -28,7 +28,6 @@ namespace SoccerBot.Core.Devices
 
         Timer _timer;
         bool _connectedToBot;
-        DateTime? _lastVersionCheck;
 
         public mBlockSoccerBot(IChannel channel, ISoccerBotLogger logger, string pin = "9999") : this()
         {
@@ -48,13 +47,13 @@ namespace SoccerBot.Core.Devices
             _start = DateTime.Now;
         }
 
-        public override void PlayTone(short frequency)
+        public void PlayTone(short frequency)
         {
             var msg = mBlockOutgingMessage.CreateMessage(mBlockOutgingMessage.CommandTypes.Run, mBlockOutgingMessage.Devices.TONE, frequency);
             SendMessage(msg);
         }
 
-        public override void SetLED(byte index, Color color)
+        public void SetLED(byte index, Color color)
         {
             var payload = new byte[4];
             payload[0] = index;
@@ -121,9 +120,9 @@ namespace SoccerBot.Core.Devices
                 _currentIncomingMessage.AddByte(value);
                 if (_currentIncomingMessage.EndsWithCRLF())
                 {
-                    
+
                     IncomingMessages.Add(_currentIncomingMessage);
-                    Debug.WriteLine(String.Format("{0:000000} <<<", (DateTime.Now - _start).TotalMilliseconds) + _currentIncomingMessage.MessageHexString);
+               //     Debug.WriteLine(String.Format("{0:000000} <<<", (DateTime.Now - _start).TotalMilliseconds) + _currentIncomingMessage.MessageHexString);
                     _logger.NotifyUserInfo("mBlock", "<<< " + _currentIncomingMessage.MessageHexString);
 
                     if (_currentIncomingMessage.BufferSize > 4)
@@ -143,7 +142,7 @@ namespace SoccerBot.Core.Devices
             {
                 SendCommand(CurrentState);
             }
-        }      
+        }
 
 
         private async void SendMessage(mBlockOutgingMessage msg)
@@ -159,11 +158,11 @@ namespace SoccerBot.Core.Devices
             try
             {
                 OutgoingMessages.Add(msg);
-                Debug.WriteLine(String.Format("{0:000000} >>>", (DateTime.Now - _start).TotalMilliseconds) + msg.MessageHexString);
+//                Debug.WriteLine(String.Format("{0:000000} >>>", (DateTime.Now - _start).TotalMilliseconds) + msg.MessageHexString);
                 _logger.NotifyUserInfo("mBlock", ">>> " + msg.MessageHexString);
                 await _channel.WriteBuffer(msg.Buffer);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.NotifyUserError("mBlock_SendMessage", ex.Message);
                 _logger.NotifyUserInfo("mBlock", "DISCONNECTED!");
@@ -176,10 +175,12 @@ namespace SoccerBot.Core.Devices
             leftMotor = Convert.ToInt32((leftMotor * 255.0) / 100.0f);
             rightMotor = Convert.ToInt32((rightMotor * 255.0) / 100.0f);
 
+            Debug.WriteLine("SENDING MOTOR POWER: " + leftMotor + " " + rightMotor);
+
             if (DeviceMode == DeviceModes.CustomFirmware)
             {
                 var buffer = new byte[4];
-                buffer[0] = BitConverter.GetBytes(leftMotor)[0]; 
+                buffer[0] = BitConverter.GetBytes(leftMotor)[0];
                 buffer[1] = BitConverter.GetBytes(leftMotor)[1];
                 buffer[2] = BitConverter.GetBytes(rightMotor)[0];
                 buffer[3] = BitConverter.GetBytes(rightMotor)[1];
@@ -187,7 +188,7 @@ namespace SoccerBot.Core.Devices
                 var message = mBlockOutgingMessage.CreateMessage(mBlockOutgingMessage.CommandTypes.Run, mBlockOutgingMessage.Devices.MOTOR, mBlockIncomingMessage.Ports.MBOTH, buffer);
                 SendMessage(message);
             }
-            else if(DeviceMode == DeviceModes.Normal)
+            else if (DeviceMode == DeviceModes.Normal)
             {
                 /* Need to give it about 50ms for the message to come through */
                 var payload = BitConverter.GetBytes((short)leftMotor);
@@ -199,9 +200,9 @@ namespace SoccerBot.Core.Devices
                 SendMessage(rightMotorMessage);
                 await Task.Delay(15);
             }
-            else if(DeviceMode == DeviceModes.CustomFirmwareRanger)
+            else if (DeviceMode == DeviceModes.CustomFirmwareRanger)
             {
-                
+
                 var buffer = new byte[3];
                 buffer[0] = (byte)mBlockOutgingMessage.Slots.SLOT1;
                 buffer[1] = BitConverter.GetBytes(leftMotor)[0];
@@ -229,14 +230,14 @@ namespace SoccerBot.Core.Devices
                 case Commands.Left: SendMotorPower(-Speed / 5, Speed); break;
                 case Commands.Right: SendMotorPower(-Speed, Speed / 5); break;
                 case Commands.Backwards: SendMotorPower(Speed, -Speed); break;
-                case Commands.Reset: SendReset(); break;
+                case Commands.Reset: Reset(); break;
             }
 
             CurrentState = cmd;
         }
 
 
-        public void SendReset()
+        public void Reset()
         {
             SendMessage(mBlockOutgingMessage.CreateMessage(mBlockIncomingMessage.CommandTypes.Reset, mBlockMessage.Devices.SYSTEM));
         }
@@ -244,7 +245,7 @@ namespace SoccerBot.Core.Devices
         public void ProcessSonar(mBlockIncomingMessage message)
         {
             FrontIRSensor = Convert.ToInt32(_currentIncomingMessage.FloatPayload);
-            
+
             var factor = Speed / 100;
 
             if (FrontIRSensor < (10 * factor) && CurrentState == Commands.Forward)
@@ -263,12 +264,12 @@ namespace SoccerBot.Core.Devices
                 int majorVersion;
                 Int32.TryParse(parts[0], out majorVersion);
 
-                if(majorVersion == 5)
+                if (majorVersion == 5)
                 {
                     DeviceMode = DeviceModes.CustomFirmware;
                     APIMode = "Custom mBot";
                 }
-                else if(majorVersion == 9)
+                else if (majorVersion == 9)
                 {
                     DeviceMode = DeviceModes.CustomFirmwareRanger;
                     APIMode = "Ranger Firmware";
@@ -280,13 +281,16 @@ namespace SoccerBot.Core.Devices
 
                 FirmwareVersion = message.StringPayload;
 
-                if(!_connectedToBot)
+                if (!_connectedToBot)
                 {
                     PlayTone(294);
+                    SetLED(0, NamedColors.Yellow);
                 }
 
+                this.LastBotContact = DateTime.Now;
+
                 _connectedToBot = true;
-                _lastVersionCheck = DateTime.Now;
+                
             }
         }
 
@@ -298,12 +302,12 @@ namespace SoccerBot.Core.Devices
         }
 
         public void RequestVersion()
-        {            
+        {
             var msg = mBlockOutgingMessage.CreateMessage(mBlockOutgingMessage.CommandTypes.Get, mBlockOutgingMessage.Devices.VERSION);
             msg.Handler = ProcessVersion;
             SendMessage(msg);
 
-            if(_lastVersionCheck == null || ((DateTime.Now - _lastVersionCheck) > TimeSpan.FromSeconds(12)))
+            if (!this.LastBotContact.HasValue || ((DateTime.Now - this.LastBotContact.Value) > TimeSpan.FromSeconds(12)))
             {
                 _connectedToBot = false;
             }
@@ -330,7 +334,7 @@ namespace SoccerBot.Core.Devices
             {
                 const int HEADER_LENGTH = 8;
                 var payload = new byte[HEADER_LENGTH + LEDMessage.Length];
-                payload[0] = 1; /* action 1 = DrawString, 2 = Draw Bitmap, 3 = Show Click*/  
+                payload[0] = 1; /* action 1 = DrawString, 2 = Draw Bitmap, 3 = Show Click*/
                 payload[1] = 9; /* 0-9 brightness */
                 payload[2] = 1; /* 1 = On, 0 = Off color */
                 payload[3] = 0; /* X Location */
@@ -341,12 +345,12 @@ namespace SoccerBot.Core.Devices
                 var bytes = System.Text.Encoding.UTF8.GetBytes(LEDMessage);
 
                 var idx = 0;
-                foreach(var ch in bytes)
+                foreach (var ch in bytes)
                 {
                     payload[idx + HEADER_LENGTH] = bytes[idx];
                     idx++;
                 }
-          
+
                 var ledMessage = mBlockOutgingMessage.CreateMessage(mBlockOutgingMessage.CommandTypes.Run, mBlockOutgingMessage.Devices.LED_MATRIX, 1, payload);
                 SendMessage(ledMessage);
             }
@@ -367,9 +371,27 @@ namespace SoccerBot.Core.Devices
             SendMessage(rgbMessage);
         }
 
-        public void Move(short heading, short speed, int? durationMS = default(int?))
+        public void Move(short speed = 0, short? relativeHeading = 0, short? absoluteHeading = 0, short? duration = 0)
         {
+            var radians = relativeHeading.Value * (Math.PI / 180);
+            var x = Math.Sin(radians);
+            var y = Math.Cos(radians);
 
+            //Probably a smarter way of doing this.
+
+            if (Math.Abs(y) < 0.1) y = 0;
+            if (Math.Abs(x) < 0.1) x = 0;
+
+            var leftMotor = y < 0 ? -speed : speed;
+            var rightMotor = y < 0 ? -speed : speed;
+
+            if (x > 0) rightMotor = Convert.ToInt16(rightMotor * (1 - Math.Abs(x)));
+            if (x < 0) leftMotor = Convert.ToInt16(leftMotor * (1 - Math.Abs(x)));
+
+            Debug.WriteLine($"SENDING: {x} {y}");
+
+        
+            SendMotorPower(-leftMotor, rightMotor);
         }
 
         public void Stop()

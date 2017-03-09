@@ -1,6 +1,10 @@
-﻿using System;
+﻿using LagoVista.Core.PlatformSupport;
+using SoccerBot.Core.Interfaces;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,8 +13,18 @@ using Windows.Devices.I2c;
 
 namespace SoccerBot.mBot.Sensors
 {
-    public class Compass5983 : IDisposable
+    public class Compass5983 : ISensor
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void RaisePropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            //TODO: Should be a design time check and not run this.
+            Services.DispatcherServices.Invoke(() =>
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName))
+            );
+        }
+
+
         private I2cDevice _compassSensor;
         Timer _timer;
 
@@ -71,41 +85,48 @@ namespace SoccerBot.mBot.Sensors
                 //if (hX > 0x07FF) hX = 0xFFFF - hX;
                 //if (hZ > 0x07FF) hZ = Convert.ToInt16(0xFFFF - hZ);
                 //if (hY > 0x07FF) hY = 0xFFFF - hY;
-                
 
-                if (hY == 0 && hX > 0) Heading = 180;
-                else if (hY == 0 && hX <= 0) Heading = 0;
-                else if (hY > 0) Heading = 90 - Convert.ToInt16((Math.Atan(hX / hY) * (180 / Math.PI)));
-                else if (hY < 0) Heading = 270 - Convert.ToInt16((Math.Atan(hX / hY) * (180 / Math.PI)));
 
-                CompassOnline = true;
-                LastReading = DateTime.Now;
+                if (hY == 0 && hX > 0) Value = 180;
+                else if (hY == 0 && hX <= 0) Value = 0;
+                else if (hY > 0) Value = 90 - Convert.ToInt16((Math.Atan(hX / hY) * (180 / Math.PI)));
+                else if (hY < 0) Value = 270 - Convert.ToInt16((Math.Atan(hX / hY) * (180 / Math.PI)));
+
+                IsOnline = true;
             }
             catch (Exception)
             {
-                CompassOnline = false;
+                IsOnline = false;
             }
         }
 
-        private DateTime? _lastReading;
-        public DateTime? LastReading
+        private bool _isOnline = false;
+        public bool IsOnline 
         {
-            get { return _lastReading; }
-            set { _lastReading = value; }
+            get { return _isOnline; }
+            set {
+                _isOnline = value;
+                RaisePropertyChanged();
+            }
         }
 
-        private bool _compassOnline;
-        public bool CompassOnline 
+
+        public DateTime? LastUpdated
         {
-            get { return _compassOnline; }
-            set { _compassOnline = value; }
+            get; private set;
         }
 
-        private int _heading;
-        public int Heading
+        private double _value;
+        public double Value
         {
-            get { return _heading; }
-            set { _heading = value; }
+            get { return _value; }
+            set
+            {
+                _value = value;
+                LastUpdated = DateTime.Now;
+                RaisePropertyChanged();
+                RaisePropertyChanged(nameof(LastUpdated));
+            }
         }
 
         public void Dispose()

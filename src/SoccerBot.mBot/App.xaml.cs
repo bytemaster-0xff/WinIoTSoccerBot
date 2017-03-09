@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
@@ -34,6 +35,10 @@ namespace SoccerBot.mBot
         ISoccerBotLogger _logger;
         ISoccerBot _soccerBot;
 
+        private static App _theApp;
+
+        public static App TheApp { get { return _theApp; } }
+
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -42,6 +47,7 @@ namespace SoccerBot.mBot
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            _theApp = this;
         }
 
         /// <summary>
@@ -49,7 +55,7 @@ namespace SoccerBot.mBot
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected async override void OnLaunched(LaunchActivatedEventArgs e)
         {
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
@@ -67,7 +73,7 @@ namespace SoccerBot.mBot
                 rootFrame = new Frame();
                 UWPDeviceServices.Init(rootFrame.Dispatcher);
 
-                InitSoccerBot();
+                await InitSoccerBot();
 
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
@@ -95,7 +101,7 @@ namespace SoccerBot.mBot
             }
         }
 
-        private async void InitSoccerBot()
+        private async Task InitSoccerBot()
         {
             var hostNames = NetworkInformation.GetHostNames();
             var computerName = hostNames.FirstOrDefault(name => name.Type == HostNameType.DomainName)?.DisplayName ?? "???";
@@ -145,6 +151,11 @@ namespace SoccerBot.mBot
             Managers.ConnectionManager.Instance.StartWebServer(80, computerName);
             Managers.ConnectionManager.Instance.StartTCPServer(9000, _soccerBot);
         }
+
+        public Channels.Server TCPIPServer { get { return Managers.ConnectionManager.Instance.TCPIPServer; } }
+
+        public ISoccerBot SoccerBot { get { return _soccerBot; } }
+        public ISoccerBotLogger Logger { get { return _logger; } }
 
         /// <summary>
         /// Invoked when Navigation to a certain page fails

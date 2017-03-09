@@ -1,4 +1,4 @@
-# Windows 10 Desktop Bluetooth Control App
+# Windows 10 Desktop Control App
 ## Getting Started
 There is a Universal Windows Platform (UWP) app to control the MBlock Robot.  This is similar in functionality to the IR Remote Control or the Mobile Phone App, except that it will run on your Windows laptop/desktop machine.
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Foundation;
 using Windows.Gaming.Input;
 using Windows.UI.Core;
 
@@ -13,11 +14,9 @@ namespace SoccerBotApp.Controller
         private Gamepad _gamePad = null;
         private GamepadReading? _lastReading = null;
 
-        public event EventHandler ButtonPressed;
+        public event EventHandler<Point> JoyStickUpdated;
 
-        public event EventHandler RightTriggerPressed;
-        public event EventHandler LeftTriggerPressed;
-
+        Point? _lastJoyStick;
 
 
         public void Init()
@@ -36,16 +35,21 @@ namespace SoccerBotApp.Controller
                     {
 
                         var reading = _gamePad.GetCurrentReading();
+
+                        var thisJoyStick = new Point(reading.LeftThumbstickX, reading.LeftThumbstickY);
+
+                        if (_lastJoyStick.HasValue && (_lastJoyStick.Value.X != thisJoyStick.X || _lastJoyStick.Value.Y != thisJoyStick.Y))
+                        {
+                            JoyStickUpdated?.Invoke(_gamePad, thisJoyStick);
+                        }
+
+                        _lastJoyStick = thisJoyStick;
                         
-
-                   
                         _lastReading = reading;
-
-                        System.Diagnostics.Debug.WriteLine(reading.LeftTrigger.ToString());
                     }
                 });
 
-                await Task.Delay(TimeSpan.FromMilliseconds(20));
+                await Task.Delay(TimeSpan.FromMilliseconds(250));
             }
         }
 
