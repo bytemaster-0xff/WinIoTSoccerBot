@@ -99,7 +99,7 @@ If you have an existing Wired controller from an old XBox that should work as we
 ### XBox Controllers
 ![Alt](Documentation/XBoxOneWirelessController.jpg)
 
-#### [XBOX Controller - OK](https://www.amazon.com/Hydra-Performance-Wired-Xbox-Controller-S-Type/dp/B006ZQ85YG/ref=sr_1_35?s=videogames&ie=UTF8&qid=1488820193&sr=1-35&keywords=xbox%C2%A0+controller)
+#### [XBOX Controller - OK]()
 
 #### [XBOX Controller - Better](https://www.amazon.com/Microsoft-Wired-Controller-Windows-Console/dp/B004QRKWLA/ref=sr_1_98?s=videogames&ie=UTF8&qid=1488820311&sr=1-98&keywords=xbox%C2%A0+controller)
 
