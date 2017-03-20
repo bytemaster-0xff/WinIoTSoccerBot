@@ -5949,7 +5949,6 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <part name="GND1" library="SparkFun" deviceset="GND" device=""/>
 <part name="R2" library="SparkFun" deviceset="RESISTOR" device="0603-RES" value="330"/>
 <part name="D2" library="Testing" deviceset="LED" device="" value="Green"/>
-<part name="GND2" library="SparkFun" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -6004,7 +6003,6 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <attribute name="NAME" x="151.638" y="78.486" size="1.778" layer="95" rot="R270"/>
 <attribute name="VALUE" x="161.163" y="76.454" size="1.778" layer="96" rot="R90"/>
 </instance>
-<instance part="GND2" gate="1" x="157.48" y="68.58"/>
 </instances>
 <busses>
 </busses>
@@ -6155,11 +6153,6 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <pinref part="D1" gate="G$1" pin="C"/>
 <pinref part="GND1" gate="1" pin="GND"/>
 </segment>
-<segment>
-<wire x1="157.48" y1="71.12" x2="157.48" y2="73.66" width="0.1524" layer="91"/>
-<pinref part="D2" gate="G$1" pin="C"/>
-<pinref part="GND2" gate="1" pin="GND"/>
-</segment>
 </net>
 <net name="N$7" class="0">
 <segment>
@@ -6245,6 +6238,10 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <pinref part="REAR" gate="A" pin="1"/>
 <wire x1="43.18" y1="22.86" x2="35.56" y2="22.86" width="0.1524" layer="91"/>
 <label x="35.56" y="22.86" size="1.778" layer="95"/>
+</segment>
+<segment>
+<wire x1="157.48" y1="71.12" x2="157.48" y2="73.66" width="0.1524" layer="91"/>
+<pinref part="D2" gate="G$1" pin="C"/>
 </segment>
 </net>
 <net name="SCL" class="0">

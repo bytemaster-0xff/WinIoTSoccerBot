@@ -5629,29 +5629,9 @@ It has a reduced top mask to make it harder to install upside-down.</description
 <label x="53.34" y="58.42" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="LEFT" gate="A" pin="2"/>
-<wire x1="25.4" y1="38.1" x2="15.24" y2="38.1" width="0.1524" layer="91"/>
-<label x="15.24" y="38.1" size="1.778" layer="95"/>
-</segment>
-<segment>
-<pinref part="RIGHT" gate="A" pin="2"/>
-<wire x1="60.96" y1="38.1" x2="53.34" y2="38.1" width="0.1524" layer="91"/>
-<label x="53.34" y="38.1" size="1.778" layer="95"/>
-</segment>
-<segment>
-<pinref part="REARLEFT" gate="A" pin="2"/>
-<wire x1="25.4" y1="20.32" x2="17.78" y2="20.32" width="0.1524" layer="91"/>
-<label x="17.78" y="20.32" size="1.778" layer="95"/>
-</segment>
-<segment>
-<pinref part="REAR" gate="A" pin="2"/>
-<wire x1="43.18" y1="20.32" x2="35.56" y2="20.32" width="0.1524" layer="91"/>
-<label x="35.56" y="20.32" size="1.778" layer="95"/>
-</segment>
-<segment>
-<pinref part="REARRIGHT" gate="A" pin="2"/>
-<wire x1="60.96" y1="20.32" x2="53.34" y2="20.32" width="0.1524" layer="91"/>
-<label x="53.34" y="20.32" size="1.778" layer="95"/>
+<pinref part="LEFT" gate="A" pin="1"/>
+<wire x1="25.4" y1="40.64" x2="15.24" y2="40.64" width="0.1524" layer="91"/>
+<label x="15.24" y="40.64" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="N$9" class="0">
@@ -5912,11 +5892,6 @@ It has a reduced top mask to make it harder to install upside-down.</description
 </net>
 <net name="VIR" class="0">
 <segment>
-<pinref part="LEFT" gate="A" pin="1"/>
-<wire x1="25.4" y1="40.64" x2="15.24" y2="40.64" width="0.1524" layer="91"/>
-<label x="15.24" y="40.64" size="1.778" layer="95"/>
-</segment>
-<segment>
 <pinref part="RIGHT" gate="A" pin="1"/>
 <wire x1="60.96" y1="40.64" x2="53.34" y2="40.64" width="0.1524" layer="91"/>
 <label x="53.34" y="40.64" size="1.778" layer="95"/>
@@ -5964,6 +5939,31 @@ It has a reduced top mask to make it harder to install upside-down.</description
 <pinref part="FRONTRIGHT" gate="A" pin="2"/>
 <wire x1="60.96" y1="55.88" x2="53.34" y2="55.88" width="0.1524" layer="91"/>
 <label x="53.34" y="55.88" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="LEFT" gate="A" pin="2"/>
+<wire x1="25.4" y1="38.1" x2="15.24" y2="38.1" width="0.1524" layer="91"/>
+<label x="15.24" y="38.1" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="REARLEFT" gate="A" pin="2"/>
+<wire x1="25.4" y1="20.32" x2="17.78" y2="20.32" width="0.1524" layer="91"/>
+<label x="17.78" y="20.32" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="REAR" gate="A" pin="2"/>
+<wire x1="43.18" y1="20.32" x2="35.56" y2="20.32" width="0.1524" layer="91"/>
+<label x="35.56" y="20.32" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="REARRIGHT" gate="A" pin="2"/>
+<wire x1="60.96" y1="20.32" x2="53.34" y2="20.32" width="0.1524" layer="91"/>
+<label x="53.34" y="20.32" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="RIGHT" gate="A" pin="2"/>
+<wire x1="60.96" y1="38.1" x2="53.34" y2="38.1" width="0.1524" layer="91"/>
+<label x="53.34" y="38.1" size="1.778" layer="95"/>
 </segment>
 </net>
 </nets>
