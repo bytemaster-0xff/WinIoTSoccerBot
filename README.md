@@ -37,7 +37,7 @@ The first thing the app does is requests the version from the mBot.  Our custom 
 ##### Jan 2017 - Connect our mBot to Windows 10 UWP App with Blue Tooth (Completed)
 ##### Feb 2017 - Attach Win 10 IoT Core to our mBot and Control via Web (Completed)
 ##### [Mar 2017](March2017Goals.md) - Make sure everyone can connect their mBot to Win 10 IoT Core, Compass, XBox Controller, Review Power Options
-##### Apr 2017 - Build our Sensor Board and test interactions
+##### [Apr 2017](April2017Goals.md) - Build our Sensor Board and test interactions
 ##### May 2017 - Connect mBot to Cloud and test mutliple unit control
 ##### Jun 2017 - Add Laser Turret and Detection
 ##### Jul 2017 - Start Autonmous Testings
