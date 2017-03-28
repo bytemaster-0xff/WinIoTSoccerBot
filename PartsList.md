@@ -112,3 +112,15 @@ If you have an existing Wired controller from an old XBox that should work as we
 #### [XBox 360 Wireless Adapter](https://www.amazon.com/Microsoft-Xbox-Wireless-Receiver-Windows/dp/B000HZFCT2/ref=sr_1_5?ie=UTF8&qid=1488820851&sr=8-5&keywords=xbox+controller+wireless+adapter+for+windows+10)
 
 #### [XBox One Wireless Adapter](https://www.amazon.com/Microsoft-Xbox-Wireless-Adapter-Windows/dp/B00ZB7W4QU/ref=sr_1_3?ie=UTF8&qid=1488820851&sr=8-3&keywords=xbox+controller+wireless+adapter+for+windows+10)
+
+## Tools
+
+Note: These are very basic tools I'm recommending with the interest of keeping the prices down as much as possible.  I already have most of these so I'm not going to be purchasing these and can't make a claim one-way-or-another as to their quality.  They should however work for our intended purpose.
+
+## Entry Level
+#### [Soldering Station](https://www.amazon.com/Pictek-Soldering-Adjustable-Temperature-Welding/dp/B01HXDP85S/ref=sr_1_2?ie=UTF8&qid=1490719685&sr=8-2-spons&keywords=Soldering+iron&psc=1)
+![Alt](Documentation/SolderKit.jpg)
+
+## Decent
+#### [Weller Soldering Station](https://www.amazon.com/Weller-WLC100-40-Watt-Soldering-Station/dp/B000AS28UC/ref=sr_1_5?ie=UTF8&qid=1490719685&sr=8-5&keywords=Soldering+iron)
+![Alt](Documentation/WellerSolderStation.jpg)
