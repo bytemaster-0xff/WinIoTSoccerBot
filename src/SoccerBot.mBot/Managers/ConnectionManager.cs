@@ -2,6 +2,7 @@
 using LagoVista.Core.Networking.Models;
 using LagoVista.Core.Networking.Services;
 using SoccerBot.Core.Interfaces;
+using SoccerBot.mBot.Sensors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -99,9 +100,9 @@ namespace SoccerBot.mBot.Managers
             _webServer.StartServer(port);
         }
 
-        public void StartTCPServer(int port, ISoccerBot soccerBot)
+        public void StartTCPServer(int port, ISoccerBot soccerBot, SensorManager sensorManager)
         {
-            _tcpServer = new Channels.Server(_logger, port, soccerBot);
+            _tcpServer = new Channels.Server(_logger, port, soccerBot, sensorManager);
             _tcpServer.Start();
         }
 

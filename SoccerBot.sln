@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoccerBotApp", "src\SoccerBotApp\SoccerBotApp.csproj", "{5CEEF930-71D7-4865-BB00-6C1005276769}"
 EndProject
@@ -26,6 +26,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 		RemoteClient.md = RemoteClient.md
 		Documentation\RoverVersion.jpg = Documentation\RoverVersion.jpg
+		SensorBoardV1.md = SensorBoardV1.md
 		Documentation\Standoffs.jpg = Documentation\Standoffs.jpg
 		WiFiConnectivity.md = WiFiConnectivity.md
 	EndProjectSection
@@ -35,6 +36,33 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoccerBot.UWP", "src\SoccerBot.UWP\SoccerBot.UWP.csproj", "{267EF52C-9F76-4536-8A72-ED9CEFAF73D0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoccerBot.mBot", "src\SoccerBot.mBot\SoccerBot.mBot.csproj", "{337434DF-2058-4F3D-AE1D-375A546BA3A9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SensorBoardPix", "SensorBoardPix", "{F1E75DDE-65C0-41A4-BA98-0502C57A2F32}"
+	ProjectSection(SolutionItems) = preProject
+		Documentation\SensorBoard\3PinConnector.jpg = Documentation\SensorBoard\3PinConnector.jpg
+		Documentation\SensorBoard\4PinConnector.png = Documentation\SensorBoard\4PinConnector.png
+		Documentation\SensorBoard\AddCompass.jpg = Documentation\SensorBoard\AddCompass.jpg
+		Documentation\SensorBoard\BentPinPliers.jpg = Documentation\SensorBoard\BentPinPliers.jpg
+		Documentation\SensorBoard\CompassDetails.jpg = Documentation\SensorBoard\CompassDetails.jpg
+		Documentation\SensorBoard\FrontView.jpg = Documentation\SensorBoard\FrontView.jpg
+		Documentation\SensorBoard\InsertLeftFront.jpg = Documentation\SensorBoard\InsertLeftFront.jpg
+		Documentation\SensorBoard\InsertRearSensor.jpg = Documentation\SensorBoard\InsertRearSensor.jpg
+		Documentation\SensorBoard\InsertResistor.jpg = Documentation\SensorBoard\InsertResistor.jpg
+		Documentation\SensorBoard\InsertSensor.jpg = Documentation\SensorBoard\InsertSensor.jpg
+		Documentation\SensorBoard\InsertTransistor.png = Documentation\SensorBoard\InsertTransistor.png
+		Documentation\SensorBoard\IRSensor.jpg = Documentation\SensorBoard\IRSensor.jpg
+		Documentation\SensorBoard\IRSensorBentPin.jpg = Documentation\SensorBoard\IRSensorBentPin.jpg
+		Documentation\SensorBoard\IRSensorSoldered.jpg = Documentation\SensorBoard\IRSensorSoldered.jpg
+		Documentation\SensorBoard\LeftView.jpg = Documentation\SensorBoard\LeftView.jpg
+		Documentation\SensorBoard\RaspberryPiConnector.jpg = Documentation\SensorBoard\RaspberryPiConnector.jpg
+		Documentation\SensorBoard\RaspPiConnector.jpg = Documentation\SensorBoard\RaspPiConnector.jpg
+		Documentation\SensorBoard\RearView.jpg = Documentation\SensorBoard\RearView.jpg
+		Documentation\SensorBoard\Resistor.jpg = Documentation\SensorBoard\Resistor.jpg
+		Documentation\SensorBoard\RightSensors.jpg = Documentation\SensorBoard\RightSensors.jpg
+		Documentation\SensorBoard\RightSideView.jpg = Documentation\SensorBoard\RightSideView.jpg
+		Documentation\SensorBoard\SolderingPins.jpg = Documentation\SensorBoard\SolderingPins.jpg
+		Documentation\SensorBoard\Transistor.jpg = Documentation\SensorBoard\Transistor.jpg
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -139,5 +167,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F1E75DDE-65C0-41A4-BA98-0502C57A2F32} = {2F96017D-32D5-4296-A6BA-F340A8D7D7DC}
 	EndGlobalSection
 EndGlobal

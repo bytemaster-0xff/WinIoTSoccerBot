@@ -8,6 +8,7 @@ using System.Diagnostics;
 using LagoVista.Core.Models.Drawing;
 using SoccerBot.Core.Models;
 using SoccerBot.Core.Messages;
+using SoccerBot.mBot.Sensors;
 
 namespace SoccerBot.mBot.Channels
 {
@@ -15,6 +16,7 @@ namespace SoccerBot.mBot.Channels
     {
         ISoccerBotLogger _logger;
         ISoccerBot _soccerBot;
+        SensorManager _sensorManager;
         List<Client> _clients;
         TCPListener _listener;
 
@@ -25,11 +27,13 @@ namespace SoccerBot.mBot.Channels
         Object _clientAccessLocker = new object();
 
 
-        public Server(ISoccerBotLogger logger, int port, ISoccerBot soccerBot)
+        public Server(ISoccerBotLogger logger, int port, ISoccerBot soccerBot, SensorManager sensorManager)
         {
             _port = port;
             _logger = logger;
             _soccerBot = soccerBot;
+
+            _sensorManager = sensorManager;
 
             _listener = new TCPListener(_logger, this, _port);
             _clients = new List<Client>();
@@ -50,7 +54,21 @@ namespace SoccerBot.mBot.Channels
             sensorMessage.Version = _soccerBot.FirmwareVersion;
             sensorMessage.DeviceName = _soccerBot.DeviceName;
             sensorMessage.FrontSonar = _soccerBot.FrontSonar;
-            sensorMessage.Compass = _soccerBot.Compass;
+            sensorMessage.Compass = _sensorManager.Compass;
+            sensorMessage.CompassRawX = _sensorManager.Compass.RawX;
+            sensorMessage.CompassRawY = _sensorManager.Compass.RawY;
+
+            sensorMessage.RightIR = _sensorManager.SensorArray.Right;
+
+            sensorMessage.FrontRightIR = _sensorManager.SensorArray.FrontRight;
+            sensorMessage.FrontIR = _sensorManager.SensorArray.Front;
+            sensorMessage.FrontLeftIR = _sensorManager.SensorArray.FrontLeft;
+
+            sensorMessage.LeftIR = _sensorManager.SensorArray.Left;
+
+            sensorMessage.RearRightIR = _sensorManager.SensorArray.RearRight;
+            sensorMessage.RearIR = _sensorManager.SensorArray.Rear;
+            sensorMessage.RearLeftIR = _sensorManager.SensorArray.RearLeft;
 
             var msg = NetworkMessage.CreateJSONMessage(sensorMessage, Core.Messages.SensorData.MessageTypeId);
 

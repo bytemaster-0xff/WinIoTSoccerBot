@@ -9,9 +9,8 @@ namespace SoccerBot.Core.Interfaces
 {
     public interface ISensor : INotifyPropertyChanged, IDisposable
     {
-        double Value { get; set; }
+        string Value { get; set; }
         DateTime? LastUpdated { get; }
-
         bool IsOnline { get; }
     }
 }

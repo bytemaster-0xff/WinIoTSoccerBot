@@ -1,10 +1,12 @@
 ﻿using SoccerBot.Core.Interfaces;
 using SoccerBot.mBot.Channels;
+using SoccerBot.mBot.Sensors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Devices.Gpio;
 
 namespace SoccerBot.mBot.ViewModels
 {
@@ -14,6 +16,7 @@ namespace SoccerBot.mBot.ViewModels
         ISoccerBotLogger _logger;
         ISoccerBot _soccerBot;
         Server _server;
+
 
         public SoccerBotViewModel(ISoccerBot soccerBot, ISoccerBotLogger logger, Server server)
         {

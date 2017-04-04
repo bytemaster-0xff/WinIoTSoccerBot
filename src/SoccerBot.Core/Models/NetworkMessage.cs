@@ -2,6 +2,7 @@
 using SoccerBot.Core.Protocols;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -111,8 +112,16 @@ namespace SoccerBot.Core.Models
 
         public T DeserializePayload<T>()
         {
-            var str = System.Text.UTF8Encoding.UTF8.GetString(Payload, 0, Payload.Length);
-            return JsonConvert.DeserializeObject<T>(str);
+            try
+            {
+                var str = System.Text.UTF8Encoding.UTF8.GetString(Payload, 0, Payload.Length);
+                return JsonConvert.DeserializeObject<T>(str);
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return default(T);
+            }
         }
     }
 }
