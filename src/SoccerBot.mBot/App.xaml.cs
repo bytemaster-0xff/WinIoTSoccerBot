@@ -2,6 +2,7 @@
 using SoccerBot.Core.Channels;
 using SoccerBot.Core.Devices;
 using SoccerBot.Core.Interfaces;
+using SoccerBot.mBot.Sensors;
 using SoccerBot.UWP.Channels;
 using System;
 using System.Collections.Generic;
@@ -34,6 +35,8 @@ namespace SoccerBot.mBot
     {
         ISoccerBotLogger _logger;
         ISoccerBot _soccerBot;
+
+        SensorManager _sensorManager;
 
         private static App _theApp;
 
@@ -137,7 +140,10 @@ namespace SoccerBot.mBot
 
                     var serialPortChannel = new SerialChannel(ports.First().Id, _logger);
                     await serialPortChannel.ConnectAsync();
-                    _soccerBot = new mBlockSoccerBot(serialPortChannel, _logger, pin);                    
+                    _soccerBot = new mBlockSoccerBot(serialPortChannel, _logger, pin);
+                    _sensorManager = new SensorManager();
+                    await _sensorManager.InitAsync();
+                    _sensorManager.Start();
 
                     Managers.ConnectionManager.Instance.MakeDiscoverable(computerName);
                     break;
@@ -149,13 +155,15 @@ namespace SoccerBot.mBot
 
             Managers.ConnectionManager.Instance.Init(_soccerBot, _logger);
             Managers.ConnectionManager.Instance.StartWebServer(80, computerName);
-            Managers.ConnectionManager.Instance.StartTCPServer(9000, _soccerBot);
+            Managers.ConnectionManager.Instance.StartTCPServer(9000, _soccerBot, _sensorManager);
         }
 
         public Channels.Server TCPIPServer { get { return Managers.ConnectionManager.Instance.TCPIPServer; } }
 
         public ISoccerBot SoccerBot { get { return _soccerBot; } }
         public ISoccerBotLogger Logger { get { return _logger; } }
+
+        public SensorManager SensorManager { get { return _sensorManager; } }
 
         /// <summary>
         /// Invoked when Navigation to a certain page fails

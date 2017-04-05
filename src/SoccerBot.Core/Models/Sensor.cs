@@ -1,16 +1,12 @@
 ﻿using LagoVista.Core.PlatformSupport;
 using SoccerBot.Core.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SoccerBot.mBot.Sensors
+namespace SoccerBot.Core.Models
 {
-    public class Sonar : ISensor
+    public class Sensor : ISensor
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private void RaisePropertyChanged([CallerMemberName] string propertyName = null)
@@ -20,7 +16,6 @@ namespace SoccerBot.mBot.Sensors
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName))
             );
         }
-
 
         private bool _isOnline;
 
@@ -33,6 +28,7 @@ namespace SoccerBot.mBot.Sensors
                 RaisePropertyChanged();
             }
         }
+
 
         public DateTime? LastUpdated
         {
@@ -51,7 +47,6 @@ namespace SoccerBot.mBot.Sensors
                 RaisePropertyChanged(nameof(LastUpdated));
             }
         }
-
 
         public void Dispose()
         {

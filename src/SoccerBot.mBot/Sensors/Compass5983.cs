@@ -1,8 +1,10 @@
 ﻿using LagoVista.Core.PlatformSupport;
 using SoccerBot.Core.Interfaces;
+using SoccerBot.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -51,16 +53,32 @@ namespace SoccerBot.mBot.Sensors
         const byte HMC5983_TEMP_OUT_MSB = 0x31;
         const byte HMC5983_TEMP_OUT_LSB = 0x32;
 
-        public async Task Init()
+        public async Task InitAsync()
         {
             var i2cDeviceSelector = I2cDevice.GetDeviceSelector();
             var devices = await DeviceInformation.FindAllAsync(i2cDeviceSelector);
-            var HTU21D_settings = new I2cConnectionSettings(HMC5983_ADDRESS);
-            _compassSensor = await I2cDevice.FromIdAsync(devices[0].Id, HTU21D_settings);
+            var hmc5983ConnectionSettings = new I2cConnectionSettings(HMC5983_ADDRESS);
+            _compassSensor = await I2cDevice.FromIdAsync(devices[0].Id, hmc5983ConnectionSettings);
 
+            RawX = new Sensor() { IsOnline = false };
+            RawY = new Sensor() { IsOnline = false };
+            IsOnline = false;
+        }
+
+        public void Start()
+        {
             _timer = new Timer(Read, null, 0, 500);
         }
 
+        public void Stop()
+        {
+            if (_timer != null)
+            {
+                _timer.Change(Timeout.Infinite, Timeout.Infinite);
+                _timer.Dispose();
+                _timer = null;
+            }
+        }
 
         public async void Read(Object state)
         {
@@ -76,35 +94,39 @@ namespace SoccerBot.mBot.Sensors
                 var inBuffer = new byte[6];
                 _compassSensor.Read(inBuffer);
 
+                var hX = BitConverter.ToUInt16(inBuffer, 0);
+                var hY = BitConverter.ToUInt16(inBuffer, 2);
+                var hZ = BitConverter.ToUInt16(inBuffer, 4);
 
-                var hX = Convert.ToInt16((inBuffer[0] << 8) + inBuffer[1]);
-                var hZ = Convert.ToInt16((inBuffer[2] << 8) + inBuffer[3]);
-                var hY = Convert.ToInt16((inBuffer[4] << 8) + inBuffer[5]);
-
-                // convert the numbers to fit the 
-                //if (hX > 0x07FF) hX = 0xFFFF - hX;
-                //if (hZ > 0x07FF) hZ = Convert.ToInt16(0xFFFF - hZ);
-                //if (hY > 0x07FF) hY = 0xFFFF - hY;
-
-
-                if (hY == 0 && hX > 0) Value = 180;
-                else if (hY == 0 && hX <= 0) Value = 0;
-                else if (hY > 0) Value = 90 - Convert.ToInt16((Math.Atan(hX / hY) * (180 / Math.PI)));
-                else if (hY < 0) Value = 270 - Convert.ToInt16((Math.Atan(hX / hY) * (180 / Math.PI)));
+                if (hY == 0 && hX > 0) Value = 180.ToString();
+                else if (hY == 0 && hX <= 0) Value = 0.ToString();
+                else if (hY > 0) Value = (90 - Convert.ToUInt32((Math.Atan(hX / hY) * (180 / Math.PI)))).ToString();
+                else if (hY < 0) Value = (270 - Convert.ToUInt32((Math.Atan(hX / hY) * (180 / Math.PI)))).ToString();
 
                 IsOnline = true;
+
+                RawX.Value = hX.ToString();
+                RawX.IsOnline = true;
+                RawY.Value = hX.ToString();
+                RawY.IsOnline = true;
+
+                Debug.WriteLine("Compass: " + Value.ToString());
             }
             catch (Exception)
             {
+                RawX.IsOnline = false;
+                RawY.IsOnline = false;
+                Debug.WriteLine("Compass Offline: " + Value.ToString());
                 IsOnline = false;
             }
         }
 
         private bool _isOnline = false;
-        public bool IsOnline 
+        public bool IsOnline
         {
             get { return _isOnline; }
-            set {
+            set
+            {
                 _isOnline = value;
                 RaisePropertyChanged();
             }
@@ -116,8 +138,8 @@ namespace SoccerBot.mBot.Sensors
             get; private set;
         }
 
-        private double _value;
-        public double Value
+        private string _value;
+        public string Value
         {
             get { return _value; }
             set
@@ -143,5 +165,8 @@ namespace SoccerBot.mBot.Sensors
                 _compassSensor = null;
             }
         }
+
+        public Sensor RawX { get; set; }
+        public Sensor RawY { get; set; }
     }
 }

@@ -39,8 +39,8 @@ namespace SoccerBotApp.Models
             get; private set;            
         }
 
-        private double _value;
-        public double Value
+        private String _value;
+        public String Value
         {
             get { return _value; }
             set

@@ -1,5 +1,7 @@
 ﻿using LagoVista.Core.Models.Drawing;
 using SoccerBot.Core.Interfaces;
+using SoccerBot.Core.Messages;
+using System.Diagnostics;
 
 namespace SoccerBot.Core.Devices
 {
@@ -13,7 +15,17 @@ namespace SoccerBot.Core.Devices
         public SoccerBotClient(IChannel channel, ISoccerBotLogger logger, string pin = "9999") 
         {
             _channel = channel;
+            _channel.NetworkMessageReceived += _channel_NetworkMessageReceived;
             _logger = logger;
+        }
+
+        private void _channel_NetworkMessageReceived(object sender, Models.NetworkMessage e)
+        {
+            if (e.MessageTypeCode == Core.Messages.SensorData.MessageTypeId)
+            {
+                var sensorData = e.DeserializePayload<SensorData>();
+                Debug.WriteLine(sensorData.CompassRawX.Value + " " + sensorData.CompassRawY.Value);
+            }
         }
 
         ISensor _compass;
