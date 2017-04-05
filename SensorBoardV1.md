@@ -21,19 +21,34 @@ Just like Software, Hardware can have bugs in it as well, unfortunately sometime
 ## Step 1 - Organize and Identify Parts
 There are a number of distinct parts that make up our sensor board
 1) Main Connector for Raspberry Pi
+
 ![Alt](Documentation/SensorBoard/RaspPiConnector.jpg)
+
 2) 8x IR Sensors
+
 ![Alt](Documentation/SensorBoard/IRSensor.jpg)
+
 3) HMC5983 Comppass (attached to I2C Bus)
+
 ![Alt](Documentation/SensorBoard/Compass.jpg)
+
 4) Right Angle 4 Pin Connector - To Connect the mBot to our Raspberry Pi
+
 ![Alt](Documentation/SensorBoard/4PinConnector.png)
+
 5) 2x 2904 NPN Transistors - Used to switch power on/off of the IR Sensors
+
 ![Alt](Documentation/SensorBoard/Transistor.jpg)
+
 6) 2x 1K or 470K Resistor (Your kit may contain either one of these) - These are used to limit the current flow through the Transistor
+
 ![Alt](Documentation/SensorBoard/Resistor.jpg)
+
 7) 4x 3 Pin Connector
+
 ![Alt](Documentation/SensorBoard/3PinConnector.jpg)
+
+
 
 ## Step 2 - Install the IR Sensors
 In this step you will be installing 8 IR Sensors on your Sensor Board, these will be used to detect obstacles within a small distance of your bot.
@@ -48,11 +63,17 @@ In this step you will be installing 8 IR Sensors on your Sensor Board, these wil
 1. Solder all the pins to the board.
 
 ![Alt](Documentation/SensorBoard/BentPinPliers.jpg)
+
 ![Alt](Documentation/SensorBoard/IRSensorBentPin.jpg)
+
 ![Alt](Documentation/SensorBoard/InsertSensor.jpg)
+
 ![Alt](Documentation/SensorBoard/InsertLeftFront.jpg)
+
 ![Alt](Documentation/SensorBoard/RightSensors.jpg)
+
 ![Alt](Documentation/SensorBoard/InsertRearSensor.jpg)
+
 ![Alt](Documentation/SensorBoard/IRSensorSoldered.jpg)
 
 ## Step 3 - Install the 4 Pin Right Angle Connector
@@ -63,7 +84,9 @@ In this step you will be installing 8 IR Sensors on your Sensor Board, these wil
 ## Step 4 - Install the two transistors
 1. Install the two transistors into the board you will need to bend the pins slightly to allow them to go into the board.
 **IMPORTANT NOTE** The transistor must be inserted so that the flat part is lined up with the white outline (silkscreen) on the board and the half circle with the half circle on the board
+
 ![Alt](Documentation/SensorBoard/InsertTransistor.png)
+
 2. Solder the pins to the board
 
 ## Step 5 - Install the two resistors
@@ -74,9 +97,13 @@ In this step you will be installing 8 IR Sensors on your Sensor Board, these wil
 1. Insert the 7 Pin header connector into the compass board and solder it in place.
 2. Take your side cutters and trim the 7th pin, the one by the hold labled DRDY, this needs to be removed so it will fit in the board.
 3. Place the Compass Board into the Main Board as show below and solder it in place.
+
 ![Alt](Documentation/SensorBoard/CompassPins.jpg)
+
 ![Alt](Documentation/SensorBoard/AddCompass.jpg)
+
 ![Alt](Documentation/SensorBoard/CompassDetails.jpg)
+
 **NOTE A** Pin through board
 
 **NOTE B** Removed Pin
@@ -90,4 +117,5 @@ In this step you will be installing 8 IR Sensors on your Sensor Board, these wil
 ## Step 8 - Install the Raspberry Pi to Sensor Board Connector.
 1.  Install the 40 Pin Connector so the pins are exposed through the top of the board
 2.  Solder the connector in place.  It may be easiest to do so using the method shown below
+
 ![Alt](Documentation/SensorBoard/SolderingPins.jpg)
