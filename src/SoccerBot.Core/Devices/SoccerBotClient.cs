@@ -2,6 +2,10 @@
 using SoccerBot.Core.Interfaces;
 using SoccerBot.Core.Messages;
 using System.Diagnostics;
+using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using LagoVista.Core.PlatformSupport;
 
 namespace SoccerBot.Core.Devices
 {
@@ -12,7 +16,8 @@ namespace SoccerBot.Core.Devices
 
         Commands _currentCommand = Commands.Stop;
 
-        public SoccerBotClient(IChannel channel, ISoccerBotLogger logger, string pin = "9999") 
+
+        public SoccerBotClient(IChannel channel, ISoccerBotLogger logger, string pin = "9999")
         {
             _channel = channel;
             _channel.NetworkMessageReceived += _channel_NetworkMessageReceived;
@@ -23,8 +28,7 @@ namespace SoccerBot.Core.Devices
         {
             if (e.MessageTypeCode == Core.Messages.SensorData.MessageTypeId)
             {
-                var sensorData = e.DeserializePayload<SensorData>();
-                Debug.WriteLine(sensorData.CompassRawX.Value + " " + sensorData.CompassRawY.Value);
+                SensorData = e.DeserializePayload<SensorData>();
             }
         }
 
@@ -50,6 +54,17 @@ namespace SoccerBot.Core.Devices
             }
         }
 
+        SensorData _sensorData;
+        public SensorData SensorData
+        {
+            get { return _sensorData; }
+            set
+            {
+                _sensorData = value;
+                RaisePropertyChanged();
+            }
+        }
+
         public void Move(short speed = 0, short? relativeHeading = 0, short? absoluteHeading = 0, short? duration = 0)
         {
             var moveMessage = Messages.Move.Create(speed, relativeHeading, absoluteHeading, duration);
@@ -58,17 +73,17 @@ namespace SoccerBot.Core.Devices
 
         public void PlayTone(short frequency)
         {
-            
+
         }
 
         public void Reset()
         {
-            
+
         }
 
         public void SetLED(byte index, Color color)
         {
-            
+
         }
 
         public void Stop()
@@ -79,7 +94,7 @@ namespace SoccerBot.Core.Devices
 
         protected override void RefreshSensors()
         {
-            
+
         }
 
         protected override void SendCommand(object inputCmd)

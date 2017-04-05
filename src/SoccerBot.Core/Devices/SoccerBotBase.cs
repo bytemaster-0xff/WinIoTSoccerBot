@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 
 namespace SoccerBot.Core.Devices
 {
-    public abstract class SoccerBotBase
+    public abstract class SoccerBotBase : INotifyPropertyChanged
     {
         public enum Commands
         {

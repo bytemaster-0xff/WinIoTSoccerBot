@@ -91,5 +91,10 @@ namespace SoccerBotApp
         {
 
         }
+
+        private void DeviceView_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
+        {
+            Debug.WriteLine(args.NewValue);
+        }
     }
 }

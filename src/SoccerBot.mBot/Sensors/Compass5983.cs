@@ -1,6 +1,8 @@
-﻿using LagoVista.Core.PlatformSupport;
+﻿using LagoVista.Core.Models.Drawing;
+using LagoVista.Core.PlatformSupport;
 using SoccerBot.Core.Interfaces;
 using SoccerBot.Core.Models;
+using SoccerBot.mBot.Filters;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -53,12 +55,30 @@ namespace SoccerBot.mBot.Sensors
         const byte HMC5983_TEMP_OUT_MSB = 0x31;
         const byte HMC5983_TEMP_OUT_LSB = 0x32;
 
+        MedianFilter _medianFilter;
+
         public async Task InitAsync()
         {
             var i2cDeviceSelector = I2cDevice.GetDeviceSelector();
             var devices = await DeviceInformation.FindAllAsync(i2cDeviceSelector);
             var hmc5983ConnectionSettings = new I2cConnectionSettings(HMC5983_ADDRESS);
             _compassSensor = await I2cDevice.FromIdAsync(devices[0].Id, hmc5983ConnectionSettings);
+
+            //Config Register A
+            // 7 - 7 = 0 Temperature Off
+            // 6 - 5 = 11 => 8 Samples per reading
+            // 4 - 2 = 100 => Data Rate 15 Hz
+            // 1 - 0 = 00 Measurement Config Bits (default)
+
+            //Config Register B
+            //Gain - Use Default
+
+            var setupBuffer = new byte[2];
+            setupBuffer[0] = HMC5983_CONF_A;
+            setupBuffer[1] = 0b01110000;
+            _compassSensor.Write(setupBuffer);
+
+            _medianFilter = new MedianFilter();
 
             RawX = new Sensor() { IsOnline = false };
             RawY = new Sensor() { IsOnline = false };
@@ -67,9 +87,11 @@ namespace SoccerBot.mBot.Sensors
 
         public void Start()
         {
-            _timer = new Timer(Read, null, 0, 500);
+            if (_timer == null)
+            {
+                _timer = new Timer(Read, null, 0, 250);
+            }
         }
-
         public void Stop()
         {
             if (_timer != null)
@@ -84,36 +106,54 @@ namespace SoccerBot.mBot.Sensors
         {
             try
             {
+                /* Ask the Compass to Perform a Reading */
                 var outBuffer = new byte[2];
                 outBuffer[0] = HMC5983_MODE;
                 outBuffer[1] = 0x01;
                 _compassSensor.Write(outBuffer);
 
-                await Task.Delay(10);
+                /* Wait for Conversion complete, 10ms should be plenty */
+                await Task.Delay(20);
+
+                /* Move the read buffer to register #3 which is where the compass data starts */
+                /* Read Compass Values */
 
                 var inBuffer = new byte[6];
-                _compassSensor.Read(inBuffer);
+                _compassSensor.WriteRead(new byte[1] { HMC5983_OUT_X_MSB }, inBuffer);
 
-                var hX = BitConverter.ToUInt16(inBuffer, 0);
-                var hY = BitConverter.ToUInt16(inBuffer, 2);
-                var hZ = BitConverter.ToUInt16(inBuffer, 4);
+    //            var hX = BitConverter.ToInt16(inBuffer, 0);
+  //              var hZ = BitConverter.ToInt16(inBuffer, 2);
+//                var hY = BitConverter.ToInt16(inBuffer, 4);
 
-                if (hY == 0 && hX > 0) Value = 180.ToString();
-                else if (hY == 0 && hX <= 0) Value = 0.ToString();
-                else if (hY > 0) Value = (90 - Convert.ToUInt32((Math.Atan(hX / hY) * (180 / Math.PI)))).ToString();
-                else if (hY < 0) Value = (270 - Convert.ToUInt32((Math.Atan(hX / hY) * (180 / Math.PI)))).ToString();
+
+                var hX = (Int16)(inBuffer[0] << 8 | inBuffer[1]);
+                var hZ = (Int16)(inBuffer[2] << 8 | inBuffer[3]);
+                var hY = (Int16)(inBuffer[4] << 8 | inBuffer[5]);
+
+                _medianFilter.Add(new Point2D<int>(hX, hY));
+
+                
+                var radians = Math.Atan2(_medianFilter.Filtered.X, _medianFilter.Filtered.Y);
+                var angle = radians * (180 / Math.PI);
+
+                Value = angle.ToString();
+
+
+                if (hY > 0) Value = (90 - angle).ToString();
+                else if (hY < 0) Value = (270 - angle).ToString(); 
 
                 IsOnline = true;
 
                 RawX.Value = hX.ToString();
                 RawX.IsOnline = true;
-                RawY.Value = hX.ToString();
+                RawY.Value = hY.ToString();
                 RawY.IsOnline = true;
 
-                Debug.WriteLine("Compass: " + Value.ToString());
+                Debug.WriteLine($"Angle={Value}");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Debug.WriteLine(ex.Message);
                 RawX.IsOnline = false;
                 RawY.IsOnline = false;
                 Debug.WriteLine("Compass Offline: " + Value.ToString());

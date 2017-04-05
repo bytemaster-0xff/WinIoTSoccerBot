@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26228.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoccerBotApp", "src\SoccerBotApp\SoccerBotApp.csproj", "{5CEEF930-71D7-4865-BB00-6C1005276769}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Desktop App", "src\SoccerBotApp\Desktop App.csproj", "{5CEEF930-71D7-4865-BB00-6C1005276769}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoccerBotTests", "tests\SoccerBotTests\SoccerBotTests.csproj", "{1BF743E8-B764-4512-B9F9-094A547883B7}"
 EndProject
@@ -31,11 +31,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		WiFiConnectivity.md = WiFiConnectivity.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoccerBot.Core", "src\SoccerBot.Core\SoccerBot.Core.csproj", "{89591A82-D13A-4A27-B378-8E176C3104E2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library - Generic", "src\SoccerBot.Core\Library - Generic.csproj", "{89591A82-D13A-4A27-B378-8E176C3104E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoccerBot.UWP", "src\SoccerBot.UWP\SoccerBot.UWP.csproj", "{267EF52C-9F76-4536-8A72-ED9CEFAF73D0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library - UWP mBot", "src\SoccerBot.UWP\Library - UWP mBot.csproj", "{267EF52C-9F76-4536-8A72-ED9CEFAF73D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoccerBot.mBot", "src\SoccerBot.mBot\SoccerBot.mBot.csproj", "{337434DF-2058-4F3D-AE1D-375A546BA3A9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Raspberry Pi Firmware", "src\SoccerBot.mBot\Raspberry Pi Firmware.csproj", "{337434DF-2058-4F3D-AE1D-375A546BA3A9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SensorBoardPix", "SensorBoardPix", "{F1E75DDE-65C0-41A4-BA98-0502C57A2F32}"
 	ProjectSection(SolutionItems) = preProject

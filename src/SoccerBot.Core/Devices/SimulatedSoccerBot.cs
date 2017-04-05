@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LagoVista.Core.Commanding;
 using LagoVista.Core.Models.Drawing;
+using SoccerBot.Core.Messages;
 
 namespace SoccerBot.Core.Devices
 {
@@ -20,6 +21,7 @@ namespace SoccerBot.Core.Devices
         {
             get; set;
         }
+        public SensorData SensorData { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public void PlayTone(short frequency)
         {

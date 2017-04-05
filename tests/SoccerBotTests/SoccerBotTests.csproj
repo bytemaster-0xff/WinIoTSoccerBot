@@ -70,9 +70,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\SoccerBot.Core\SoccerBot.Core.csproj">
+    <ProjectReference Include="..\..\src\SoccerBot.Core\Library - Generic.csproj">
       <Project>{89591a82-d13a-4a27-b378-8e176c3104e2}</Project>
-      <Name>SoccerBot.Core</Name>
+      <Name>Library - Generic</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

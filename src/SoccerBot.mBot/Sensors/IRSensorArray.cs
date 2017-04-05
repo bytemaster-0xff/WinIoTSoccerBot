@@ -94,9 +94,9 @@ namespace SoccerBot.mBot.Sensors
         public IRSensor Right { get { return _rightSide; } }
         public IRSensor Left { get { return _leftSide; } }
 
-        public IRSensor RearLeft { get { return _frontLeft; } }
-        public IRSensor Rear { get { return _front; } }
-        public IRSensor RearRight { get { return _frontRight; } }
+        public IRSensor RearLeft { get { return _rearLeft; } }
+        public IRSensor Rear { get { return _rear; } }
+        public IRSensor RearRight { get { return _rearRight; } }
 
     }
 }

@@ -1,4 +1,5 @@
 ﻿using LagoVista.Core.Models.Drawing;
+using SoccerBot.Core.Messages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,8 @@ namespace SoccerBot.Core.Interfaces
 
         ISensor FrontSonar { get; set; }
         ISensor Compass { get; set; }
+
+        SensorData SensorData { get; set; }
 
         DateTime? LastBotContact { get; set; }
     }

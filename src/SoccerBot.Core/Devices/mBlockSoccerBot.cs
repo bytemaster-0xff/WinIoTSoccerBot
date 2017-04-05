@@ -10,6 +10,7 @@ using SoccerBot.Core.Interfaces;
 using SoccerBot.Core.Protocols;
 using LagoVista.Core.Commanding;
 using LagoVista.Core.Models.Drawing;
+using SoccerBot.Core.Messages;
 
 namespace SoccerBot.Core.Devices
 {
@@ -445,5 +446,6 @@ namespace SoccerBot.Core.Devices
         {
             get; set;
         }
+        public SensorData SensorData { get; set; }
     }
 }
