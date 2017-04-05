@@ -31,11 +31,13 @@ The first thing the app does is requests the version from the mBot.  Our custom 
 * [Visual Studio Arduino plugin](https://visualstudiogallery.msdn.microsoft.com/069a905d-387d-4415-bc37-665a5ac9caba/file/208854/78/Visual.Micro.Arduino.Studio.vsix)
 * [Windows 10 IoT Remote Client](https://www.microsoft.com/en-us/store/p/windows-iot-remote-client/9nblggh5mnxz)
 
+![Alt](Documentation/SystemOverview.png)
+
 ## Project Plan and Schedule
 
-##### Dec 2016 - Build the Core Robot (Completed)
-##### Jan 2017 - Connect our mBot to Windows 10 UWP App with Blue Tooth (Completed)
-##### Feb 2017 - Attach Win 10 IoT Core to our mBot and Control via Web (Completed)
+##### Dec 2016 - Build the Core Robot
+##### Jan 2017 - Connect our mBot to Windows 10 UWP App with Blue Tooth
+##### Feb 2017 - Attach Win 10 IoT Core to our mBot and Control via Web
 ##### [Mar 2017](March2017Goals.md) - Make sure everyone can connect their mBot to Win 10 IoT Core, Compass, XBox Controller, Review Power Options
 ##### [Apr 2017](April2017Goals.md) - Build our Sensor Board and test interactions
 ##### May 2017 - Connect mBot to Cloud and test mutliple unit control
