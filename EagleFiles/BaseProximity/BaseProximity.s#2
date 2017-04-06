@@ -5633,6 +5633,26 @@ It has a reduced top mask to make it harder to install upside-down.</description
 <wire x1="25.4" y1="40.64" x2="15.24" y2="40.64" width="0.1524" layer="91"/>
 <label x="15.24" y="40.64" size="1.778" layer="95"/>
 </segment>
+<segment>
+<pinref part="RIGHT" gate="A" pin="1"/>
+<wire x1="60.96" y1="40.64" x2="53.34" y2="40.64" width="0.1524" layer="91"/>
+<label x="53.34" y="40.64" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="REARRIGHT" gate="A" pin="1"/>
+<wire x1="60.96" y1="22.86" x2="53.34" y2="22.86" width="0.1524" layer="91"/>
+<label x="53.34" y="22.86" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="REAR" gate="A" pin="1"/>
+<wire x1="43.18" y1="22.86" x2="35.56" y2="22.86" width="0.1524" layer="91"/>
+<label x="35.56" y="22.86" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="REARLEFT" gate="A" pin="1"/>
+<wire x1="25.4" y1="22.86" x2="17.78" y2="22.86" width="0.1524" layer="91"/>
+<label x="17.78" y="22.86" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="N$9" class="0">
 <segment>
@@ -5888,28 +5908,6 @@ It has a reduced top mask to make it harder to install upside-down.</description
 <pinref part="FRONT" gate="A" pin="3"/>
 <wire x1="43.18" y1="53.34" x2="35.56" y2="53.34" width="0.1524" layer="91"/>
 <label x="35.56" y="53.34" size="1.778" layer="95"/>
-</segment>
-</net>
-<net name="VIR" class="0">
-<segment>
-<pinref part="RIGHT" gate="A" pin="1"/>
-<wire x1="60.96" y1="40.64" x2="53.34" y2="40.64" width="0.1524" layer="91"/>
-<label x="53.34" y="40.64" size="1.778" layer="95"/>
-</segment>
-<segment>
-<pinref part="REARRIGHT" gate="A" pin="1"/>
-<wire x1="60.96" y1="22.86" x2="53.34" y2="22.86" width="0.1524" layer="91"/>
-<label x="53.34" y="22.86" size="1.778" layer="95"/>
-</segment>
-<segment>
-<pinref part="REAR" gate="A" pin="1"/>
-<wire x1="43.18" y1="22.86" x2="35.56" y2="22.86" width="0.1524" layer="91"/>
-<label x="35.56" y="22.86" size="1.778" layer="95"/>
-</segment>
-<segment>
-<pinref part="REARLEFT" gate="A" pin="1"/>
-<wire x1="25.4" y1="22.86" x2="17.78" y2="22.86" width="0.1524" layer="91"/>
-<label x="17.78" y="22.86" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="N$3" class="0">

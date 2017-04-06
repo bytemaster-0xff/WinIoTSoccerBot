@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="7.7.0">
+<eagle version="8.0.2">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -5413,11 +5413,11 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <part name="I2C_2" library="pinhead" deviceset="PINHD-1X4" device=""/>
 <part name="I2C_1" library="pinhead" deviceset="PINHD-1X4" device=""/>
 <part name="I2C_3" library="pinhead" deviceset="PINHD-1X4" device=""/>
-<part name="JP5" library="pinhead" deviceset="PINHD-1X3" device=""/>
-<part name="JP6" library="pinhead" deviceset="PINHD-1X3" device=""/>
+<part name="GPIO5" library="pinhead" deviceset="PINHD-1X3" device=""/>
+<part name="GPIO6" library="pinhead" deviceset="PINHD-1X3" device=""/>
 <part name="5983" library="pinhead" deviceset="PINHD-1X6" device=""/>
-<part name="JP3" library="pinhead" deviceset="PINHD-1X3" device=""/>
-<part name="JP4" library="pinhead" deviceset="PINHD-1X3" device=""/>
+<part name="GPIO13" library="pinhead" deviceset="PINHD-1X3" device=""/>
+<part name="GPIO19" library="pinhead" deviceset="PINHD-1X3" device=""/>
 <part name="JP7" library="pinhead" deviceset="PINHD-1X4" device=""/>
 <part name="R1" library="SparkFun-Resistors" deviceset="1KOHM-1/4W-1%(PTH)" device="" value="1K"/>
 <part name="D1" library="SparkFun-LED" deviceset="LED" device="5MM" value="Green"/>
@@ -5458,11 +5458,11 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <instance part="I2C_2" gate="A" x="17.78" y="147.32"/>
 <instance part="I2C_1" gate="A" x="17.78" y="167.64"/>
 <instance part="I2C_3" gate="A" x="17.78" y="129.54"/>
-<instance part="JP5" gate="A" x="114.3" y="170.18"/>
-<instance part="JP6" gate="A" x="114.3" y="154.94"/>
+<instance part="GPIO5" gate="A" x="114.3" y="170.18"/>
+<instance part="GPIO6" gate="A" x="114.3" y="154.94"/>
 <instance part="5983" gate="A" x="124.46" y="119.38"/>
-<instance part="JP3" gate="A" x="142.24" y="170.18"/>
-<instance part="JP4" gate="A" x="142.24" y="154.94"/>
+<instance part="GPIO13" gate="A" x="142.24" y="170.18"/>
+<instance part="GPIO19" gate="A" x="142.24" y="154.94"/>
 <instance part="JP7" gate="A" x="226.06" y="165.1"/>
 <instance part="R1" gate="G$1" x="180.34" y="88.9" rot="R270"/>
 <instance part="D1" gate="G$1" x="180.34" y="78.74" smashed="yes">
@@ -5591,22 +5591,22 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <label x="35.56" y="20.32" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="JP5" gate="A" pin="1"/>
+<pinref part="GPIO5" gate="A" pin="1"/>
 <wire x1="111.76" y1="172.72" x2="99.06" y2="172.72" width="0.1524" layer="91"/>
 <label x="99.06" y="172.72" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="JP3" gate="A" pin="1"/>
+<pinref part="GPIO13" gate="A" pin="1"/>
 <wire x1="139.7" y1="172.72" x2="129.54" y2="172.72" width="0.1524" layer="91"/>
 <label x="129.54" y="172.72" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="JP4" gate="A" pin="1"/>
+<pinref part="GPIO19" gate="A" pin="1"/>
 <wire x1="139.7" y1="157.48" x2="129.54" y2="157.48" width="0.1524" layer="91"/>
 <label x="129.54" y="157.48" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="JP6" gate="A" pin="1"/>
+<pinref part="GPIO6" gate="A" pin="1"/>
 <wire x1="111.76" y1="157.48" x2="99.06" y2="157.48" width="0.1524" layer="91"/>
 <label x="99.06" y="157.48" size="1.778" layer="95"/>
 </segment>
@@ -5776,22 +5776,22 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <label x="236.22" y="116.84" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="JP3" gate="A" pin="2"/>
+<pinref part="GPIO13" gate="A" pin="2"/>
 <wire x1="139.7" y1="170.18" x2="129.54" y2="170.18" width="0.1524" layer="91"/>
 <label x="129.54" y="170.18" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="JP4" gate="A" pin="2"/>
+<pinref part="GPIO19" gate="A" pin="2"/>
 <wire x1="139.7" y1="154.94" x2="129.54" y2="154.94" width="0.1524" layer="91"/>
 <label x="129.54" y="154.94" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="JP6" gate="A" pin="2"/>
+<pinref part="GPIO6" gate="A" pin="2"/>
 <wire x1="111.76" y1="154.94" x2="99.06" y2="154.94" width="0.1524" layer="91"/>
 <label x="99.06" y="154.94" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="JP5" gate="A" pin="2"/>
+<pinref part="GPIO5" gate="A" pin="2"/>
 <wire x1="111.76" y1="170.18" x2="99.06" y2="170.18" width="0.1524" layer="91"/>
 <label x="99.06" y="170.18" size="1.778" layer="95"/>
 </segment>
@@ -5831,7 +5831,7 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <label x="210.82" y="76.2" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="JP4" gate="A" pin="3"/>
+<pinref part="GPIO19" gate="A" pin="3"/>
 <wire x1="139.7" y1="152.4" x2="129.54" y2="152.4" width="0.1524" layer="91"/>
 <label x="129.54" y="152.4" size="1.778" layer="95"/>
 </segment>
@@ -5843,7 +5843,7 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <label x="210.82" y="78.74" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="JP3" gate="A" pin="3"/>
+<pinref part="GPIO13" gate="A" pin="3"/>
 <wire x1="139.7" y1="167.64" x2="129.54" y2="167.64" width="0.1524" layer="91"/>
 <label x="129.54" y="167.64" size="1.778" layer="95"/>
 </segment>
@@ -5855,7 +5855,7 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <label x="210.82" y="81.28" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="JP6" gate="A" pin="3"/>
+<pinref part="GPIO6" gate="A" pin="3"/>
 <wire x1="111.76" y1="152.4" x2="99.06" y2="152.4" width="0.1524" layer="91"/>
 <label x="99.06" y="152.4" size="1.778" layer="95"/>
 </segment>
@@ -5961,7 +5961,7 @@ Standard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LE
 <label x="210.82" y="83.82" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="JP5" gate="A" pin="3"/>
+<pinref part="GPIO5" gate="A" pin="3"/>
 <wire x1="111.76" y1="167.64" x2="99.06" y2="167.64" width="0.1524" layer="91"/>
 <label x="99.06" y="167.64" size="1.778" layer="95"/>
 </segment>

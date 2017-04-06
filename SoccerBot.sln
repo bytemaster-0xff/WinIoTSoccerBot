@@ -11,6 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		Documentation\BasicRoverArduino.png = Documentation\BasicRoverArduino.png
 		Documentation\BasicVersion.jpg = Documentation\BasicVersion.jpg
+		Documentation\BoardSchematicV1.0.png = Documentation\BoardSchematicV1.0.png
 		Documentation\ComPort.png = Documentation\ComPort.png
 		ConnectWinIoT.md = ConnectWinIoT.md
 		DesktopApp.md = DesktopApp.md

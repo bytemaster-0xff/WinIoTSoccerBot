@@ -5370,7 +5370,7 @@ It has a reduced top mask to make it harder to install upside-down.</description
 <sheets>
 <sheet>
 <plain>
-<text x="165.862" y="11.684" size="1.778" layer="94">Original Arduino Mini Design by Team Arduino</text>
+<text x="165.862" y="11.684" size="1.778" layer="94">Tampa Internet of Things Society</text>
 <text x="165.862" y="9.144" size="1.778" layer="94">Kevin D. Wolf - Software Logistics</text>
 <text x="240.284" y="7.366" size="1.778" layer="94">14</text>
 </plain>
