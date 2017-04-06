@@ -88,7 +88,7 @@ In this step you will be installing 8 IR Sensors on your Sensor Board, these wil
 1. Install the two transistors into the board you will need to bend the pins slightly to allow them to go into the board.
 **IMPORTANT NOTE** The transistor must be inserted so that the flat part is lined up with the white outline (silkscreen) on the board and the half circle with the half circle on the board
 
-![Alt](Documentation/SensorBoard/TransistorPlacement.png)
+![Alt](Documentation/SensorBoard/TransistorPlacement.jpg)
 
 ![Alt](Documentation/SensorBoard/InsertTransistor.png)
 
@@ -97,7 +97,7 @@ In this step you will be installing 8 IR Sensors on your Sensor Board, these wil
 ## Step 5 - Install the two resistors
 1. Install the two resistors and solder them into the board, their orientation doesn't matter.
 
-![Alt](Documentation/SensorBoard/ResistorPlacement.png)
+![Alt](Documentation/SensorBoard/ResistorPlacement.jpg)
 
 ## Step 6 - Install the Compass
 1. Insert the 7 Pin header connector into the compass board and solder it in place.
