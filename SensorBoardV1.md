@@ -60,6 +60,14 @@ In this step you will be installing 8 IR Sensors on your Sensor Board, these wil
 1. Locate the 8 IR Sensors, for of them will have the pins facing up and four will have them facing down.
 1. You will need to bend the pins so they are pointing straight up or down based on the sensor you have, easiest way to do this is to take a small pliers and just bend them, be careful so you don't break them. 
 1. Next take the four IR Sensors with the **pins facing up**, insert them in the holes labeled REARLEFT, LEFT, FRONTLEFT, FRONT.
+
+1 new message since 11:51 AM
+Mark as read (esc)Mark as read
+Channel #general, 1 new message since 8:29 PM...
+Open in archives
+Today at 10:23:14 AM
+
+@bytemaster
 1. Take three of the IR Sensors with the **pins facing down**, turn them over so the components are facing down, and place them in the holes labled RIGHTREAR, RIGHT, FRONTRIGHT.  Your IR Sensors will have the lights facing down.
 1. Once you are confident that the sensor boards are laying flat, solder each of the pins.
 1. Take the final IR Sensor with the pins facing down and place it on the top of the board in the REAR slot with the pins facing down
@@ -93,7 +101,7 @@ In this step you will be installing 8 IR Sensors on your Sensor Board, these wil
 ![Alt](Documentation/SensorBoard/InsertTransistor.png)
 
 2. Solder the pins to the board
-
+https://soccerbot.slack.com/team/bytemaster
 ## Step 5 - Install the two resistors
 1. Install the two resistors and solder them into the board, their orientation doesn't matter.
 
@@ -126,6 +134,9 @@ In this step you will be installing 8 IR Sensors on your Sensor Board, these wil
 ## Step 8 - Install the Raspberry Pi to Sensor Board Connector.
 1.  Install the 40 Pin Connector so the pins are exposed through the top of the board
 2.  Solder the connector in place.  It may be easiest to do so using the method shown below
+
+
+**IMPORTANT** Make sure that the pins are exposed on the top of the board, most other mistakes we can likely fix with the solder-sucker.  There are too many pins and they are too tall to replace this on the board.  If you install this wrong you will likely have to scrap the board.  Any questions, please ask.
 
 ![Alt](Documentation/SensorBoard/SolderingPins.jpg)
 
