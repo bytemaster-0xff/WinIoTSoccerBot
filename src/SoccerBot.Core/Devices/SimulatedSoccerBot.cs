@@ -21,7 +21,7 @@ namespace SoccerBot.Core.Devices
         {
             get; set;
         }
-        public SensorData SensorData { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public SensorData SensorData { get; set; }
 
         public void PlayTone(short frequency)
         {
