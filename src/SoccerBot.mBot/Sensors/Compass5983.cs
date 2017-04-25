@@ -73,10 +73,11 @@ namespace SoccerBot.mBot.Sensors
             //Config Register B
             //Gain - Use Default
 
+            /*
             var setupBuffer = new byte[2];
             setupBuffer[0] = HMC5983_CONF_A;
             setupBuffer[1] = 0b01110000;
-            _compassSensor.Write(setupBuffer);
+            _compassSensor.Write(setupBuffer);*/
 
             _medianFilter = new MedianFilter();
 
